@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Pdv/src/gui/system-view.fxml&apos; to &apos;View.fxml&apos;" description="Rename resource &apos;system-view.fxml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/gui/system-view.fxml" name="View.fxml" stamp="1698587932841" updateReferences="true"/>
+</session>

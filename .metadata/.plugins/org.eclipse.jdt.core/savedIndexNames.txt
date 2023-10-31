@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\mende\OneDrive\Documents\Faculdade\2023.2\Poo\.metadata\.plugins\org.eclipse.jdt.core
+1114159255.index
+3476040527.index
+1865797976.index

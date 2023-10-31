@@ -1,0 +1,18 @@
+package pdv.controller;
+import java.util.*;
+
+import pdv.model.Produto;
+
+public class Pdv {
+	
+	Map<Integer,Produto> produtos;
+	Map<Integer, Cliente> clientes;
+	Map<Integer, Venda> vendas;
+	Map<Integer, Caixa> caixas;
+	Map<Integer, Funcionario> funcionarios;
+	
+	public Pdv() {
+		produtos = new HashMap<Integer,Produto>();
+	}
+
+}

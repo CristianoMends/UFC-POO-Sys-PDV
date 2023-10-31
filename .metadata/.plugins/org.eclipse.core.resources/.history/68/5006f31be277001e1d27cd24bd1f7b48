@@ -1,0 +1,5 @@
+package dpv.model;
+
+public class Produto {
+
+}

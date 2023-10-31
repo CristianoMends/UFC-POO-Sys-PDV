@@ -1,0 +1,33 @@
+package pdv.model;
+
+public class Caixa {
+	private int caixaId;
+	private static int nextCaixaId = 1;
+	double saldoInicial;
+	double saldoAtual;
+	
+	public Caixa(int caixaId ,double saldoInicial) {
+		this.setCaixaId();
+		this.saldoInicial = saldoInicial;
+	}
+	
+	public int getCaixaId() {
+		return this.caixaId;
+	}
+	public void setCaixaId() {
+		this.caixaId = Caixa.nextCaixaId++;
+	}
+	public void inserirValor(double valor) {
+		
+	}
+	public void retirarValor(double valor) {
+		
+	}
+	public double getTroco(double valorEntregue, double valorPagamento) {
+		if(valorEntregue < valorPagamento) {
+			throw new MsgException("erro");
+		}
+		return valorEntregue - valorPagamento;
+	}
+
+}

@@ -1,0 +1,12 @@
+package pdv.controller;
+import dpvProduto;
+
+public class Pdv {
+	
+	Map<Integer,Produto> produtos;
+	
+	public Pdv() {
+		produtos = HashMap<Integer,pdv.model.Produto>();
+	}
+
+}

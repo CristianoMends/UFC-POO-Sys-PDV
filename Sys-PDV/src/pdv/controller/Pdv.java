@@ -1,0 +1,54 @@
+package pdv.controller;
+import java.util.HashMap;
+import java.util.Map;
+import pdv.model.*;
+
+public class Pdv {
+	
+	private Map<Integer,Produto> 	  produtos;
+	private Map<Integer, Cliente> 	  clientes;
+	private Map<Integer, Venda> 	  vendas;
+	private Map<Integer, Caixa> 	  caixas;
+	private Map<Integer, Funcionario> funcionarios;
+	
+	private Estoque estoque;
+	
+	public Pdv() {
+		produtos 	 = new HashMap<Integer,Produto>();
+		clientes 	 = new HashMap<Integer, Cliente>();
+		vendas 	 	 = new HashMap<Integer, Venda>();
+		caixas 	 	 = new HashMap<Integer, Caixa>();
+		funcionarios = new HashMap<Integer, Funcionario>();
+		estoque 	 = new Estoque();
+	}
+	
+	//adiciona produto ao estoque
+	public void adiocionarProduto(Produto produto) {
+		
+	}
+	//mostra todos os produtos do estoque na tela
+	public void mostrarEstoque() {
+		
+	}
+	//remove produto do estoque
+	public void removerProduto(int id) {
+		
+	}
+	//inicia caixa com saldo indicado
+	public void abrirCaixa(double saldoInicial) {
+		
+	}
+	public void fecharCaixa() {
+		
+	}
+	public void realizarVenda() {
+		
+	}
+	public void adicionarFuncionario() {
+		
+	}
+	public void removerFuncionario() {
+		
+	}
+
+}
