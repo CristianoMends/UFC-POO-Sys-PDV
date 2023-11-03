@@ -1,0 +1,7 @@
+package pdv.controller;
+
+public class Launch {
+    public static void main(String[] arg) {
+        new Pdv();
+    }
+}

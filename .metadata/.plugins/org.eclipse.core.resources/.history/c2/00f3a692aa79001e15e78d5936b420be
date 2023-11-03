@@ -1,0 +1,86 @@
+package pdv.view;
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
+import javax.swing.JScrollBar;
+import javax.swing.JSlider;
+
+public class MainView extends JFrame{
+	JLabel label1;
+	
+		
+	public MainView() {
+		getContentPane().setBackground(new Color(0, 0, 0));
+		setSize(800, 700);
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 0, 128));
+		panel.setBounds(403, 71, 383, 582);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(10, 119, 363, 350);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
+				
+		JTextArea txtrDf = new JTextArea();
+		txtrDf.setText("dff");
+		txtrDf.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(txtrDf); // Adiciona o JTextArea a um JScrollPane
+		scrollPane.setBounds(0, 0, 363, 350); // Define o tamanho do JScrollPane
+		panel_3.add(scrollPane); // Adiciona o JScrollPane ao painel
+		
+		txtrDf.setText("Lorem ipsum dolor sit amet, consectetur adipiscing \n elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n"
+		        + "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n"
+		        + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nSed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n"
+		        + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nSed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n"
+		        + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nSed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n"
+		        + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nSed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n"
+		        + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nSed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n"
+		        + "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nSed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n");
+
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(new Color(0, 0, 255));
+		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_4.setBounds(10, 92, 363, 28);
+		panel.add(panel_4);
+		panel_4.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Produto                  Qtd     P.Unitario    P.Total");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setBounds(30, 10, 323, 13);
+		panel_4.add(lblNewLabel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(null);
+		panel_1.setBackground(new Color(0, 0, 128));
+		panel_1.setBounds(0, 0, 786, 71);
+		getContentPane().add(panel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_2.setBounds(0, 71, 403, 582);
+		getContentPane().add(panel_2);
+		
+		
+		
+
+
+		
+		this.label1 = new JLabel("Sys-PDV");
+		this.rootPane.add(label1);		
+	}
+	public void showMainView() {
+		setVisible(true);
+	}
+}

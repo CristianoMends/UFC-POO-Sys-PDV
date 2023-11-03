@@ -1,0 +1,28 @@
+package pdv.view;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+public class MainView extends JFrame{
+	
+	
+	public MainView() {
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+
+		
+		JLabel label1 = new JLabel("Sys-PDV");
+		label1.setHorizontalAlignment(SwingConstants.RIGHT);
+		label1.setVerticalAlignment(SwingConstants.BOTTOM);
+		panel.add(label1);
+		
+		setVisible(true);
+	}
+}

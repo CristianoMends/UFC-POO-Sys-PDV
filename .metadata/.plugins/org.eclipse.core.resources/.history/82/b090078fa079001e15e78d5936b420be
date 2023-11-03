@@ -1,0 +1,31 @@
+package pdv.controller;
+
+import java.util.Scanner;
+
+import pdv.model.MsgException;
+
+public class Launch {
+    public static void main(String[] arg) {
+        Pdv pdv = new Pdv();
+
+        while (true) {
+            String line = input();
+            println("$" + line);
+            String[] args = line.split(" ");
+
+            try {
+                if      (args[0].equals("end"))          { break; }
+                else                                     { println("fail: comando invalido"); }
+            } catch (MsgException me) {
+                println(me.getMessage());
+                // e.printStackTrace(System.out);
+            }
+        }
+    }
+
+    private static Scanner scanner = new Scanner(System.in);
+    private static String  input()                { return scanner.nextLine();        }
+    private static double  number(String value)   { return Double.parseDouble(value); }
+    public  static void    println(Object value)  { System.out.println(value);        }
+    public  static void    print(Object value)    { System.out.print(value);          }
+}

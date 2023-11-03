@@ -1,0 +1,155 @@
+package pdv.view;
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
+import javax.swing.JScrollBar;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import javax.swing.JFormattedTextField;
+
+public class MainView extends JFrame{
+	JLabel label1;
+	private JTextField txtR;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	
+		
+	public MainView() {
+		getContentPane().setBackground(new Color(0, 0, 0));
+		setSize(800, 700);
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 0, 128));
+		panel.setBounds(280, 71, 506, 582);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(10, 84, 486, 300);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
+				
+		JTextArea txtrDf = new JTextArea();
+		txtrDf.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(txtrDf); // Adiciona o JTextArea a um JScrollPane
+		scrollPane.setBounds(0, 0, 486, 350); // Define o tamanho do JScrollPane
+		panel_3.add(scrollPane); // Adiciona o JScrollPane ao painel
+		
+		txtrDf.setText(
+				"001|Cafe tres coracoes 500g    |0002|    R$10.00|    R$20.00\r\n");
+
+
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(new Color(0, 0, 255));
+		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_4.setBounds(10, 57, 486, 28);
+		panel.add(panel_4);
+		panel_4.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Produto                                            Qtd         P.Unitario      P.Total");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setBounds(28, 10, 448, 15);
+		panel_4.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Valor Total");
+		lblNewLabel_1.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel_1.setBounds(10, 393, 120, 25);
+		panel.add(lblNewLabel_1);
+		
+		txtR = new JTextField();
+		txtR.setText("R$ 20,00");
+		txtR.setToolTipText("valor total");
+		txtR.setEditable(false);
+		txtR.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtR.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		txtR.setColumns(10);
+		txtR.setBounds(10, 415, 200, 50);
+		panel.add(txtR);
+		
+		textField_1 = new JTextField();
+		textField_1.setToolTipText("Codigo do produto");
+		textField_1.setBounds(10, 22, 150, 25);
+		panel.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Cancelar");
+		btnNewButton.setBounds(94, 523, 150, 25);
+		panel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Receber e Finalizar");
+		btnNewButton_1.setBounds(291, 523, 150, 25);
+		panel.add(btnNewButton_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Cod.");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setBounds(10, 10, 45, 13);
+		panel.add(lblNewLabel_2);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(325, 22, 81, 25);
+		panel.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JButton btnNewButton_2_1 = new JButton("-");
+		btnNewButton_2_1.setMnemonic('-');
+		btnNewButton_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton_2_1.setBounds(406, 22, 45, 25);
+		panel.add(btnNewButton_2_1);
+		
+		JButton btnNewButton_2_1_1 = new JButton("+");
+		btnNewButton_2_1_1.setMnemonic('-');
+		btnNewButton_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton_2_1_1.setBounds(451, 22, 45, 25);
+		panel.add(btnNewButton_2_1_1);
+		
+		JLabel lblNewLabel_3 = new JLabel("Qtd.");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setBounds(325, 10, 45, 13);
+		panel.add(lblNewLabel_3);
+		
+		JFormattedTextField formattedTextField = new JFormattedTextField(new Integer(0));
+		formattedTextField.setValue(null);
+        formattedTextField.setColumns(10);
+		formattedTextField.setBounds(200, 22, 100, 25);
+		panel.add(formattedTextField);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(null);
+		panel_1.setBackground(new Color(0, 0, 128));
+		panel_1.setBounds(0, 0, 786, 71);
+		getContentPane().add(panel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_2.setBounds(0, 71, 403, 582);
+		getContentPane().add(panel_2);
+		
+		
+		
+
+
+		
+		this.label1 = new JLabel("Sys-PDV");
+		this.rootPane.add(label1);		
+	}
+	public void showMainView() {
+		setVisible(true);
+	}
+}

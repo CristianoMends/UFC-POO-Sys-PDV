@@ -1,0 +1,42 @@
+package pdv.view;
+import java.awt.Color;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+
+public class MainView extends JFrame{
+	JLabel label1;
+	
+		
+	public MainView() {
+		getContentPane().setBackground(new Color(0, 0, 0));
+		setSize(800, 700);
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 0, 128));
+		panel.setBounds(403, 71, 383, 582);
+		getContentPane().add(panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new CompoundBorder(new LineBorder(new Color(0, 0, 0), 2), null));
+		panel_1.setBackground(new Color(0, 0, 128));
+		panel_1.setBounds(0, 0, 786, 71);
+		getContentPane().add(panel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_2.setBounds(0, 71, 403, 582);
+		getContentPane().add(panel_2);
+
+		
+		this.label1 = new JLabel("Sys-PDV");
+		this.rootPane.add(label1);		
+	}
+	public void showMainView() {
+		setVisible(true);
+	}
+}

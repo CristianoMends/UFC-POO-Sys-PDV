@@ -1,0 +1,166 @@
+package pdv.view;
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+
+public class MainView extends JFrame{
+	private JTextField textValorTotal;
+	private JTextField textCod;
+	private JTextField textQtd;
+	private JButton btnPainelAdm;
+	private JPanel ImagemProduto;
+	private JTextArea textListaVenda;
+	
+		
+	public MainView() {
+		getContentPane().setBackground(new Color(0, 0, 0));
+		setSize(800, 700);
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 0, 128));
+		panel.setBounds(280, 71, 506, 582);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(10, 84, 486, 300);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
+				
+		textListaVenda = new JTextArea();
+		textListaVenda.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(textListaVenda); // Adiciona o JTextArea a um JScrollPane
+		scrollPane.setBounds(0, 0, 486, 350); // Define o tamanho do JScrollPane
+		panel_3.add(scrollPane);
+		
+		textListaVenda.setText("001|Cafe tres coracoes 500g    |0002|    R$10.00|    R$20.00\r\n");
+
+
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(new Color(0, 0, 255));
+		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_4.setBounds(10, 57, 486, 28);
+		panel.add(panel_4);
+		panel_4.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Produto                                            Qtd         P.Unitario      P.Total");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setBounds(28, 10, 448, 15);
+		panel_4.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Valor Total");
+		lblNewLabel_1.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel_1.setBounds(10, 393, 120, 25);
+		panel.add(lblNewLabel_1);
+		
+		this.textValorTotal = new JTextField();
+		this.textValorTotal.setText("R$ 20,00");
+		textValorTotal.setToolTipText("valor total");
+		textValorTotal.setEditable(false);
+		textValorTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+		textValorTotal.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		textValorTotal.setColumns(10);
+		textValorTotal.setBounds(10, 415, 200, 50);
+		panel.add(textValorTotal);
+		
+		textCod = new JTextField();
+		textCod.setToolTipText("Codigo do produto");
+		textCod.setBounds(10, 22, 150, 25);
+		panel.add(textCod);
+		textCod.setColumns(10);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(89, 489, 150, 25);
+		panel.add(btnCancelar);
+		
+		JButton btnFinalizar = new JButton("Receber e Finalizar");
+		btnFinalizar.setBounds(275, 489, 150, 25);
+		panel.add(btnFinalizar);
+		
+		JLabel lblNewLabel_2 = new JLabel("Cod.");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setBounds(10, 10, 45, 13);
+		panel.add(lblNewLabel_2);
+		
+		textQtd = new JTextField();
+		textQtd.setEditable(false);
+		textQtd.setBounds(325, 22, 81, 25);
+		panel.add(textQtd);
+		textQtd.setColumns(10);
+		
+		JButton btnNewButton_2_1 = new JButton("-");
+		btnNewButton_2_1.setMnemonic('-');
+		btnNewButton_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton_2_1.setBounds(406, 22, 45, 25);
+		panel.add(btnNewButton_2_1);
+		
+		JButton btnNewButton_2_1_1 = new JButton("+");
+		btnNewButton_2_1_1.setMnemonic('-');
+		btnNewButton_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton_2_1_1.setBounds(451, 22, 45, 25);
+		panel.add(btnNewButton_2_1_1);
+		
+		JLabel lblNewLabel_3 = new JLabel("Qtd.");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setBounds(325, 10, 45, 13);
+		panel.add(lblNewLabel_3);
+		
+		JButton btnNewButton_1 = new JButton("...");
+		btnNewButton_1.setToolTipText("listar todos os produtos");
+		btnNewButton_1.setBounds(162, 22, 25, 25);
+		panel.add(btnNewButton_1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(null);
+		panel_1.setBackground(new Color(0, 0, 128));
+		panel_1.setBounds(0, 0, 786, 71);
+		getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		btnPainelAdm = new JButton("Painel Adm");
+		btnPainelAdm.setBounds(693, 22, 83, 21);
+		panel_1.add(btnPainelAdm);
+		
+		JLabel lblNewLabel_4 = new JLabel("SysPDV");
+		lblNewLabel_4.setForeground(new Color(255, 255, 255));
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel_4.setBounds(10, 10, 73, 37);
+		panel_1.add(lblNewLabel_4);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(0, 0, 128));
+		panel_2.setBounds(0, 71, 282, 582);
+		getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		this.ImagemProduto = new JPanel();
+		this.ImagemProduto.setBounds(10, 57, 262, 194);
+		panel_2.add(ImagemProduto);
+		
+		
+		
+
+
+		JLabel label1 = new JLabel("Sys-PDV");
+		this.rootPane.add(label1);		
+	}
+	public void showMainView() {
+		setVisible(true);
+	}
+}

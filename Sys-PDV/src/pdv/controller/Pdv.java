@@ -31,7 +31,7 @@ public class Pdv {
 	}
 	//lista todos os produtos do estoque na tela
 	public void mostrarEstoque() {
-		mainView.listarEstoque(this.estoque);
+
 	}
 	//remove produto do estoque
 	public void removerProduto(int id) {
@@ -53,5 +53,65 @@ public class Pdv {
 	public void removerFuncionario() {
 		
 	}
+	public void showMainView() {
+		this.mainView.showMainView();
+	}
 
+	public Map<Integer, Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Map<Integer, Produto> produtos) {
+		this.produtos = produtos;
+	}
+
+	public Map<Integer, Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(Map<Integer, Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public Map<Integer, Venda> getVendas() {
+		return vendas;
+	}
+
+	public void setVendas(Map<Integer, Venda> vendas) {
+		this.vendas = vendas;
+	}
+
+	public Map<Integer, Caixa> getCaixas() {
+		return caixas;
+	}
+
+	public void setCaixas(Map<Integer, Caixa> caixas) {
+		this.caixas = caixas;
+	}
+
+	public Map<Integer, Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(Map<Integer, Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
+
+	public Estoque getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
+	}
+
+	public MainView getMainView() {
+		return mainView;
+	}
+
+	public void setMainView(MainView mainView) {
+		this.mainView = mainView;
+	}
+	
+	
 }
