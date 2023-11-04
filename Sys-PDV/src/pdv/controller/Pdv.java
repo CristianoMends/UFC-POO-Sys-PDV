@@ -2,7 +2,7 @@ package pdv.controller;
 import java.util.HashMap;
 import java.util.Map;
 import pdv.model.*;
-import pdv.view.MainView;
+import pdv.view.*;
 
 public class Pdv {
 	
@@ -13,7 +13,7 @@ public class Pdv {
 	private Map<Integer, Funcionario> funcionarios;
 	
 	private Estoque estoque;
-	private MainView mainView;
+	private MainViewController mvc;
 	
 	public Pdv() {
 		produtos 	 = new HashMap<Integer,Produto>();
@@ -22,7 +22,7 @@ public class Pdv {
 		caixas 	 	 = new HashMap<Integer, Caixa>();
 		funcionarios = new HashMap<Integer, Funcionario>();
 		estoque 	 = new Estoque();
-		mainView 	 = new MainView();
+		mvc 	 = new MainViewController(this.estoque);
 	}
 	
 	//adiciona produto ao estoque
@@ -54,7 +54,7 @@ public class Pdv {
 		
 	}
 	public void showMainView() {
-		this.mainView.showMainView();
+		this.mvc.showMainView();
 	}
 
 	public Map<Integer, Produto> getProdutos() {

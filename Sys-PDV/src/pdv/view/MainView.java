@@ -2,17 +2,9 @@ package pdv.view;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
-
-import pdv.model.ItemVenda;
+import pdv.model.*;
 
 public class MainView extends JFrame{
 	/**
@@ -32,9 +24,6 @@ public class MainView extends JFrame{
 	private JButton btnVerTodosProdutos;
 		
 	public MainView() {
-		showMainView();
-	}
-	public void showMainView() {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		setSize(800, 700);
 		getContentPane().setLayout(null);
@@ -165,11 +154,55 @@ public class MainView extends JFrame{
 		this.rootPane.add(label1);
 		setVisible(true);
 	}
-	public void addProdutoLista(ItemVenda itemVenda) {
-		textListaVenda.setText(itemVenda.toString());
+	public void hideMainView(){
+		setVisible(false);
 	}
-	public void setValorTotal(Double valor) {
-		textValorTotal.setText(String.format("R$ %.2f", valor));
+	public void showMainView() {
+		setVisible(true);
+	}
+	public void addProdutoLista(Produto produto) {
+		textListaVenda.setText(produto.toString());
+	}
+	public void setValorTotal(Venda venda) {
+		textValorTotal.setText(String.format("R$ %.2f", venda.getTotal()));
+	}
+	public Produto getProduto(Integer cod, Estoque estoque){
+		return estoque.getProduto(cod);
+	}
+	//metodos get
+	public JTextField getTextValorTotal() {
+		return textValorTotal;
+	}
+	public Integer getTextCod() {
+		return textCod;
+	}
+	public JTextField getTextQtd() {
+		return textQtd;
+	}
+	public JButton getBtnPainelAdm() {
+		return btnPainelAdm;
+	}
+	public JPanel getImagemProduto() {
+		return ImagemProduto;
+	}
+	public JButton getBtnFinalizar() {
+		return btnFinalizar;
+	}
+	public JButton getBtnRem() {
+		return btnRem;
+	}
+	public JButton getBtnCancelar() {
+		return btnCancelar;
+	}
+	public JTextArea getTextListaVenda() {
+		return textListaVenda;
+	}
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
+	public JButton getBtnVerTodosProdutos() {
+		return btnVerTodosProdutos;
 	}
 
+	
 }
