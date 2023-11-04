@@ -1,17 +1,24 @@
 package pdv.model;
 
 public abstract class Pessoa {
+	private int id;
+	private static int nextId=0;
 	private String nome;
 	private String endereco;
 	private String email;
 	private String cpf;
 	
 	public Pessoa(String nome, String endereco, String email, String cpf) {
+		this.id = nextId++;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.email = email;
 		this.cpf = cpf;
 	}
+	public int getId() {
+		return this.id;
+	}
+	
 	public String getNome() {
 		return nome;
 	}

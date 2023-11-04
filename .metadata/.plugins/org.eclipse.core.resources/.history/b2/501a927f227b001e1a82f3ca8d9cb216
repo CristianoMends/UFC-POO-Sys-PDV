@@ -7,6 +7,7 @@ public abstract class Pessoa {
 	private String cpf;
 	
 	public Pessoa(String nome, String endereco, String email, String cpf) {
+		super();
 		this.nome = nome;
 		this.endereco = endereco;
 		this.email = email;

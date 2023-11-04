@@ -5,8 +5,8 @@ public abstract class Pessoa {
 	private String endereco;
 	private String email;
 	private String cpf;
-	
 	public Pessoa(String nome, String endereco, String email, String cpf) {
+		super();
 		this.nome = nome;
 		this.endereco = endereco;
 		this.email = email;

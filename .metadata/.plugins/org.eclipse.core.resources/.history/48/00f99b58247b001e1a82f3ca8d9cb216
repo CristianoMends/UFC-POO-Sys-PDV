@@ -77,6 +77,7 @@ public class MainView extends JFrame{
 		panel.add(lblNewLabel_1);
 		
 		this.textValorTotal = new JTextField();
+		this.textValorTotal.setText("R$ 20,00");
 		this.textValorTotal.setToolTipText("valor total");
 		this.textValorTotal.setEditable(false);
 		this.textValorTotal.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -167,9 +168,6 @@ public class MainView extends JFrame{
 	}
 	public void addProdutoLista(ItemVenda itemVenda) {
 		textListaVenda.setText(itemVenda.toString());
-	}
-	public void setValorTotal(Double valor) {
-		textValorTotal.setText(String.format("R$ %.2f", valor));
 	}
 
 }

@@ -1,0 +1,14 @@
+package pdv.model;
+
+public class Cliente {
+	private int id;
+	private static int nextId=0;
+	
+	public Cliente() {
+		this.id = nextId++;
+	}
+	public int getId() {
+		return this.id;
+	}
+
+}
