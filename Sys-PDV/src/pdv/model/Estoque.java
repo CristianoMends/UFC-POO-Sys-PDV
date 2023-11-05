@@ -11,7 +11,6 @@ public class Estoque {
 	}
 	public Produto getProduto(int cod){
 		if(!this.produtos.containsKey(cod)){
-			System.out.println("Produto nao encontrado");
 			return null;
 		}
 		return this.produtos.get(cod);

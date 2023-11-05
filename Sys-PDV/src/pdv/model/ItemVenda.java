@@ -2,12 +2,13 @@ package pdv.model;
 
 public class ItemVenda {
 	private int id;
+	private static int nextId=1;
 	private Produto produto;
 	private int quantidade;
 	private double total;
 	
-	public ItemVenda(int id, Produto produto, int quantidade, double total) {
-		this.id = 1;
+	public ItemVenda(Produto produto, int quantidade, double total) {
+		this.id = nextId++;
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.total = total;
@@ -31,14 +32,14 @@ public class ItemVenda {
 		this.quantidade = quantidade;
 	}
 	public double getTotal() {
-		return total;
+		return this.quantidade * this.produto.getPreco();
 	}
 	public void setTotal(double total) {
 		this.total = total;
 	}
 	@Override
 	public String toString() {
-		return String.format("%s|Cafe tres coracoes 500g    |0002|    R$10.00|    R$20.00",getId(), getProduto().getNome(), getQuantidade(), getProduto().getPreco(), getTotal());
+		return String.format("%4d|%-25s    |%-4d|    R$ %.2f|    R$ %.2f",getId(), getProduto().getNome(), getQuantidade(), getProduto().getPreco(), getTotal());
 	}
 
 }

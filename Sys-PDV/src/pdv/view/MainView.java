@@ -22,6 +22,7 @@ public class MainView extends JFrame{
 	private JTextArea textListaVenda;
 	private JButton btnAdd;
 	private JButton btnVerTodosProdutos;
+	private JPanel panel;
 		
 	public MainView() {
 		getContentPane().setBackground(new Color(0, 0, 0));
@@ -39,8 +40,9 @@ public class MainView extends JFrame{
 		panel.add(panel_3);
 		panel_3.setLayout(null);
 				
-		textListaVenda = new JTextArea();
-		textListaVenda.setEditable(false);
+		this.textListaVenda = new JTextArea();
+		this.textListaVenda.setEditable(false);
+		this.textListaVenda.setFont(new Font("Tahoma",Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(textListaVenda); // Adiciona o JTextArea a um JScrollPane
 		scrollPane.setBounds(0, 0, 486, 350); // Define o tamanho do JScrollPane
 		panel_3.add(scrollPane);
@@ -65,7 +67,7 @@ public class MainView extends JFrame{
 		lblNewLabel_1.setBounds(10, 393, 120, 25);
 		panel.add(lblNewLabel_1);
 		
-		this.textValorTotal = new JTextField();
+		this.textValorTotal = new JTextField("R$ 0,00");
 		this.textValorTotal.setToolTipText("valor total");
 		this.textValorTotal.setEditable(false);
 		this.textValorTotal.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -94,7 +96,8 @@ public class MainView extends JFrame{
 		lblNewLabel_2.setBounds(10, 10, 45, 13);
 		panel.add(lblNewLabel_2);
 		
-		this.textQtd = new JTextField();
+		this.textQtd = new JTextField("1");
+		this.textQtd.setFont(new Font("Tahoma",Font.PLAIN, 14));
 		this.textQtd.setEditable(false);
 		this.textQtd.setBounds(325, 22, 81, 25);
 		panel.add(textQtd);
@@ -102,13 +105,13 @@ public class MainView extends JFrame{
 		
 		this.btnRem = new JButton("-");
 		this.btnRem.setMnemonic('-');
-		this.btnRem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		this.btnRem.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		this.btnRem.setBounds(406, 22, 45, 25);
 		panel.add(btnRem);
 		
 		this.btnAdd = new JButton("+");
 		this.btnAdd.setMnemonic('-');
-		this.btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		this.btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		this.btnAdd.setBounds(451, 22, 45, 25);
 		panel.add(btnAdd);
 		
@@ -160,21 +163,35 @@ public class MainView extends JFrame{
 	public void showMainView() {
 		setVisible(true);
 	}
-	public void addProdutoLista(Produto produto) {
-		textListaVenda.setText(produto.toString());
-	}
-	public void setValorTotal(Venda venda) {
+	public void atualizarVenda(Venda venda) {
+		textCod.setText("");
+		textQtd.setText("1");
+		textListaVenda.setText(venda.toString());
 		textValorTotal.setText(String.format("R$ %.2f", venda.getTotal()));
 	}
 	public Produto getProduto(Integer cod, Estoque estoque){
 		return estoque.getProduto(cod);
 	}
+	public void add(){
+		int qtd = Integer.parseInt(textQtd.getText());
+		textQtd.setText(String.format("%d",qtd + 1));
+	}
+	public void rem(){
+		int qtd = Integer.parseInt(textQtd.getText());
+
+		if(qtd <= 1){
+			textQtd.setText(String.format("%d",1));
+			return;
+		}
+		textQtd.setText(String.format("%d",qtd - 1));
+	}
+
 	//metodos get
 	public JTextField getTextValorTotal() {
 		return textValorTotal;
 	}
-	public Integer getTextCod() {
-		return textCod;
+	public JTextField getTextCod() {
+		return this.textCod;
 	}
 	public JTextField getTextQtd() {
 		return textQtd;
@@ -202,6 +219,9 @@ public class MainView extends JFrame{
 	}
 	public JButton getBtnVerTodosProdutos() {
 		return btnVerTodosProdutos;
+	}
+	public JPanel getPanel(){
+		return this.panel;
 	}
 
 	

@@ -2,13 +2,13 @@ package pdv.model;
 
 public class Produto {
 	private int id;
+	private static int nextId=0;
 	private String nome;
 	private double preco;
 	private int quantidadeEstoque;
 	
-	public Produto(int id, String nome, double preco, int quantidadeEstoque) {
-		super();
-		this.id = id;
+	public Produto(String nome, double preco, int quantidadeEstoque) {
+		this.id = nextId++;
 		this.nome = nome;
 		this.preco = preco;
 		this.quantidadeEstoque = quantidadeEstoque;
