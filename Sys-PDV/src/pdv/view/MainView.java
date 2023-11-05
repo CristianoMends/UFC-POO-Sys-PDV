@@ -156,11 +156,12 @@ public class MainView extends JFrame{
 		JLabel label1 = new JLabel("Sys-PDV");
 		this.rootPane.add(label1);
 		setVisible(true);
+		setResizable(false);
 	}
 	public void hideMainView(){
 		setVisible(false);
 	}
-	public void showMainView() {
+	public void showMainView(){
 		setVisible(true);
 	}
 	public void atualizarVenda(Venda venda) {

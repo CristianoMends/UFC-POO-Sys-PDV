@@ -22,12 +22,10 @@ class MainViewController{
         mainView.getTextCod().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                Produto produto = new Produto("Acucar", 5.50, 10);
-
-              /*Produto  produto     = mainView.getProduto(Integer.parseInt(mainView.getTextCod().getText()), estoque);
+              Produto  produto     = mainView.getProduto(Integer.parseInt(mainView.getTextCod().getText()), estoque);
                if(produto == null){
-                    JOptionPane.showMessageDialog(null, "Produto não encontrado!");
-               }*/
+                    throw new MsgException("Produto não encontrado!");
+               }
 
                int      quantidade  = Integer.parseInt(mainView.getTextQtd().getText());
                double   total       = (double) (produto.getPreco() * quantidade); 

@@ -1,5 +1,6 @@
 package pdv.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Estoque {
@@ -7,7 +8,7 @@ public class Estoque {
 	private Map<Integer, Produto> produtos;
 
 	public Estoque(){
-
+			this.produtos = new HashMap<Integer,Produto>();
 	}
 	public Produto getProduto(int cod){
 		if(!this.produtos.containsKey(cod)){

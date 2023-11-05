@@ -10,8 +10,7 @@ Este é o projeto final desenvolvido como parte da disciplina de Programação O
 
 - Linguagem de Programação: Java
 - Banco de Dados: PostgreSQL
-- Framework de Desenvolvimento: JavaFX
-
+- 
 ## Diagrama UML
 
 ![Diagrama UML](DOCS/uml.png)

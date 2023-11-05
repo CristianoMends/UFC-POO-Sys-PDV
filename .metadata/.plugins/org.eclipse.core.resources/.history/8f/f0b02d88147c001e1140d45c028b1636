@@ -1,0 +1,15 @@
+package pdv.controller;
+import javax.swing.*;
+
+public class Launch {
+    public static void main(String[] arg) {
+    	try {
+    		Pdv pdv = new Pdv();
+ 	       	pdv.showMainView();
+    	}catch(Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+    	}
+	       
+        
+    }
+}
