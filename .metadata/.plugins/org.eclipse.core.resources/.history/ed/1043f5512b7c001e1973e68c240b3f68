@@ -19,7 +19,7 @@ public class PostgreSQLJDBC {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             JOptionPane.showMessageDialog(null, "Banco de dados Conectado com sucesso!");
         } catch (SQLException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro: Não foi possivel se conectar ao Banco de dados!");
+            JOptionPane.showMessageDialog(null, "Erro: Não foi possivel conectar ao Banco de dados!");
 
             e.printStackTrace();
         }
