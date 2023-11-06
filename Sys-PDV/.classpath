@@ -6,6 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/PostgresSQLJDBC"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/pgjdbc"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/home/larissa/Área de Trabalho/Projects/UFC-POO-Sys-PDV/Sys-PDV/libs/postgresql-42.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,4 @@
 package pdv.controller;
-import pdv.model.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -8,11 +6,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import pdv.view.*;
+import pdv.model.Caixa;
+import pdv.model.Cliente;
+import pdv.model.Estoque;
+import pdv.model.Funcionario;
+import pdv.model.ItemVenda;
+import pdv.model.PostgreSQLJDBC;
+import pdv.model.Produto;
+import pdv.model.Venda;
+import pdv.view.MainView;
+import pdv.view.ProductRegistrationView;
 
 public class Pdv {
 	
@@ -23,6 +31,7 @@ public class Pdv {
 	private Map<Integer, Funcionario> funcionarios;
 	private Venda venda;
 	private MainView mainView;
+	private ProductRegistrationView registrationView;
 	
 	public Pdv() {
 		clientes 	 = new HashMap<Integer, Cliente>();
@@ -32,6 +41,7 @@ public class Pdv {
 		estoque		 = this.getEstoqueByDB();
 		venda		 = new Venda();
 		mainView	 = new MainView();
+		registrationView = new ProductRegistrationView(this.estoque);
 
 		this.setAcoesBtns();
 	}
@@ -81,7 +91,7 @@ public class Pdv {
 	                    double 	preco 	= resultSet.getDouble("preco");
 	                    int qtdEstoque	= resultSet.getInt("qtdEstoque");
 	                    
-	                    Produto produto = new Produto(id, nome, preco, qtdEstoque);
+	                    Produto produto = new Produto(id, nome, preco, qtdEstoque, imagem);
 
 	                    estoque.addProduto(produto);
 	                }
@@ -133,6 +143,21 @@ public class Pdv {
             public void actionPerformed(ActionEvent e) {
                 mainView.rem();     
             }
+        });
+        
+        mainView.getBtnFinalizar().addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+
+        	}
+        });
+
+        mainView.getBtnPainelAdm().addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		mainView.hideMainView();
+        		registrationView.showPainelAdm();
+        	}
         });
 	}
     public void iniciarVenda(){

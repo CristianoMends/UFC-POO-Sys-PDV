@@ -2,9 +2,20 @@ package pdv.view;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import pdv.model.*;
+
+import pdv.model.Estoque;
+import pdv.model.Produto;
+import pdv.model.Venda;
 
 public class MainView extends JFrame{
 	/**
@@ -15,19 +26,16 @@ public class MainView extends JFrame{
 	private JTextField textCod;
 	private JTextField textQtd;
 	private JButton btnPainelAdm;
-	private JPanel ImagemProduto;
+	private JLabel ImagemProduto;
+	private ImageIcon imagem;
 	private JButton btnFinalizar;
 	private JButton btnRem;
 	private JButton btnCancelar;
 	private JTextArea textListaVenda;
 	private JButton btnAdd;
-	private JButton btnVerTodosProdutos;
 	private JPanel panel;
 		
 	public MainView() {
-		getContentPane().setBackground(new Color(0, 0, 0));
-		setSize(800, 700);
-		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 0, 128));
@@ -54,17 +62,17 @@ public class MainView extends JFrame{
 		panel.add(panel_4);
 		panel_4.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Produto                                            Qtd         P.Unitario      P.Total");
+		JLabel lblNewLabel = new JLabel("Produto                               Qtd         P.Unitario      P.Total");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(28, 10, 448, 15);
+		lblNewLabel.setBounds(28, 10, 458, 15);
 		panel_4.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Valor Total");
 		lblNewLabel_1.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblNewLabel_1.setBounds(10, 393, 120, 25);
+		lblNewLabel_1.setBounds(12, 418, 200, 25);
 		panel.add(lblNewLabel_1);
 		
 		this.textValorTotal = new JTextField("R$ 0,00");
@@ -73,7 +81,7 @@ public class MainView extends JFrame{
 		this.textValorTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.textValorTotal.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		this.textValorTotal.setColumns(10);
-		this.textValorTotal.setBounds(10, 415, 200, 50);
+		this.textValorTotal.setBounds(155, 403, 200, 50);
 		panel.add(textValorTotal);
 		
 		this.textCod = new JTextField();
@@ -83,11 +91,11 @@ public class MainView extends JFrame{
 		this.textCod.setColumns(10);
 		
 		this.btnCancelar = new JButton("Cancelar");
-		this.btnCancelar.setBounds(89, 489, 150, 25);
+		this.btnCancelar.setBounds(71, 465, 150, 25);
 		panel.add(btnCancelar);
 		
 		this.btnFinalizar = new JButton("Receber e Finalizar");
-		this.btnFinalizar.setBounds(275, 489, 150, 25);
+		this.btnFinalizar.setBounds(253, 465, 187, 25);
 		panel.add(btnFinalizar);
 		
 		JLabel lblNewLabel_2 = new JLabel("Cod.");
@@ -99,32 +107,27 @@ public class MainView extends JFrame{
 		this.textQtd = new JTextField("1");
 		this.textQtd.setFont(new Font("Tahoma",Font.PLAIN, 14));
 		this.textQtd.setEditable(false);
-		this.textQtd.setBounds(325, 22, 81, 25);
+		this.textQtd.setBounds(167, 22, 53, 25);
 		panel.add(textQtd);
 		this.textQtd.setColumns(10);
 		
 		this.btnRem = new JButton("-");
 		this.btnRem.setMnemonic('-');
 		this.btnRem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		this.btnRem.setBounds(406, 22, 45, 25);
+		this.btnRem.setBounds(221, 22, 50, 25);
 		panel.add(btnRem);
 		
 		this.btnAdd = new JButton("+");
-		this.btnAdd.setMnemonic('-');
+		this.btnAdd.setMnemonic('+');
 		this.btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		this.btnAdd.setBounds(451, 22, 45, 25);
+		this.btnAdd.setBounds(275, 22, 50, 25);
 		panel.add(btnAdd);
 		
 		JLabel lblNewLabel_3 = new JLabel("Qtd.");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setBounds(325, 10, 45, 13);
+		lblNewLabel_3.setBounds(167, 10, 45, 13);
 		panel.add(lblNewLabel_3);
-		
-		this.btnVerTodosProdutos = new JButton("...");
-		this.btnVerTodosProdutos.setToolTipText("listar todos os produtos");
-		this.btnVerTodosProdutos.setBounds(162, 22, 25, 25);
-		panel.add(btnVerTodosProdutos);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(null);
@@ -140,7 +143,7 @@ public class MainView extends JFrame{
 		JLabel lblNewLabel_4 = new JLabel("SysPDV");
 		lblNewLabel_4.setForeground(new Color(255, 255, 255));
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_4.setBounds(10, 10, 73, 37);
+		lblNewLabel_4.setBounds(12, 12, 114, 37);
 		panel_1.add(lblNewLabel_4);
 		
 		JPanel panel_2 = new JPanel();
@@ -149,20 +152,31 @@ public class MainView extends JFrame{
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		this.ImagemProduto = new JPanel();
+		this.imagem = new ImageIcon();
+		this.ImagemProduto = new JLabel();
 		this.ImagemProduto.setBounds(10, 57, 262, 194);
 		panel_2.add(ImagemProduto);	
 
 		JLabel label1 = new JLabel("Sys-PDV");
 		this.rootPane.add(label1);
+		
+		getContentPane().setBackground(new Color(0, 0, 0));
+		setBounds(250,250,800,600);
+		getContentPane().setLayout(null);
 		setVisible(true);
 		setResizable(false);
+		
+
 	}
+	 
 	public void hideMainView(){
 		setVisible(false);
 	}
 	public void showMainView(){
 		setVisible(true);
+	}
+	public void setImagemProduto(ImageIcon imagem){
+		this.ImagemProduto = new imagem;
 	}
 	public void atualizarVenda(Venda venda) {
 		textCod.setText("");
@@ -200,7 +214,7 @@ public class MainView extends JFrame{
 	public JButton getBtnPainelAdm() {
 		return btnPainelAdm;
 	}
-	public JPanel getImagemProduto() {
+	public JLabel getImagemProduto() {
 		return ImagemProduto;
 	}
 	public JButton getBtnFinalizar() {
@@ -217,9 +231,6 @@ public class MainView extends JFrame{
 	}
 	public JButton getBtnAdd() {
 		return btnAdd;
-	}
-	public JButton getBtnVerTodosProdutos() {
-		return btnVerTodosProdutos;
 	}
 	public JPanel getPanel(){
 		return this.panel;

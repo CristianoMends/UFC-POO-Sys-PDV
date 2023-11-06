@@ -1,16 +1,20 @@
 package pdv.model;
 
+import javax.swing.ImageIcon;
+
 public class Produto {
 	private int id;
 	private String nome;
 	private double preco;
 	private int quantidadeEstoque;
+	private ImageIcon image;
 	
-	public Produto(int id,String nome, double preco, int quantidadeEstoque) {
+	public Produto(int id,String nome, double preco, int quantidadeEstoque, ImageIcon image) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
 		this.quantidadeEstoque = quantidadeEstoque;
+		this.image = image;
 	}
 	public int getId() {
 		return id;
