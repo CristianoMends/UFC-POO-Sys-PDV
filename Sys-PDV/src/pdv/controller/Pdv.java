@@ -91,7 +91,7 @@ public class Pdv {
 	                    double 	preco 	= resultSet.getDouble("preco");
 	                    int qtdEstoque	= resultSet.getInt("qtdEstoque");
 	                    
-	                    Produto produto = new Produto(id, nome, preco, qtdEstoque, imagem);
+	                    Produto produto = new Produto(id, nome, preco, qtdEstoque);
 
 	                    estoque.addProduto(produto);
 	                }

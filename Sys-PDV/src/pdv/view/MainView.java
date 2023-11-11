@@ -2,7 +2,6 @@ package pdv.view;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,8 +25,6 @@ public class MainView extends JFrame{
 	private JTextField textCod;
 	private JTextField textQtd;
 	private JButton btnPainelAdm;
-	private JLabel ImagemProduto;
-	private ImageIcon imagem;
 	private JButton btnFinalizar;
 	private JButton btnRem;
 	private JButton btnCancelar;
@@ -151,11 +148,6 @@ public class MainView extends JFrame{
 		panel_2.setBounds(0, 71, 282, 582);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
-		
-		this.imagem = new ImageIcon();
-		this.ImagemProduto = new JLabel();
-		this.ImagemProduto.setBounds(10, 57, 262, 194);
-		panel_2.add(ImagemProduto);	
 
 		JLabel label1 = new JLabel("Sys-PDV");
 		this.rootPane.add(label1);
@@ -174,9 +166,6 @@ public class MainView extends JFrame{
 	}
 	public void showMainView(){
 		setVisible(true);
-	}
-	public void setImagemProduto(ImageIcon imagem){
-		this.ImagemProduto = new imagem;
 	}
 	public void atualizarVenda(Venda venda) {
 		textCod.setText("");
@@ -213,9 +202,6 @@ public class MainView extends JFrame{
 	}
 	public JButton getBtnPainelAdm() {
 		return btnPainelAdm;
-	}
-	public JLabel getImagemProduto() {
-		return ImagemProduto;
 	}
 	public JButton getBtnFinalizar() {
 		return btnFinalizar;
