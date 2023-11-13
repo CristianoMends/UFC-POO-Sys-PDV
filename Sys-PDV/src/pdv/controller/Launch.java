@@ -9,7 +9,7 @@ public class Launch {
     		Pdv pdv = new Pdv();
  	       	pdv.showMainView();
     	}catch(MsgException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
     	}
 	       
         

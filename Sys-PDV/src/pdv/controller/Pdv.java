@@ -86,12 +86,14 @@ public class Pdv {
 	                ResultSet resultSet = preparedStatement.executeQuery();
 	                	                
 	                while (resultSet.next()) {
-	                    int 	id 		= resultSet		.getInt("id");
-	                    String 	nome 	= resultSet	.getString("nome");
-	                    double 	preco 	= resultSet.getDouble("preco");
-	                    int qtdEstoque	= resultSet.getInt("qtdEstoque");
+	                    int 	id 			= resultSet		.getInt("id");
+	                    String 	nome 		= resultSet	.getString("nome");
+	                    double 	preco 		= resultSet.getDouble("preco");
+	                    int qtdEstoque		= resultSet.getInt("qtdEstoque");
+	                    String categoria 	= resultSet.getString("categoria");
+	                    String imagem 		= resultSet.getString("imagem");
 	                    
-	                    Produto produto = new Produto(id, nome, preco, qtdEstoque);
+	                    Produto produto = new Produto(id, nome, preco, qtdEstoque, categoria, imagem);
 
 	                    estoque.addProduto(produto);
 	                }
