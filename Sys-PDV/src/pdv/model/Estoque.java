@@ -26,5 +26,13 @@ public class Estoque {
 		}
 		return pro.substring(0,pro.length());
 	}
+	@Override
+	public String toString(){
+		String pro = "";
+		for(Produto produto : this.produtos.values()){
+			pro += produto + "\n";
+		}
+		return pro.substring(0,pro.length());
+	}
 
 }

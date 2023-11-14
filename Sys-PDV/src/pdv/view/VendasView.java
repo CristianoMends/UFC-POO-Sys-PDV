@@ -55,12 +55,13 @@ public class VendasView extends JFrame {
 	ImageIcon imagemIcon = new ImageIcon(VendasView.class.getResource("/pdv/view/imagens/listaVazia.png"));
 	Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(258, 266, Image.SCALE_SMOOTH);
 	ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
+	private JLabel label;
 	
 	public VendasView() {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 0, 128));
-		panel.setBounds(280, 59, 520, 504);
+		panel.setBounds(0, 59, 800, 511);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -70,6 +71,8 @@ public class VendasView extends JFrame {
 		panel_3.setLayout(null);
 
 		this.textListaVenda = new JTextArea();
+		textListaVenda.setForeground(new Color(255, 255, 255));
+		textListaVenda.setBackground(new Color(0, 0, 0));
 		this.textListaVenda.setEditable(false);
 		this.textListaVenda.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(textListaVenda); // Adiciona o JTextArea a um JScrollPane
@@ -149,6 +152,19 @@ public class VendasView extends JFrame {
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
 		lblNewLabel_3.setBounds(167, 10, 45, 13);
 		panel.add(lblNewLabel_3);
+		
+		this.imagemProduto = new JLabel(imagemFundo);
+		this.imagemProduto.setBounds(506, 90, 258, 266);
+		panel.add(imagemProduto);
+		
+		JLabel background = new JLabel("");
+		background.setHorizontalAlignment(SwingConstants.CENTER);
+		ImageIcon imagemIcon = new ImageIcon(GerenciadorProdutosView.class.getResource("/pdv/view/imagens/background.jpg"));
+		Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+		ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
+		background.setIcon(imagemFundo);
+		background.setBounds(0, 0, 790, 600);
+		panel.add(background);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(null);
@@ -167,37 +183,21 @@ public class VendasView extends JFrame {
 		lblNewLabel_4.setBounds(12, 12, 114, 37);
 		panel_1.add(lblNewLabel_4);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(0, 0, 128));
-		panel_2.setBounds(0, 59, 282, 511);
-		getContentPane().add(panel_2);
-		panel_2.setLayout(null);
-
-		imagemProduto = new JLabel(imagemFundo);
-		imagemProduto.setBounds(12, 25, 258, 266);
-		panel_2.add(imagemProduto);
-
 		JLabel label1 = new JLabel("Sys-PDV");
 		this.rootPane.add(label1);
 		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int centerX = (int) ((screenSize.getWidth() - 800) / 2);
-        int centerY = (int) ((screenSize.getHeight() - 600) / 2);
-		getContentPane().setBackground(new Color(0, 0, 0));
-		//setBounds(centerX, centerY, 800,600);
-		setBounds(100,50,800,600);
+		setSize(800,600);
+        setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-
 	}
 
 	public void hideMainView() {
 		setVisible(false);
 	}
 
-	public void showMainView() {
+	public void showVendasView() {
 		setVisible(true);
 	}
 
@@ -379,7 +379,7 @@ public class VendasView extends JFrame {
 		this.textValorTotal.setText("R$ 0.00");
 
 	}
-	public boolean exibirTelaLogin() {
+	public static boolean exibirTelaLogin() {		
         String username = JOptionPane.showInputDialog("Nome de Usuário:");
         JPasswordField passwordField = new JPasswordField();
         int option = JOptionPane.showConfirmDialog(null, passwordField, "Senha:", JOptionPane.OK_CANCEL_OPTION);

@@ -1,6 +1,7 @@
 package pdv.view;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,99 +9,83 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import pdv.model.Estoque;
+import java.awt.Color;
 
 public class AdminView extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private Estoque estoque;
+	
+	private JButton btnGerenciarCaixas;
+	private JButton btnVender;
+	private JButton btnGerenciarProdutos;
 
-	public AdminView(Estoque estoque) {
+	public AdminView() {
 		super("");
-		this.estoque = estoque;
 		getContentPane().setLayout(null);
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int centerX = (int) ((screenSize.getWidth() - 800) / 2);
-        int centerY = (int) ((screenSize.getHeight() - 600) / 2);
-		//setBounds(centerX,centerY,800,600);
-		setBounds(100,50,800,600);
+		setSize(800,600);
+        setLocationRelativeTo(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 778, 44);
+		panel.setBackground(new Color(0, 0, 0));
+		panel.setBounds(0, 0, 800, 44);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblPainelDoAdministrador = new JLabel("Painel do Administrador");
+		lblPainelDoAdministrador.setForeground(new Color(255, 255, 255));
 		lblPainelDoAdministrador.setBounds(292, 12, 194, 15);
 		panel.add(lblPainelDoAdministrador);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 43, 778, 417);
+		panel_1.setBounds(0, 43, 800, 600);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnGerenciarProdutos = new JButton("Gerenciar produtos");
-		btnGerenciarProdutos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnGerenciarProdutos.setBounds(276, 90, 191, 25);
+		this.btnGerenciarProdutos = new JButton("Gerenciar produtos");
+		this.btnGerenciarProdutos.setBounds(276, 90, 191, 25);
 		panel_1.add(btnGerenciarProdutos);
 		
-		JButton btnVender = new JButton("Vender");
-		btnVender.setBounds(276, 164, 191, 25);
+		this.btnVender = new JButton("Vender");
+		this.btnVender.setBounds(276, 164, 191, 25);
 		panel_1.add(btnVender);
 		
-		JButton btnGerenciarCaixas = new JButton("Gerenciar caixas");
-		btnGerenciarCaixas.setBounds(276, 127, 191, 25);
+		this.btnGerenciarCaixas = new JButton("Gerenciar caixas");
+		this.btnGerenciarCaixas.setBounds(276, 127, 191, 25);
 		panel_1.add(btnGerenciarCaixas);
+		
+		JLabel background = new JLabel("");
+		background.setHorizontalAlignment(SwingConstants.CENTER);
+		ImageIcon imagemIcon = new ImageIcon(GerenciadorProdutosView.class.getResource("/pdv/view/imagens/background.jpg"));
+		Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+		ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
+		background.setIcon(imagemFundo);
+		background.setBounds(0, 0, 800, 600);
+		panel_1.add(background);
 	}
-	 public File getImageFile() {
-	        JFileChooser fileChooser = new JFileChooser();
-	        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-	        int result = fileChooser.showOpenDialog(null);
-	        if (result == JFileChooser.APPROVE_OPTION) {
-	            File selectedFile = fileChooser.getSelectedFile();
-	            return selectedFile;
-	        } else {
-	            JOptionPane.showMessageDialog(fileChooser, "Nenhum arquivo selecionado!");
-	            return null;
-	        }
-    }
-	 public static void selectImageFile() {
-	        JFileChooser fileChooser = new JFileChooser();
-	        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-	        int result = fileChooser.showSaveDialog(null);
-	        if (result == JFileChooser.APPROVE_OPTION) {
-	            File selectedFile = fileChooser.getSelectedFile();
-	            createFile(selectedFile);
-	        } else {
-	            JOptionPane.showMessageDialog(fileChooser, "Nenhum diretório selecionado!");
-	        }
-	    }
-
-	    public static void createFile(File file) {
-	        try {
-	            if (file.createNewFile()) {
-	                FileWriter writer = new FileWriter(file);
-	                writer.write("Conteúdo do arquivo.");
-	                writer.close();
-	                JOptionPane.showMessageDialog(null, "Arquivo criado com sucesso em: " + file.getAbsolutePath());
-	            } else {
-	                JOptionPane.showMessageDialog(null, "O arquivo já existe.");
-	            }
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	 
-	 public void showPainelAdm() {
+	
+	 public void showAdminView() {
 		 setVisible(true);
 	 }
+	 public void hiddenAdminView() {
+		 setVisible(false);
+	 }
+	public JButton getBtnGerenciarCaixas() {
+		return btnGerenciarCaixas;
+	}
+	public JButton getBtnVender() {
+		return btnVender;
+	}
+	public JButton getBtnGerenciarProdutos() {
+		return btnGerenciarProdutos;
+	}
+	 
 }

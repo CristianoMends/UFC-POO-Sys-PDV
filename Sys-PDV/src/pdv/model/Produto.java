@@ -4,15 +4,15 @@ public class Produto {
 	private int id;
 	private String nome;
 	private double preco;
-	private int quantidadeEstoque;
+	private int qtdEstoque;
 	private String categoria;
 	private String imagem;
 	
-	public Produto(int id,String nome, double preco, int quantidadeEstoque, String categoria, String imagem) {
+	public Produto(int id,String nome, double preco, int qtdEstoque, String categoria, String imagem) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
-		this.quantidadeEstoque = quantidadeEstoque;
+		this.qtdEstoque = qtdEstoque;
 		this.setCategoria(categoria);
 		this.setImagem(imagem);
 	}
@@ -34,11 +34,11 @@ public class Produto {
 	public void setPreco(double preco) {
 		this.preco = preco;
 	}
-	public int getQuantidadeEstoque() {
-		return quantidadeEstoque;
+	public int getQtdEstoque() {
+		return qtdEstoque;
 	}
-	public void setQuantidadeEstoque(int quantidadeEstoque) {
-		this.quantidadeEstoque = quantidadeEstoque;
+	public void setQtdEstoque(int qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
 	}
 	public String getCategoria() {
 		return categoria;
@@ -53,9 +53,9 @@ public class Produto {
 		this.imagem = imagem;
 	}
 	@Override
-	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", quantidadeEstoque=" + quantidadeEstoque
-				+ ", categoria=" + categoria + ", imagem=" + imagem + "]";
+	public String toString() {						     
+	    return String.format("%04d|%-37s|%18.2f|              %05d|%-10s", getId(), getNome(), getPreco(), getQtdEstoque(), getCategoria());
 	}
+
 	
 }

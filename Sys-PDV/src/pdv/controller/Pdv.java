@@ -25,7 +25,8 @@ import pdv.model.PostgreSQLJDBC;
 import pdv.model.Produto;
 import pdv.model.Venda;
 import pdv.view.AdminView;
-import pdv.view.ProductRegistrationView;
+import pdv.view.EntradaView;
+import pdv.view.GerenciadorProdutosView;
 import pdv.view.VendasView;
 
 public class Pdv {
@@ -38,18 +39,19 @@ public class Pdv {
 	private Venda venda;
 	private VendasView vendasView;
 	private AdminView adminView;
-	private ProductRegistrationView registrationView;
+	private GerenciadorProdutosView gerenciadorProdutosView;
 	
 	public Pdv() {
 		clientes 	 = new HashMap<Integer, Cliente>();
 		vendas 	 	 = new HashMap<Integer, Venda>();
 		caixas 	 	 = new HashMap<Integer, Caixa>();
 		funcionarios = new HashMap<Integer, Funcionario>();
-		estoque		 = this.getEstoqueByDB();
+		estoque		 = this.getEstoqueDB();
 		venda		 = new Venda();
 		vendasView	 = new VendasView();
-		registrationView = new ProductRegistrationView(this.estoque);
-		adminView = new AdminView(estoque);
+		gerenciadorProdutosView = new GerenciadorProdutosView();
+		adminView = new AdminView();
+		new EntradaView(adminView);
 
 		this.setAcoesBtns();
 	}
@@ -84,7 +86,7 @@ public class Pdv {
 	}
 	
 	//busca todos os produtos do bd e adiciona a estoque
-	private Estoque getEstoqueByDB() {
+	private Estoque getEstoqueDB() {
 		 Connection connection = PostgreSQLJDBC.getConnection();
 		 Estoque estoque = new Estoque();
 	        if (connection != null) {
@@ -164,9 +166,13 @@ public class Pdv {
         vendasView.getBtnPainelAdm().addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		if(vendasView.exibirTelaLogin()) {
+        		if(venda.getItens().size() > 0) {
+        			JOptionPane.showMessageDialog(vendasView.getBtnPainelAdm(), "Finalize a venda primeiro!");
+        			return;
+        		}
+        		if(VendasView.exibirTelaLogin()) {
             		vendasView.hideMainView();
-        			adminView.showPainelAdm();
+        			adminView.showAdminView();
         		}
         	}
         });
@@ -178,7 +184,36 @@ public class Pdv {
         		venda = new Venda();
         	}
         });
-		
+        
+        adminView.getBtnGerenciarCaixas().addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
+        adminView.getBtnGerenciarProdutos().addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		adminView.hiddenAdminView();
+        		gerenciadorProdutosView.showGerencioadorProdutos();
+        	}
+        });
+        adminView.getBtnVender().addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		adminView.hiddenAdminView();
+        		vendasView.showVendasView();
+        	}
+        });
+        
+        gerenciadorProdutosView.getBtnAtualizar().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gerenciadorProdutosView.getTextEstoque().setText(estoque.toString());
+				
+			}
+		});
         filtrarNumeros(vendasView.getTextCod());
 	}
 	public static void filtrarNumeros(JTextField text) {
@@ -212,7 +247,7 @@ public class Pdv {
     }
 
 	public void showMainView() {
-		this.vendasView.showMainView();
+		this.vendasView.showVendasView();
 	}
 	
 	//----------------------------------------------------------------------------
