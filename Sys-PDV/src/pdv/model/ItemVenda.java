@@ -16,8 +16,8 @@ public class ItemVenda {
 	public int getId() {
 		return id;
 	}
-	public void setNextId(int id) {
-		this.id++;
+	public static void setNextId(int id) {
+		ItemVenda.nextId = id;
 	}
 	public Produto getProduto() {
 		return produto;

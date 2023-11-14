@@ -5,14 +5,12 @@ import java.util.ArrayList;
 
 public class Venda {
 	private int id;
-	private static int nextId=1;
 	private ArrayList<ItemVenda> itens;
 	private double total;
 	private LocalDate data;
 	private Cliente cliente;
 	
 	public Venda() {
-		this.id = nextId++;
 		this.itens = new ArrayList<ItemVenda>();
 		this.total = 0.0;
 		this.data = null;

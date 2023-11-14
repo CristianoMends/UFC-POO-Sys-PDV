@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 import pdv.model.Caixa;
 import pdv.model.Cliente;
@@ -19,8 +24,9 @@ import pdv.model.ItemVenda;
 import pdv.model.PostgreSQLJDBC;
 import pdv.model.Produto;
 import pdv.model.Venda;
-import pdv.view.MainView;
+import pdv.view.AdminView;
 import pdv.view.ProductRegistrationView;
+import pdv.view.VendasView;
 
 public class Pdv {
 	
@@ -30,7 +36,8 @@ public class Pdv {
 	private Map<Integer, Caixa> 	  caixas;
 	private Map<Integer, Funcionario> funcionarios;
 	private Venda venda;
-	private MainView mainView;
+	private VendasView vendasView;
+	private AdminView adminView;
 	private ProductRegistrationView registrationView;
 	
 	public Pdv() {
@@ -40,8 +47,9 @@ public class Pdv {
 		funcionarios = new HashMap<Integer, Funcionario>();
 		estoque		 = this.getEstoqueByDB();
 		venda		 = new Venda();
-		mainView	 = new MainView();
+		vendasView	 = new VendasView();
 		registrationView = new ProductRegistrationView(this.estoque);
+		adminView = new AdminView(estoque);
 
 		this.setAcoesBtns();
 	}
@@ -110,17 +118,17 @@ public class Pdv {
 	}
 	//metodos da mainView-------------------------------------------------------------------------------------------
 	public void setAcoesBtns() {
-		this.mainView.getTextCod().addActionListener(new ActionListener() {
+		this.vendasView.getTextCod().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-              Produto produto = mainView.getProduto(Integer.parseInt(mainView.getTextCod().getText()), estoque);
+              Produto produto = vendasView.getProduto(Integer.parseInt(vendasView.getTextCod().getText()), estoque);
                if(produto == null){
             	   //throw new MsgException("Produto não encontrado!");
-            	   JOptionPane.showMessageDialog(mainView, "Produto não encontrado!");
+            	   JOptionPane.showMessageDialog(vendasView, "Produto não encontrado!");
             	   return;
                }
 
-               int      quantidade  = Integer.parseInt(mainView.getTextQtd().getText());
+               int      quantidade  = Integer.parseInt(vendasView.getTextQtd().getText());
                double   total       = (double) (produto.getPreco() * quantidade); 
                 
                 ItemVenda itemVenda = new ItemVenda(produto, quantidade, total);
@@ -130,44 +138,81 @@ public class Pdv {
                 venda.adicionarItem(itemVenda);
                 venda.setData(LocalDate.now());
               
-                mainView.atualizarVenda(venda);
+                vendasView.atualizarVenda(venda);
             }
         });
-
-        mainView.getBtnAdd().addActionListener(new ActionListener() {
+        vendasView.getBtnAdd().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainView.add();     
+                vendasView.add();     
             }
         });
-        mainView.getBtnRem().addActionListener(new ActionListener() {
+        vendasView.getBtnRem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainView.rem();     
+                vendasView.rem();     
             }
         });
         
-        mainView.getBtnFinalizar().addActionListener(new ActionListener() {
+        vendasView.getBtnCancelar().addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-
+        		vendasView.cancelar(venda);
         	}
         });
 
-        mainView.getBtnPainelAdm().addActionListener(new ActionListener() {
+        vendasView.getBtnPainelAdm().addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		mainView.hideMainView();
-        		registrationView.showPainelAdm();
+        		if(vendasView.exibirTelaLogin()) {
+            		vendasView.hideMainView();
+        			adminView.showPainelAdm();
+        		}
         	}
         });
+        
+        vendasView.getBtnFinalizar().addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {        		
+        		vendasView.showJanelaFinalizacao(venda);
+        		venda = new Venda();
+        	}
+        });
+		
+        filtrarNumeros(vendasView.getTextCod());
 	}
+	public static void filtrarNumeros(JTextField text) {
+        ((AbstractDocument) text.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String novoTexto = fb.getDocument().getText(0, fb.getDocument().getLength()) + text;
+
+                if (isNumero(novoTexto)) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+
+            private boolean isNumero(String text) {
+                for (char c : text.toCharArray()) {
+                    if (!Character.isDigit(c) && c != '.') {
+                        return false;
+                    }
+                }
+
+                if (text.indexOf('.') != text.lastIndexOf('.')) {
+                    return false;
+                }
+
+                return true;
+            }
+        });
+    }
     public void iniciarVenda(){
         venda = null;
     }
 
 	public void showMainView() {
-		this.mainView.showMainView();
+		this.vendasView.showMainView();
 	}
 	
 	//----------------------------------------------------------------------------

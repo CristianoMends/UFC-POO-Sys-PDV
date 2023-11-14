@@ -1,5 +1,7 @@
 package pdv.view;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,10 +22,14 @@ public class AdminView extends JFrame{
 	private Estoque estoque;
 
 	public AdminView(Estoque estoque) {
-		super("Tela de cadastro");
+		super("");
 		this.estoque = estoque;
 		getContentPane().setLayout(null);
-		setBounds(250,250,800,600);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int centerX = (int) ((screenSize.getWidth() - 800) / 2);
+        int centerY = (int) ((screenSize.getHeight() - 600) / 2);
+		//setBounds(centerX,centerY,800,600);
+		setBounds(100,50,800,600);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 778, 44);
@@ -39,25 +45,21 @@ public class AdminView extends JFrame{
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnRetirarProdutos = new JButton("Retirar produtos");
-		btnRetirarProdutos.setBounds(276, 90, 191, 25);
-		panel_1.add(btnRetirarProdutos);
-		
-		JButton btnVerEstoque = new JButton("Ver estoque");
-		btnVerEstoque.setBounds(276, 129, 191, 25);
-		panel_1.add(btnVerEstoque);
-		
-		JButton btnC = new JButton("Cadastrar produtos");
-		btnC.setBounds(276, 166, 191, 25);
-		panel_1.add(btnC);
-		
-		JButton btnVoltar = new JButton("voltar");
-		btnVoltar.setBounds(301, 201, 117, 25);
-		panel_1.add(btnVoltar);
-		btnC.addActionListener(new ActionListener() {
+		JButton btnGerenciarProdutos = new JButton("Gerenciar produtos");
+		btnGerenciarProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		btnGerenciarProdutos.setBounds(276, 90, 191, 25);
+		panel_1.add(btnGerenciarProdutos);
+		
+		JButton btnVender = new JButton("Vender");
+		btnVender.setBounds(276, 164, 191, 25);
+		panel_1.add(btnVender);
+		
+		JButton btnGerenciarCaixas = new JButton("Gerenciar caixas");
+		btnGerenciarCaixas.setBounds(276, 127, 191, 25);
+		panel_1.add(btnGerenciarCaixas);
 	}
 	 public File getImageFile() {
 	        JFileChooser fileChooser = new JFileChooser();
