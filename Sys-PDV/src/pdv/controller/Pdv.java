@@ -1,10 +1,7 @@
 package pdv.controller;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,20 +13,24 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+import pdv.dao.EstoqueDao;
+import pdv.dao.ProdutoDao;
 import pdv.model.Caixa;
 import pdv.model.Cliente;
 import pdv.model.Estoque;
 import pdv.model.Funcionario;
 import pdv.model.ItemVenda;
-import pdv.model.PostgreSQLJDBC;
 import pdv.model.Produto;
 import pdv.model.Venda;
 import pdv.view.AdminView;
 import pdv.view.EntradaView;
 import pdv.view.GerenciadorProdutosView;
+import pdv.view.Login;
 import pdv.view.VendasView;
 
 public class Pdv {
+	public static final String USUARIO = "admin";
+	public static final String SENHA	= "qwe123";
 	
 	private Estoque estoque;
 	private Map<Integer, Cliente> 	  clientes;
@@ -40,42 +41,31 @@ public class Pdv {
 	private VendasView vendasView;
 	private AdminView adminView;
 	private GerenciadorProdutosView gerenciadorProdutosView;
+	private ProdutoDao produtoDao;
+	private EstoqueDao estoqueDao;
 	
 	public Pdv() {
+		produtoDao = new ProdutoDao();
+		estoqueDao = new EstoqueDao();
+		
+		estoque		 = this.estoqueDao.getEstoqueDB();
 		clientes 	 = new HashMap<Integer, Cliente>();
 		vendas 	 	 = new HashMap<Integer, Venda>();
 		caixas 	 	 = new HashMap<Integer, Caixa>();
 		funcionarios = new HashMap<Integer, Funcionario>();
-		estoque		 = this.getEstoqueDB();
 		venda		 = new Venda();
 		vendasView	 = new VendasView();
 		gerenciadorProdutosView = new GerenciadorProdutosView();
 		adminView = new AdminView();
+		
 		new EntradaView(adminView);
-
 		this.setAcoesBtns();
-	}
-	
-	//adiciona produto ao estoque
-	public void adiocionarProduto(Produto produto) {
-		
-	}
-	//lista todos os produtos do estoque na tela
-	public void mostrarEstoque() {
-
-	}
-	//remove produto do estoque
-	public void removerProduto(int id) {
-		
 	}
 	//inicia caixa com saldo indicado
 	public void abrirCaixa(double saldoInicial) {
 		
 	}
 	public void fecharCaixa() {
-		
-	}
-	public void realizarVenda() {
 		
 	}
 	public void adicionarFuncionario() {
@@ -85,39 +75,6 @@ public class Pdv {
 		
 	}
 	
-	//busca todos os produtos do bd e adiciona a estoque
-	private Estoque getEstoqueDB() {
-		 Connection connection = PostgreSQLJDBC.getConnection();
-		 Estoque estoque = new Estoque();
-	        if (connection != null) {
-	            try {
-	                String query = "SELECT * FROM produto";
-	                PreparedStatement preparedStatement = connection.prepareStatement(query);
-	                ResultSet resultSet = preparedStatement.executeQuery();
-	                	                
-	                while (resultSet.next()) {
-	                    int 	id 			= resultSet		.getInt("id");
-	                    String 	nome 		= resultSet	.getString("nome");
-	                    double 	preco 		= resultSet.getDouble("preco");
-	                    int qtdEstoque		= resultSet.getInt("qtdEstoque");
-	                    String categoria 	= resultSet.getString("categoria");
-	                    String imagem 		= resultSet.getString("imagem");
-	                    
-	                    Produto produto = new Produto(id, nome, preco, qtdEstoque, categoria, imagem);
-
-	                    estoque.addProduto(produto);
-	                }
-
-	                resultSet.close();
-	                preparedStatement.close();
-	            } catch (SQLException e) {
-	                e.printStackTrace();
-	            } finally {
-	                PostgreSQLJDBC.closeConnection(connection);
-	            }
-	        }
-	        return estoque;
-	}
 	//metodos da mainView-------------------------------------------------------------------------------------------
 	public void setAcoesBtns() {
 		this.vendasView.getTextCod().addActionListener(new ActionListener() {
@@ -170,10 +127,7 @@ public class Pdv {
         			JOptionPane.showMessageDialog(vendasView.getBtnPainelAdm(), "Finalize a venda primeiro!");
         			return;
         		}
-        		if(VendasView.exibirTelaLogin()) {
-            		vendasView.hideMainView();
-        			adminView.showAdminView();
-        		}
+        		new Login(vendasView,adminView);
         	}
         });
         
@@ -214,8 +168,55 @@ public class Pdv {
 				
 			}
 		});
+        
+        this.gerenciadorProdutosView.getBtnCadastrar().addActionListener(new ActionListener() {        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		produtoDao.inserirProdutoDB(gerenciadorProdutosView.getProduto());
+        	}
+        });
+        this.gerenciadorProdutosView.getbtnPainelAdmin().addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gerenciadorProdutosView.hiddenGerenciadorProdutos();
+				adminView.showAdminView();				
+			}
+		});
+        this.gerenciadorProdutosView.getBtnRemover().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int cod = 0;
+
+				while (true) {
+				    String input = JOptionPane.showInputDialog("Digite um valor inteiro:");
+
+				    if (input.matches("\\d+")) {
+				        cod = Integer.parseInt(input);
+				        produtoDao.removerProdutoDB(cod);
+				        break;
+				    } else {
+				        JOptionPane.showMessageDialog(null, "Entrada inválida! Digite apenas números inteiros.");
+				    }
+				}
+				
+				
+			}
+		});
+        
+        filtrarNumeros(gerenciadorProdutosView.getTextQtdEstoque());
+        filtrarNumeros(gerenciadorProdutosView.getTextPreco());
         filtrarNumeros(vendasView.getTextCod());
 	}
+	  public static void showMensagem(Component componet, String mensagem, String titulo,int tipoMensagem) {
+	        JOptionPane.showMessageDialog(componet, mensagem, titulo, tipoMensagem);
+	  }
+	  public static int showMessageOpcao(Component componente, String mensagem, String titulo, int tipoMensagem) {
+	        return JOptionPane.showConfirmDialog(componente, mensagem, titulo, tipoMensagem);
+	  }
+	  public static String showInput(Component componente, String mensagem, String titulo, int tipoMensagem) {
+	        return JOptionPane.showInputDialog(componente, mensagem, titulo, tipoMensagem);
+      }
+	
 	public static void filtrarNumeros(JTextField text) {
         ((AbstractDocument) text.getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
@@ -242,54 +243,5 @@ public class Pdv {
             }
         });
     }
-    public void iniciarVenda(){
-        venda = null;
-    }
-
-	public void showMainView() {
-		this.vendasView.showVendasView();
-	}
-	
-	//----------------------------------------------------------------------------
-	public Map<Integer, Cliente> getClientes() {
-		return clientes;
-	}
-
-	public void setClientes(Map<Integer, Cliente> clientes) {
-		this.clientes = clientes;
-	}
-
-	public Map<Integer, Venda> getVendas() {
-		return vendas;
-	}
-
-	public void setVendas(Map<Integer, Venda> vendas) {
-		this.vendas = vendas;
-	}
-
-	public Map<Integer, Caixa> getCaixas() {
-		return caixas;
-	}
-
-	public void setCaixas(Map<Integer, Caixa> caixas) {
-		this.caixas = caixas;
-	}
-
-	public Map<Integer, Funcionario> getFuncionarios() {
-		return funcionarios;
-	}
-
-	public void setFuncionarios(Map<Integer, Funcionario> funcionarios) {
-		this.funcionarios = funcionarios;
-	}
-
-	public Estoque getEstoque() {
-		return estoque;
-	}
-
-	public void setEstoque(Estoque estoque) {
-		this.estoque = estoque;
-	}
-	
 	
 }

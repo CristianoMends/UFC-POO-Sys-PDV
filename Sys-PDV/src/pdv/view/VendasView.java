@@ -173,8 +173,8 @@ public class VendasView extends JFrame {
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
-		btnPainelAdm = new JButton("Painel Adm");
-		btnPainelAdm.setBounds(654, 22, 122, 21);
+		this.btnPainelAdm = new JButton("Painel Adm");
+		this.btnPainelAdm.setBounds(654, 22, 122, 21);
 		panel_1.add(btnPainelAdm);
 
 		JLabel lblNewLabel_4 = new JLabel("SysPDV");
@@ -218,8 +218,7 @@ public class VendasView extends JFrame {
 			ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
 			this.imagemProduto.setIcon(imagemFundo);
 		} catch (Exception e) {
-			e.printStackTrace();
-			
+			e.printStackTrace();			
 			throw new MsgException("Erro ao carregar imagem do produto!");
 		}
 	}
@@ -228,20 +227,25 @@ public class VendasView extends JFrame {
 			JOptionPane.showMessageDialog(btnCancelar, "Não possui produtos para cancelar!");
 			return;
 		}
-		   String input = JOptionPane.showInputDialog("Codigo do produto:");
+		   String input = Pdv.showInput(btnCancelar, "Digite o codigo do produto", "", JOptionPane.QUESTION_MESSAGE);
 	        try {
 	            int cod = Integer.parseInt(input);
-	            
+	            boolean encontrado = false;
 	            for(ItemVenda item : venda.getItens()) {
 	            	if(item.getId() == cod) {
 	            		venda.getItens().remove(item);
 	            		JOptionPane.showMessageDialog(null, "Produto cancelado");
 	            		atualizarVenda(venda);
+	            		encontrado = true;
 	            		break;
 	            	}
 	            }
-
+	            
+	            if(!encontrado) {
+	            	Pdv.showMensagem(btnCancelar, "Produto não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+	            }
 	        } catch (NumberFormatException e) {
+	        	Pdv.showMensagem(btnCancelar, "Valor invalido!", "Erro", JOptionPane.ERROR_MESSAGE);
 	        	//throw new MsgException("Valor invalido!");
 	        }
 	}

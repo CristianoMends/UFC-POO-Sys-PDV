@@ -39,7 +39,7 @@ public class ItemVenda {
 	}
 	@Override
 	public String toString() {
-		return String.format("%4d|%-25s    |%-4d|    R$ %.2f|    R$ %.2f",getId(), getProduto().getNome(), getQuantidade(), getProduto().getPreco(), getTotal());
+		return String.format("%04d|%-35s|%05d|R$ %10.2f|R$ %10.2f",getId(), getProduto().getNome(), getQuantidade(), getProduto().getPreco(), getTotal());
 	}
 
 }

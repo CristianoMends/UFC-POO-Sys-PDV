@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import java.awt.Color;
+import java.awt.Font;
 
 public class EntradaView extends JFrame {
 
@@ -18,17 +20,24 @@ public class EntradaView extends JFrame {
     public EntradaView(AdminView adminView) {
     	getContentPane().setLayout(null);
         JLabel labelBoasVindas = new JLabel("Bem-vindo");
+        labelBoasVindas.setFont(new Font("Dialog", Font.BOLD, 14));
         labelBoasVindas.setBounds(0, 0, 500, 100);
         labelBoasVindas.setHorizontalAlignment(SwingConstants.CENTER);
 
         getContentPane().add(labelBoasVindas);
+        
+        JLabel lblCarregando = new JLabel("Carregando");
+        lblCarregando.setHorizontalAlignment(SwingConstants.CENTER);
+        lblCarregando.setBounds(10, 100, 351, 100);
+        getContentPane().add(lblCarregando);
+        
+                progressBar = new JProgressBar(0, 100);
+                progressBar.setForeground(new Color(0, 0, 0));
+                progressBar.setBounds(0, 101, 500, 99);
+                progressBar.setStringPainted(true);
+                getContentPane().add(progressBar);
 
-        progressBar = new JProgressBar(0, 100);
-        progressBar.setBounds(0, 101, 500, 75);
-        progressBar.setStringPainted(true);
-        getContentPane().add(progressBar);
-
-        setSize(500, 250);
+        setSize(500, 200);
         setLocationRelativeTo(null);
         setUndecorated(true);
         addWindowListener(new WindowAdapter() {
@@ -52,12 +61,7 @@ public class EntradaView extends JFrame {
                 if (progresso >= 100) {
                     ((Timer) e.getSource()).stop();
                     dispose();
-                    while(true) {
-                    	if(VendasView.exibirTelaLogin()) {
-                            adminView.showAdminView();
-                            break;
-                    	}
-                    }
+                    new Login(null,adminView);
                 }
             }
         });
