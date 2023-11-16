@@ -2,10 +2,13 @@ package pdv.controller;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
@@ -14,9 +17,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 import pdv.dao.EstoqueDao;
+import pdv.dao.PessoaDao;
 import pdv.dao.ProdutoDao;
 import pdv.model.Caixa;
-import pdv.model.Cliente;
 import pdv.model.Estoque;
 import pdv.model.Funcionario;
 import pdv.model.ItemVenda;
@@ -33,30 +36,31 @@ public class Pdv {
 	public static final String SENHA	= "qwe123";
 	
 	private Estoque estoque;
-	private Map<Integer, Cliente> 	  clientes;
 	private Map<Integer, Venda> 	  vendas;
 	private Map<Integer, Caixa> 	  caixas;
-	private Map<Integer, Funcionario> funcionarios;
+	private ArrayList<Funcionario> funcionarios;
 	private Venda venda;
 	private VendasView vendasView;
 	private AdminView adminView;
 	private GerenciadorProdutosView gerenciadorProdutosView;
 	private ProdutoDao produtoDao;
 	private EstoqueDao estoqueDao;
+	private PessoaDao  pessoaDao;
 	
 	public Pdv() {
-		produtoDao = new ProdutoDao();
-		estoqueDao = new EstoqueDao();
+		this.produtoDao = new ProdutoDao();
+		this.estoqueDao = new EstoqueDao();
+		this.pessoaDao  = new PessoaDao();
 		
-		estoque		 = this.estoqueDao.getEstoqueDB();
-		clientes 	 = new HashMap<Integer, Cliente>();
-		vendas 	 	 = new HashMap<Integer, Venda>();
-		caixas 	 	 = new HashMap<Integer, Caixa>();
-		funcionarios = new HashMap<Integer, Funcionario>();
-		venda		 = new Venda();
-		vendasView	 = new VendasView();
-		gerenciadorProdutosView = new GerenciadorProdutosView();
-		adminView = new AdminView();
+		this.estoque		 = this.estoqueDao.getEstoqueDB();
+		this.funcionarios 	 = this.pessoaDao.getFuncionarios();
+
+		this.vendas 	 	 = new HashMap<Integer, Venda>();
+		this.caixas 	 	 = new HashMap<Integer, Caixa>();
+		this.venda		 = new Venda();
+		this.vendasView	 = new VendasView();
+		this.gerenciadorProdutosView = new GerenciadorProdutosView();
+		this.adminView = new AdminView();
 		
 		new EntradaView(adminView);
 		this.setAcoesBtns();
@@ -76,7 +80,8 @@ public class Pdv {
 	}
 	
 	//metodos da mainView-------------------------------------------------------------------------------------------
-	public void setAcoesBtns() {
+	public void setAcoesBtns() {	
+		
 		this.vendasView.getTextCod().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -138,6 +143,13 @@ public class Pdv {
         		venda = new Venda();
         	}
         });
+        vendasView.getSelectVendedor().addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+        vendasView.addVendedores(this.funcionarios);
         
         adminView.getBtnGerenciarCaixas().addActionListener(new ActionListener() {
         	@Override
@@ -216,7 +228,6 @@ public class Pdv {
 	  public static String showInput(Component componente, String mensagem, String titulo, int tipoMensagem) {
 	        return JOptionPane.showInputDialog(componente, mensagem, titulo, tipoMensagem);
       }
-	
 	public static void filtrarNumeros(JTextField text) {
         ((AbstractDocument) text.getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override

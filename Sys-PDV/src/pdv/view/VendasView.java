@@ -9,10 +9,14 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,10 +27,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.text.MaskFormatter;
 
 import pdv.controller.Pdv;
+import pdv.model.Cargo;
 import pdv.model.Estoque;
 import pdv.model.FormaPagamento;
+import pdv.model.Funcionario;
 import pdv.model.ItemVenda;
 import pdv.model.MsgException;
 import pdv.model.Produto;
@@ -50,6 +57,7 @@ public class VendasView extends JFrame {
 	private String urlDaImagem;
 	private JLabel imagemProduto;
 	private JButton btnFinalizarVenda;
+	private JComboBox selectVendedor;
 	
 	private Venda venda;
 	ImageIcon imagemIcon = new ImageIcon(VendasView.class.getResource("/pdv/view/imagens/listaVazia.png"));
@@ -122,35 +130,35 @@ public class VendasView extends JFrame {
 		this.btnFinalizar.setBounds(253, 465, 187, 25);
 		panel.add(btnFinalizar);
 
-		JLabel lblNewLabel_2 = new JLabel("Cod.");
+		JLabel lblNewLabel_2 = new JLabel("Codigo");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
-		lblNewLabel_2.setBounds(10, 10, 45, 13);
+		lblNewLabel_2.setBounds(10, 10, 75, 13);
 		panel.add(lblNewLabel_2);
 
 		this.textQtd = new JTextField("1");
 		this.textQtd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		this.textQtd.setEditable(false);
-		this.textQtd.setBounds(167, 22, 53, 25);
+		this.textQtd.setBounds(177, 22, 53, 25);
 		panel.add(textQtd);
 		this.textQtd.setColumns(10);
 
 		this.btnRem = new JButton("-");
 		this.btnRem.setMnemonic('-');
 		this.btnRem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		this.btnRem.setBounds(221, 22, 50, 25);
+		this.btnRem.setBounds(231, 22, 50, 25);
 		panel.add(btnRem);
 
 		this.btnAdd = new JButton("+");
 		this.btnAdd.setMnemonic('+');
 		this.btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		this.btnAdd.setBounds(275, 22, 50, 25);
+		this.btnAdd.setBounds(281, 22, 50, 25);
 		panel.add(btnAdd);
 
-		JLabel lblNewLabel_3 = new JLabel("Qtd.");
+		JLabel lblNewLabel_3 = new JLabel("Quantidade");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setBounds(167, 10, 45, 13);
+		lblNewLabel_3.setBounds(178, 10, 103, 13);
 		panel.add(lblNewLabel_3);
 		
 		this.imagemProduto = new JLabel(imagemFundo);
@@ -162,6 +170,40 @@ public class VendasView extends JFrame {
 		ImageIcon imagemIcon = new ImageIcon(GerenciadorProdutosView.class.getResource("/pdv/view/imagens/background.jpg"));
 		Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
+		
+		String[] vendedor = {"Vendedor"};
+		this.selectVendedor = new JComboBox();
+		this.selectVendedor.setToolTipText("Selecione o Vendedor aqui");
+		this.selectVendedor.setBounds(343, 22, 150, 25);
+		panel.add(this.selectVendedor);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Vendedor");
+		lblNewLabel_3_1.setForeground(Color.WHITE);
+		lblNewLabel_3_1.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblNewLabel_3_1.setBounds(344, 9, 96, 13);
+		panel.add(lblNewLabel_3_1);
+		try {
+            MaskFormatter maskFormatter = new MaskFormatter("###########"); // Define a máscara para o CPF
+            JFormattedTextField textCpf = new JFormattedTextField(maskFormatter);
+    		textCpf.setBounds(504, 22, 150, 25);
+    		panel.add(textCpf);
+
+		} catch (ParseException e) {
+            e.printStackTrace(); // Lide com a exceção adequadamente
+        }		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(0, 0, 0));
+		panel_2.setForeground(new Color(0, 0, 0));
+		panel_2.setBounds(0, 0, 788, 58);
+		panel.add(panel_2);
+		panel_2.setLayout(null);
+		
+		
+		JLabel lblNewLabel_3_1_1 = new JLabel("Cliente");
+		lblNewLabel_3_1_1.setBounds(504, 9, 96, 13);
+		panel_2.add(lblNewLabel_3_1_1);
+		lblNewLabel_3_1_1.setForeground(Color.WHITE);
+		lblNewLabel_3_1_1.setFont(new Font("Dialog", Font.PLAIN, 14));
 		background.setIcon(imagemFundo);
 		background.setBounds(0, 0, 790, 600);
 		panel.add(background);
@@ -199,6 +241,18 @@ public class VendasView extends JFrame {
 
 	public void showVendasView() {
 		setVisible(true);
+	}
+	
+	public void addVendedores(ArrayList<Funcionario> funcionarios) {
+		ArrayList<String> vendedores = new ArrayList<String>();
+		
+		for(Funcionario f : funcionarios) {
+			if(f.getCargo().equals(Cargo.VENDEDOR.getDescricao())) {
+				vendedores.add(f.toString());
+			}
+		}
+		getSelectVendedor().setModel(new DefaultComboBoxModel(vendedores.toArray()));
+
 	}
 
 	public void atualizarVenda(Venda venda) {
@@ -317,6 +371,9 @@ public class VendasView extends JFrame {
         JButton btnFinalizarVenda = new JButton("Finalizar");
         btnFinalizarVenda.setBounds(70, 131, 124, 25);
         
+        JButton btnCancelarVenda = new JButton("Cancelar");
+        btnCancelarVenda.setBounds(70, 160, 124, 25);        
+        
         JLabel lblTotal = new JLabel("Total:");
         lblTotal.setBounds(7, 7, 115, 15);
         panel_5.add(lblTotal);
@@ -347,6 +404,15 @@ public class VendasView extends JFrame {
             	finalizacao.dispose();
             }
         });
+        btnCancelarVenda.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(Pdv.showMessageOpcao(btnCancelarVenda, "Deseja cancelar?", "Aviso", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+					finalizacao.dispose();
+				}				
+			}
+		});
+        
         entregue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -449,5 +515,8 @@ public class VendasView extends JFrame {
 
 	public void setUrlDaImagem(String urlDaImagem) {
 		this.urlDaImagem = urlDaImagem;
+	}
+	public JComboBox getSelectVendedor() {
+		return this.selectVendedor;
 	}
 }

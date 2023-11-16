@@ -51,15 +51,15 @@ public class AdminView extends JFrame{
 		panel_1.setLayout(null);
 		
 		this.btnGerenciarProdutos = new JButton("Gerenciar produtos");
-		this.btnGerenciarProdutos.setBounds(276, 90, 191, 25);
+		this.btnGerenciarProdutos.setBounds(276, 90, 200, 25);
 		panel_1.add(btnGerenciarProdutos);
 		
 		this.btnVender = new JButton("Vender");
-		this.btnVender.setBounds(276, 164, 191, 25);
+		this.btnVender.setBounds(276, 201, 200, 25);
 		panel_1.add(btnVender);
 		
 		this.btnGerenciarCaixas = new JButton("Gerenciar caixas");
-		this.btnGerenciarCaixas.setBounds(276, 127, 191, 25);
+		this.btnGerenciarCaixas.setBounds(276, 127, 200, 25);
 		panel_1.add(btnGerenciarCaixas);
 		
 		JLabel background = new JLabel("");
@@ -67,6 +67,10 @@ public class AdminView extends JFrame{
 		ImageIcon imagemIcon = new ImageIcon(GerenciadorProdutosView.class.getResource("/pdv/view/imagens/background.jpg"));
 		Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
+		
+		JButton btnGerenciarFuncionarios = new JButton("Gerenciar funcionarios");
+		btnGerenciarFuncionarios.setBounds(276, 164, 200, 25);
+		panel_1.add(btnGerenciarFuncionarios);
 		background.setIcon(imagemFundo);
 		background.setBounds(0, 0, 800, 600);
 		panel_1.add(background);
@@ -87,5 +91,4 @@ public class AdminView extends JFrame{
 	public JButton getBtnGerenciarProdutos() {
 		return btnGerenciarProdutos;
 	}
-	 
 }
