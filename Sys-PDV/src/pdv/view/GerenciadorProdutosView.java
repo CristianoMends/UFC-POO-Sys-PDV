@@ -27,7 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import pdv.model.Produto;
+import pdv.model.entidades.Produto;
 
 public class GerenciadorProdutosView extends JFrame{
 	private static final long serialVersionUID = 1L;

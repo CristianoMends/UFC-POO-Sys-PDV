@@ -1,23 +1,18 @@
-package pdv.model;
+package pdv.model.entidades;
 
-public class ItemVenda {
+public class ProdutoVenda {
 	private int id;
-	private static int nextId=1;
 	private Produto produto;
 	private int quantidade;
 	private double total;
 	
-	public ItemVenda(Produto produto, int quantidade, double total) {
-		this.id = nextId++;
+	public ProdutoVenda(Produto produto, int quantidade, double total) {
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.total = total;
 	}
 	public int getId() {
 		return id;
-	}
-	public static void setNextId(int id) {
-		ItemVenda.nextId = id;
 	}
 	public Produto getProduto() {
 		return produto;

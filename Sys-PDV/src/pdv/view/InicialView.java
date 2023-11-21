@@ -13,11 +13,11 @@ import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.Font;
 
-public class EntradaView extends JFrame {
+public class InicialView extends JFrame {
 
     private JProgressBar progressBar;
 
-    public EntradaView(AdminView adminView) {
+    public InicialView(AdminView adminView) {
     	getContentPane().setLayout(null);
         JLabel labelBoasVindas = new JLabel("Bem-vindo");
         labelBoasVindas.setFont(new Font("Dialog", Font.BOLD, 14));

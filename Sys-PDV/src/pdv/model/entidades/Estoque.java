@@ -1,4 +1,4 @@
-package pdv.model;
+package pdv.model.entidades;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import pdv.model.Produto;
+
+import pdv.model.entidades.Produto;
 
 public class ProdutoDao {
 

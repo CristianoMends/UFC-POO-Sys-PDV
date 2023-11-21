@@ -1,30 +1,32 @@
-package pdv.model;
+package pdv.model.entidades;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Venda {
 	private int id;
-	private ArrayList<ItemVenda> itens;
+	private ArrayList<ProdutoVenda> itens;
 	private LocalDate data;
 	private Cliente cliente;
+	private Funcionario funcionario;
 	
 	public Venda() {
-		this.itens = new ArrayList<ItemVenda>();
+		this.itens = new ArrayList<ProdutoVenda>();
 		this.data = null;
 		this.cliente = null;
 	}
 	
 	public int getId() 								 { return id; }
 	public void setId(int id) 						 { this.id = id; }
-	public ArrayList<ItemVenda> getItens() 			 { return this.itens; }
-	public void setItens(ArrayList<ItemVenda> itens) { this.itens = itens; }
+	public ArrayList<ProdutoVenda> getItens() 			 { return this.itens; }
+	public void setItens(ArrayList<ProdutoVenda> itens) { this.itens = itens; }
 	
 	public LocalDate getData() 					{ return this.data; 		}
 	public void setData(LocalDate localDate)	{ this.data = localDate;	}
-	public Cliente getCliente() 				{ return this.cliente; 		}
+	public Pessoa getCliente() 					{ return this.cliente; 		}
 	public void setCliente(Cliente cliente) 	{ this.cliente = cliente; 	}
-	public void adicionarItem(ItemVenda item) 	{ this.itens.add(item); 	}
+	public void adicionarItem(ProdutoVenda item){ this.itens.add(item); 	}
+	public Funcionario getFuncionario() 		{ return this.funcionario;	}
 	
 	public Produto getUltimoProduto() 			{
 	    if (!this.itens.isEmpty()) {
@@ -35,7 +37,7 @@ public class Venda {
 	}
 	public double getTotal() 				{
 		double t = 0.0;
-		for(ItemVenda i : this.itens){
+		for(ProdutoVenda i : this.itens){
 			t += i.getTotal();
 		}
 		return t;
@@ -44,7 +46,7 @@ public class Venda {
 	@Override
 	public String toString() {
 		String i = "";
-		for(ItemVenda item : this.itens){
+		for(ProdutoVenda item : this.itens){
 			i += item + "\n";
 		}
 		return i.substring(0,i.length());

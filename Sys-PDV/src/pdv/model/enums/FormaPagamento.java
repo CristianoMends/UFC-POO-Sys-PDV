@@ -1,4 +1,4 @@
-package pdv.model;
+package pdv.model.enums;
 
 public enum FormaPagamento {
 	        DINHEIRO("Dinheiro"),

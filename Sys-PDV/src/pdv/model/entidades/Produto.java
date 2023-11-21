@@ -1,4 +1,4 @@
-package pdv.model;
+package pdv.model.entidades;
 
 public class Produto {
 	private int id;
@@ -9,18 +9,18 @@ public class Produto {
 	private String imagem;
 	
 	public Produto(int id,String nome, double preco, int qtdEstoque, String categoria, String imagem) {
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-		this.qtdEstoque = qtdEstoque;
+		this.setId(id);
+		this.setNome(nome);
+		this.setPreco(preco);
+		this.setQtdEstoque(qtdEstoque);
 		this.setCategoria(categoria);
 		this.setImagem(imagem);
 	}
 	//construtor sem id para inserir ao banco
 	public Produto(String nome, double preco, int qtdEstoque, String categoria, String imagem) {
-		this.nome = nome;
-		this.preco = preco;
-		this.qtdEstoque = qtdEstoque;
+		this.setNome(nome);
+		this.setPreco(preco);
+		this.setQtdEstoque(qtdEstoque);
 		this.setCategoria(categoria);
 		this.setImagem(imagem);
 	}

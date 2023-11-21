@@ -18,7 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import pdv.model.Estoque;
+import pdv.model.entidades.Estoque;
+
 import java.awt.Color;
 
 public class AdminView extends JFrame{

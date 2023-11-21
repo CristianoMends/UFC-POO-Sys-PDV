@@ -1,4 +1,4 @@
-package pdv.model;
+package pdv.model.exceptions;
 
 public class MsgException extends RuntimeException {
 

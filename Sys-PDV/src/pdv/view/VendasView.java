@@ -16,7 +16,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,14 +29,15 @@ import javax.swing.border.LineBorder;
 import javax.swing.text.MaskFormatter;
 
 import pdv.controller.Pdv;
-import pdv.model.Cargo;
-import pdv.model.Estoque;
-import pdv.model.FormaPagamento;
-import pdv.model.Funcionario;
-import pdv.model.ItemVenda;
-import pdv.model.MsgException;
-import pdv.model.Produto;
-import pdv.model.Venda;
+import pdv.model.entidades.Cliente;
+import pdv.model.entidades.Estoque;
+import pdv.model.entidades.Funcionario;
+import pdv.model.entidades.Produto;
+import pdv.model.entidades.ProdutoVenda;
+import pdv.model.entidades.Venda;
+import pdv.model.enums.Cargo;
+import pdv.model.enums.FormaPagamento;
+import pdv.model.exceptions.MsgException;
 
 public class VendasView extends JFrame {
 	/**
@@ -51,13 +51,17 @@ public class VendasView extends JFrame {
 	private JButton btnFinalizar;
 	private JButton btnRem;
 	private JButton btnCancelar;
-	private JTextArea textListaVenda;
+	protected JTextArea textListaVenda;
 	private JButton btnAdd;
 	private JPanel panel;
 	private String urlDaImagem;
 	private JLabel imagemProduto;
 	private JButton btnFinalizarVenda;
-	private JComboBox selectVendedor;
+	private JComboBox<String> selectVendedor;
+	private JComboBox<String> selectCliente;
+	
+	private DefaultComboBoxModel<String> modelClientes = new DefaultComboBoxModel<>();
+	private DefaultComboBoxModel<String> modelVendedores = new DefaultComboBoxModel<>();
 	
 	private Venda venda;
 	ImageIcon imagemIcon = new ImageIcon(VendasView.class.getResource("/pdv/view/imagens/listaVazia.png"));
@@ -171,8 +175,8 @@ public class VendasView extends JFrame {
 		Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
 		
-		String[] vendedor = {"Vendedor"};
-		this.selectVendedor = new JComboBox();
+		this.selectVendedor = new JComboBox<String>();
+		this.selectVendedor.setModel(this.modelVendedores);
 		this.selectVendedor.setToolTipText("Selecione o Vendedor aqui");
 		this.selectVendedor.setBounds(343, 22, 150, 25);
 		panel.add(this.selectVendedor);
@@ -183,10 +187,7 @@ public class VendasView extends JFrame {
 		lblNewLabel_3_1.setBounds(344, 9, 96, 13);
 		panel.add(lblNewLabel_3_1);
 		try {
-            MaskFormatter maskFormatter = new MaskFormatter("###########"); // Define a máscara para o CPF
-            JFormattedTextField textCpf = new JFormattedTextField(maskFormatter);
-    		textCpf.setBounds(504, 22, 150, 25);
-    		panel.add(textCpf);
+            MaskFormatter maskFormatter = new MaskFormatter("###########");
 
 		} catch (ParseException e) {
             e.printStackTrace(); // Lide com a exceção adequadamente
@@ -204,6 +205,12 @@ public class VendasView extends JFrame {
 		panel_2.add(lblNewLabel_3_1_1);
 		lblNewLabel_3_1_1.setForeground(Color.WHITE);
 		lblNewLabel_3_1_1.setFont(new Font("Dialog", Font.PLAIN, 14));
+		
+		this.selectCliente = new JComboBox<String>();
+		this.selectCliente.setModel(this.modelClientes);
+		this.selectCliente.setToolTipText("Selecione o Cliente aqui");
+		this.selectCliente.setBounds(504, 22, 150, 25);
+		panel_2.add(selectCliente);
 		background.setIcon(imagemFundo);
 		background.setBounds(0, 0, 790, 600);
 		panel.add(background);
@@ -244,15 +251,29 @@ public class VendasView extends JFrame {
 	}
 	
 	public void addVendedores(ArrayList<Funcionario> funcionarios) {
-		ArrayList<String> vendedores = new ArrayList<String>();
-		
+		this.getModelVendedores().addElement("Nenhum");
 		for(Funcionario f : funcionarios) {
 			if(f.getCargo().equals(Cargo.VENDEDOR.getDescricao())) {
-				vendedores.add(f.toString());
+				this.getModelVendedores().addElement(f.getNome());
 			}
 		}
-		getSelectVendedor().setModel(new DefaultComboBoxModel(vendedores.toArray()));
 
+	}
+	
+	public void addClientes(ArrayList<Cliente> clientes) {
+		this.getModelClientes().addElement("Nenhum");
+		for(Cliente c : clientes) {
+			this.getModelClientes().addElement(c.getNome());
+		}
+
+	}
+	
+	public void showJanelaFinalizacao(Venda venda) {
+		if(this.venda == null) {
+			JOptionPane.showMessageDialog(btnFinalizar, "Nenhum produto foi adicionado!");
+			return;
+		}
+		new FinalizacaoVenda(this.venda, this);
 	}
 
 	public void atualizarVenda(Venda venda) {
@@ -285,7 +306,7 @@ public class VendasView extends JFrame {
 	        try {
 	            int cod = Integer.parseInt(input);
 	            boolean encontrado = false;
-	            for(ItemVenda item : venda.getItens()) {
+	            for(ProdutoVenda item : venda.getItens()) {
 	            	if(item.getId() == cod) {
 	            		venda.getItens().remove(item);
 	            		JOptionPane.showMessageDialog(null, "Produto cancelado");
@@ -303,7 +324,6 @@ public class VendasView extends JFrame {
 	        	//throw new MsgException("Valor invalido!");
 	        }
 	}
-	
 
 	public Produto getProduto(Integer cod, Estoque estoque) {
 		return estoque.getProduto(cod);
@@ -332,142 +352,10 @@ public class VendasView extends JFrame {
 		this.textQtd.setText(String.format("%d", qtd - 1));
 	}
 	
-	public void showJanelaFinalizacao(Venda venda) {
-		if(this.venda == null) {
-			JOptionPane.showMessageDialog(btnFinalizar, "Nenhum produto foi adicionado!");
-			return;
-		}
-		Double vTotal = venda.getTotal();
-		
-		JFrame finalizacao = new JFrame();
-		finalizacao.setTitle("Janela Dinheiro");       
-		finalizacao.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	    JPanel panel_5 = new JPanel();
-		panel_5.setBounds(0, 0, 250, 200);
-		        
-        JTextField entregue = new JTextField(10);
-        entregue.setBounds(127, 23, 114, 19);
-        entregue.setText("0");
-        panel_5.setLayout(null);
-        JLabel lblPago = new JLabel("Pago: ");
-        lblPago.setBounds(7, 25, 115, 15);
-        panel_5.add(lblPago);
-        panel_5.add(entregue);
-        
-        
-        JLabel label_1 = new JLabel("Troco: ");
-        label_1.setBounds(7, 44, 48, 15);
-        panel_5.add(label_1);        
-        
-        JComboBox<FormaPagamento> comboBoxFormaPagamento = new JComboBox<>(FormaPagamento.values());
-        comboBoxFormaPagamento.setBounds(47, 93, 154, 24);
-        
-        JLabel label_2 = new JLabel("Forma de Pagamento: ");
-        label_2.setBounds(47, 71, 160, 15);
-        panel_5.add(label_2);
-        panel_5.add(comboBoxFormaPagamento);
-
-        JButton btnFinalizarVenda = new JButton("Finalizar");
-        btnFinalizarVenda.setBounds(70, 131, 124, 25);
-        
-        JButton btnCancelarVenda = new JButton("Cancelar");
-        btnCancelarVenda.setBounds(70, 160, 124, 25);        
-        
-        JLabel lblTotal = new JLabel("Total:");
-        lblTotal.setBounds(7, 7, 115, 15);
-        panel_5.add(lblTotal);
-        
-        JTextField total = new JTextField(10);
-        total.setText(String.format("R$ %.2f", vTotal));
-        total.setEditable(false);
-        total.setBounds(127, 5, 114, 19);
-        panel_5.add(total);
-        
-        JTextField troco = new JTextField(10);
-        troco.setEditable(false);
-        troco.setText("0.00");
-        troco.setBounds(127, 42, 114, 19);
-        panel_5.add(troco);
-                
-        btnFinalizarVenda.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	Double vEntregue = Double.parseDouble(entregue.getText());
-            	if(vEntregue < vTotal) {
-            		JOptionPane.showMessageDialog(troco, "O valor pago é menor que o total da compra");
-            		return;
-            		//throw new MsgException("O valor pago é menor que o total da compra");
-            	}
-            	JOptionPane.showMessageDialog(troco, "Venda finalizada!");
-            	lancarVenda();            	
-            	finalizacao.dispose();
-            }
-        });
-        btnCancelarVenda.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(Pdv.showMessageOpcao(btnCancelarVenda, "Deseja cancelar?", "Aviso", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-					finalizacao.dispose();
-				}				
-			}
-		});
-        
-        entregue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	Double vEntregue = Double.parseDouble(entregue.getText());
-            	if(vEntregue > vTotal) {
-                    troco.setText(String.format("R$ %.2f", (vEntregue - vTotal)));
-            	}
-            }
-        });        
-        
-        Pdv.filtrarNumeros(entregue);
-        panel_5.add(btnFinalizarVenda);        
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int centerX = (int) ((screenSize.getWidth() - 250) / 2);
-        int centerY = (int) ((screenSize.getHeight() - 200) / 2);
-        finalizacao.setBounds(centerX, centerY, 250,200);
-        finalizacao.getContentPane().add(panel_5);
-        finalizacao.setUndecorated(true);
-        finalizacao.setVisible(true);
-	}
 	
 	// metodos get
 	public JTextField getTextValorTotal() {
 		return textValorTotal;
-	}
-	public void lancarVenda() {
-		venda = new Venda();
-		ItemVenda.setNextId(1);
-		this.textListaVenda.setText("");
-		ImageIcon imagemIcon = new ImageIcon(VendasView.class.getResource("/pdv/view/imagens/listaVazia.png"));
-		Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(258, 266, Image.SCALE_SMOOTH);
-		ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
-		this.imagemProduto.setIcon(imagemFundo);
-		this.textValorTotal.setText("R$ 0.00");
-
-	}
-	public static boolean exibirTelaLogin() {		
-        String username = JOptionPane.showInputDialog("Nome de Usuário:");
-        JPasswordField passwordField = new JPasswordField();
-        int option = JOptionPane.showConfirmDialog(null, passwordField, "Senha:", JOptionPane.OK_CANCEL_OPTION);
-
-        if (option == JOptionPane.OK_OPTION) {
-            String password = new String(passwordField.getPassword());
-
-            if ("admin".equals(username) && "qwe123".equals(password)) {
-                JOptionPane.showMessageDialog(null, "Login bem-sucedido. Bem-vindo, " + username + "!");
-                return true;
-            } else {
-                JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
-                return false;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Login cancelado.");
-            return false;
-        }
 	}
 
 	public JTextField getTextCod() {
@@ -519,4 +407,20 @@ public class VendasView extends JFrame {
 	public JComboBox getSelectVendedor() {
 		return this.selectVendedor;
 	}
+	public JComboBox getSelectCliente() {
+		return this.selectCliente;
+	}
+	
+	public JLabel getImagemProduto() {
+		return this.imagemProduto;
+	}
+
+	public DefaultComboBoxModel<String> getModelClientes() {
+		return modelClientes;
+	}
+
+	public DefaultComboBoxModel<String> getModelVendedores() {
+		return modelVendedores;
+	}
+	
 }

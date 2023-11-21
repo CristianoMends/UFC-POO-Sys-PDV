@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import pdv.model.Funcionario;
+import pdv.model.entidades.Cliente;
+import pdv.model.entidades.Funcionario;
 
 public class PessoaDao {
 	
@@ -29,10 +29,12 @@ public class PessoaDao {
 					String 	nome 		= resultSet.getString("nome");
 					String 	endereco 	= resultSet.getString("endereco");
 					String 	email 		= resultSet.getString("email");
-					String 	cpf 		= resultSet.getString("cpf");
-					String 	cargo 		= resultSet.getString("cargo");				
+					int 	cpf 		= resultSet.getInt("cpf");
+					String 	cargo 		= resultSet.getString("cargo");
+					String usuario		= resultSet.getString("usuario");
+					String senha		= resultSet.getString("senha");
 					
-					Funcionario funcionario = new Funcionario(id, nome, endereco, email, cpf, cargo);
+					Funcionario funcionario = new Funcionario(id, nome, endereco, email, cpf, cargo,usuario,senha);
 					funcionarios.add(funcionario);
 				}
 
@@ -47,44 +49,74 @@ public class PessoaDao {
 		return funcionarios;
 	}
 	public void inserirFuncionario(Funcionario funcionario, String usuario, String senha) {
-        Connection connection = PostgreSQLJDBC.getConnection();
+	    Connection connection = PostgreSQLJDBC.getConnection();
 
-        if (connection != null) {
-            try {
-                // Inserir funcionário
-                String queryInserirFuncionario = "INSERT INTO funcionario (nome, endereco, email, cpf, cargo) VALUES (?, ?, ?, ?, ?)";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(queryInserirFuncionario, Statement.RETURN_GENERATED_KEYS)) {
-                    preparedStatement.setString(1, funcionario.getNome());
-                    preparedStatement.setString(2, funcionario.getEndereco());
-                    preparedStatement.setString(3, funcionario.getEmail());
-                    preparedStatement.setString(4, funcionario.getCpf());
-                    preparedStatement.setString(5, funcionario.getCargo());
-                    preparedStatement.executeUpdate();
+	    if (connection != null) {
+	        try {
+	            String queryInserirPessoa = "INSERT INTO pessoa (nome, endereco, email, cpf) VALUES (?, ?, ?, ?)";
+	            try (PreparedStatement preparedStatementPessoa = connection.prepareStatement(queryInserirPessoa, Statement.RETURN_GENERATED_KEYS)) {
+	                preparedStatementPessoa.setString(1, funcionario.getNome());
+	                preparedStatementPessoa.setString(2, funcionario.getEndereco());
+	                preparedStatementPessoa.setString(3, funcionario.getEmail());
+	                preparedStatementPessoa.setInt(4, funcionario.getCpf());
 
-                    // Obter o ID do funcionário recém-inserido
-                    ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        int idFuncionario = generatedKeys.getInt(1);
+	                preparedStatementPessoa.executeUpdate();
 
-                        // Verificar se o cargo é administrador
-                        if ("administrador".equalsIgnoreCase(funcionario.getCargo())) {
-                            // Inserir detalhes do administrador
-                            String queryInserirAdministrador = "INSERT INTO administrador (id_funcionario, usuario, senha) VALUES (?, ?, ?)";
-                            try (PreparedStatement adminStatement = connection.prepareStatement(queryInserirAdministrador)) {
-                                adminStatement.setInt(1, idFuncionario);
-                                adminStatement.setString(2, usuario);
-                                adminStatement.setString(3, senha);
-                                adminStatement.executeUpdate();
-                            }
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Lide com as exceções de maneira apropriada para sua aplicação
-            } finally {
-                PostgreSQLJDBC.closeConnection(connection);
-            }
-        }
-    }
+	                ResultSet generatedKeys = preparedStatementPessoa.getGeneratedKeys();
+	                int idPessoa = -1;
+	                if (generatedKeys.next()) {
+	                    idPessoa = generatedKeys.getInt(1);
+	                }
+
+	                String queryInserirFuncionario = "INSERT INTO funcionario (cargo, usuario, senha, idPessoa) VALUES (?, ?, ?, ?)";
+	                try (PreparedStatement preparedStatementFuncionario = connection.prepareStatement(queryInserirFuncionario)) {
+	                    preparedStatementFuncionario.setString(1, funcionario.getCargo());
+	                    preparedStatementFuncionario.setString(2, usuario);
+	                    preparedStatementFuncionario.setString(3, senha);
+	                    preparedStatementFuncionario.setInt(4, idPessoa);
+
+	                    preparedStatementFuncionario.executeUpdate();
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            PostgreSQLJDBC.closeConnection(connection);
+	        }
+	    }
+	}
+	public ArrayList<Cliente> getClientes() {
+	    Connection connection = PostgreSQLJDBC.getConnection();
+	    ArrayList<Cliente> clientes = new ArrayList<>();
+
+	    if (connection != null) {
+	        try {
+	            String query = "SELECT * FROM pessoa";
+	            PreparedStatement preparedStatement = connection.prepareStatement(query);
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            while (resultSet.next()) {
+	                int id = resultSet.getInt("id");
+	                String nome = resultSet.getString("nome");
+	                String endereco = resultSet.getString("endereco");
+	                String email = resultSet.getString("email");
+	                int cpf = resultSet.getInt("cpf");
+
+	                Cliente cliente = new Cliente(id, nome, endereco, email, cpf);
+	                clientes.add(cliente);
+	            }
+
+	            resultSet.close();
+	            preparedStatement.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            PostgreSQLJDBC.closeConnection(connection);
+	        }
+	    }
+
+	    return clientes;
+	}
+
 
 }

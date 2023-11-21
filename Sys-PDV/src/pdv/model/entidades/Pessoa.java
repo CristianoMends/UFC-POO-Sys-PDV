@@ -1,16 +1,22 @@
-package pdv.model;
+package pdv.model.entidades;
 
 public abstract class Pessoa {
+	private int id;
 	private String nome;
 	private String endereco;
 	private String email;
-	private String cpf;
+	private int cpf;
 	
-	public Pessoa(String nome, String endereco, String email, String cpf) {
-		this.nome = nome;
-		this.endereco = endereco;
-		this.email = email;
-		this.cpf = cpf;
+	public Pessoa() {
+		
+	}
+	
+	public Pessoa(int id,String nome, String endereco, String email, int cpf) {
+		setId(id);
+		setNome(nome);
+		setEndereco(endereco);
+		setEmail(email);
+		setCpf(cpf);
 	}
 	public String getNome() {
 		return nome;
@@ -30,15 +36,23 @@ public abstract class Pessoa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getCpf() {
+	public int getCpf() {
 		return cpf;
 	}
-	public void setCpf(String cpf) {
+	public void setCpf(int cpf) {
 		this.cpf = cpf;
 	}
 	@Override
 	public String toString() {
 		return "Pessoa [nome=" + nome + ", endereco=" + endereco + ", email=" + email + ", cpf=" + cpf + "]";
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 

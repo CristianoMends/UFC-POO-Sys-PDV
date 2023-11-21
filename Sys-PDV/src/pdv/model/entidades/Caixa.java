@@ -1,4 +1,6 @@
-package pdv.model;
+package pdv.model.entidades;
+
+import pdv.model.exceptions.MsgException;
 
 public class Caixa {
 	private int caixaId;

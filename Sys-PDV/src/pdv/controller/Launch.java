@@ -2,7 +2,7 @@ package pdv.controller;
 
 import javax.swing.JOptionPane;
 
-import pdv.model.MsgException;
+import pdv.model.exceptions.MsgException;
 
 public class Launch {
     public static void main(String[] arg) {

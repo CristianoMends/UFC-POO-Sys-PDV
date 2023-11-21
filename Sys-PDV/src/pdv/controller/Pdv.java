@@ -2,13 +2,9 @@ package pdv.controller;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
@@ -19,15 +15,16 @@ import javax.swing.text.DocumentFilter;
 import pdv.dao.EstoqueDao;
 import pdv.dao.PessoaDao;
 import pdv.dao.ProdutoDao;
-import pdv.model.Caixa;
-import pdv.model.Estoque;
-import pdv.model.Funcionario;
-import pdv.model.ItemVenda;
-import pdv.model.Produto;
-import pdv.model.Venda;
+import pdv.dao.VendaDao;
+import pdv.model.entidades.Cliente;
+import pdv.model.entidades.Estoque;
+import pdv.model.entidades.Funcionario;
+import pdv.model.entidades.Produto;
+import pdv.model.entidades.ProdutoVenda;
+import pdv.model.entidades.Venda;
 import pdv.view.AdminView;
-import pdv.view.EntradaView;
 import pdv.view.GerenciadorProdutosView;
+import pdv.view.InicialView;
 import pdv.view.Login;
 import pdv.view.VendasView;
 
@@ -36,9 +33,9 @@ public class Pdv {
 	public static final String SENHA	= "qwe123";
 	
 	private Estoque estoque;
-	private Map<Integer, Venda> 	  vendas;
-	private Map<Integer, Caixa> 	  caixas;
 	private ArrayList<Funcionario> funcionarios;
+	private ArrayList<Venda> vendas;
+	private ArrayList<Cliente> clientes;
 	private Venda venda;
 	private VendasView vendasView;
 	private AdminView adminView;
@@ -46,37 +43,26 @@ public class Pdv {
 	private ProdutoDao produtoDao;
 	private EstoqueDao estoqueDao;
 	private PessoaDao  pessoaDao;
+	private VendaDao vendaDao;
 	
 	public Pdv() {
 		this.produtoDao = new ProdutoDao();
 		this.estoqueDao = new EstoqueDao();
 		this.pessoaDao  = new PessoaDao();
+		this.vendaDao	= new VendaDao();				
 		
 		this.estoque		 = this.estoqueDao.getEstoqueDB();
 		this.funcionarios 	 = this.pessoaDao.getFuncionarios();
-
-		this.vendas 	 	 = new HashMap<Integer, Venda>();
-		this.caixas 	 	 = new HashMap<Integer, Caixa>();
+		this.vendas			 = this.vendaDao.getVendas();
+		this.clientes		 = this.pessoaDao.getClientes();
+		
 		this.venda		 = new Venda();
 		this.vendasView	 = new VendasView();
 		this.gerenciadorProdutosView = new GerenciadorProdutosView();
 		this.adminView = new AdminView();
 		
-		new EntradaView(adminView);
+		new InicialView(adminView);
 		this.setAcoesBtns();
-	}
-	//inicia caixa com saldo indicado
-	public void abrirCaixa(double saldoInicial) {
-		
-	}
-	public void fecharCaixa() {
-		
-	}
-	public void adicionarFuncionario() {
-		
-	}
-	public void removerFuncionario() {
-		
 	}
 	
 	//metodos da mainView-------------------------------------------------------------------------------------------
@@ -95,7 +81,7 @@ public class Pdv {
                int      quantidade  = Integer.parseInt(vendasView.getTextQtd().getText());
                double   total       = (double) (produto.getPreco() * quantidade); 
                 
-                ItemVenda itemVenda = new ItemVenda(produto, quantidade, total);
+                ProdutoVenda itemVenda = new ProdutoVenda(produto, quantidade, total);
 
                 if(venda == null){ venda = new Venda(); }
 
@@ -140,16 +126,10 @@ public class Pdv {
         	@Override
         	public void actionPerformed(ActionEvent e) {        		
         		vendasView.showJanelaFinalizacao(venda);
-        		venda = new Venda();
         	}
         });
-        vendasView.getSelectVendedor().addActionListener(new ActionListener() {	
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
         vendasView.addVendedores(this.funcionarios);
+        vendasView.addClientes(this.clientes);
         
         adminView.getBtnGerenciarCaixas().addActionListener(new ActionListener() {
         	@Override
@@ -214,10 +194,6 @@ public class Pdv {
 				
 			}
 		});
-        
-        filtrarNumeros(gerenciadorProdutosView.getTextQtdEstoque());
-        filtrarNumeros(gerenciadorProdutosView.getTextPreco());
-        filtrarNumeros(vendasView.getTextCod());
 	}
 	  public static void showMensagem(Component componet, String mensagem, String titulo,int tipoMensagem) {
 	        JOptionPane.showMessageDialog(componet, mensagem, titulo, tipoMensagem);

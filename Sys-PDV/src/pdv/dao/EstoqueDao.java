@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import pdv.model.Estoque;
-import pdv.model.Produto;
+import pdv.model.entidades.Estoque;
+import pdv.model.entidades.Produto;
 
 public class EstoqueDao {
 
