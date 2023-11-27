@@ -6,13 +6,17 @@ public class ProdutoVenda {
 	private int quantidade;
 	private double total;
 	
-	public ProdutoVenda(Produto produto, int quantidade, double total) {
+	public ProdutoVenda(int id, Produto produto, int quantidade, double total) {
+		this.id = id;
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.total = total;
 	}
 	public int getId() {
 		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public Produto getProduto() {
 		return produto;

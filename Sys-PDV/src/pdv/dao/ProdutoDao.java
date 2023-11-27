@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
+import pdv.controller.Pdv;
 import pdv.model.entidades.Produto;
 
 public class ProdutoDao {
@@ -13,7 +14,7 @@ public class ProdutoDao {
 	}
 
 	// metodo para inserir produtos ao banco de dados
-	public void inserirProdutoDB(Produto produto) {
+	public boolean inserirProdutoDB(Produto produto) {
 		Connection connection = PostgreSQLJDBC.getConnection();
 
 		if (connection != null) {
@@ -30,12 +31,14 @@ public class ProdutoDao {
 				preparedStatement.executeUpdate();
 
 				preparedStatement.close();
+				return true;
 			} catch (SQLException e) {
-				e.printStackTrace();
+
 			} finally {
 				PostgreSQLJDBC.closeConnection(connection);
 			}
 		}
+		return false;
 	}
 
 	// metodo para remover produto do banco de dados

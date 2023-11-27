@@ -1,95 +1,112 @@
 package pdv.view;
 
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
-import pdv.model.entidades.Estoque;
+import pdv.controller.Pdv;
+import pdv.model.enums.Cor;
 
-import java.awt.Color;
-
-public class AdminView extends JFrame{
+public class AdminView extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
-	private JButton btnGerenciarCaixas;
-	private JButton btnVender;
-	private JButton btnGerenciarProdutos;
+
+	private JButton btnCaixas;
+	private JButton btnEstoque;
+	private JButton btnFuncionarios;
 
 	public AdminView() {
-		super("");
-		getContentPane().setLayout(null);
-		setSize(800,600);
-        setLocationRelativeTo(null);
-		
+		setLayout(null);
+
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 0, 0));
+		panel.setBackground(Cor.CinzaMedio.getColor());
 		panel.setBounds(0, 0, 800, 44);
-		getContentPane().add(panel);
+		add(panel);
 		panel.setLayout(null);
-		
-		JLabel lblPainelDoAdministrador = new JLabel("Painel do Administrador");
-		lblPainelDoAdministrador.setForeground(new Color(255, 255, 255));
+
+		JLabel lblPainelDoAdministrador = new JLabel("Painel Gerenciador");
+		lblPainelDoAdministrador.setForeground(Cor.BrancoPuro.getColor());
 		lblPainelDoAdministrador.setBounds(292, 12, 194, 15);
 		panel.add(lblPainelDoAdministrador);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 43, 800, 600);
-		getContentPane().add(panel_1);
+		add(panel_1);
+		panel_1.setBackground(Cor.AzulDodger.getColor());
 		panel_1.setLayout(null);
-		
-		this.btnGerenciarProdutos = new JButton("Gerenciar produtos");
-		this.btnGerenciarProdutos.setBounds(276, 90, 200, 25);
-		panel_1.add(btnGerenciarProdutos);
-		
-		this.btnVender = new JButton("Vender");
-		this.btnVender.setBounds(276, 201, 200, 25);
-		panel_1.add(btnVender);
-		
-		this.btnGerenciarCaixas = new JButton("Gerenciar caixas");
-		this.btnGerenciarCaixas.setBounds(276, 127, 200, 25);
-		panel_1.add(btnGerenciarCaixas);
-		
-		JLabel background = new JLabel("");
-		background.setHorizontalAlignment(SwingConstants.CENTER);
-		ImageIcon imagemIcon = new ImageIcon(GerenciadorProdutosView.class.getResource("/pdv/view/imagens/background.jpg"));
-		Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-		ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
-		
-		JButton btnGerenciarFuncionarios = new JButton("Gerenciar funcionarios");
-		btnGerenciarFuncionarios.setBounds(276, 164, 200, 25);
-		panel_1.add(btnGerenciarFuncionarios);
-		background.setIcon(imagemFundo);
-		background.setBounds(0, 0, 800, 600);
-		panel_1.add(background);
+
+		this.btnEstoque = new JButton("Estoque");
+		this.btnEstoque.setBounds(276, 90, 200, 25);
+		panel_1.add(btnEstoque);
+
+		this.btnCaixas = new JButton("Caixas");
+		this.btnCaixas.setBounds(276, 127, 200, 25);
+		panel_1.add(btnCaixas);
+
+		btnFuncionarios = new JButton("Funcionarios");
+		btnFuncionarios.setBounds(276, 164, 200, 25);
+		panel_1.add(btnFuncionarios);
 	}
-	
-	 public void showAdminView() {
-		 setVisible(true);
-	 }
-	 public void hiddenAdminView() {
-		 setVisible(false);
-	 }
+
 	public JButton getBtnGerenciarCaixas() {
-		return btnGerenciarCaixas;
+		return btnCaixas;
 	}
-	public JButton getBtnVender() {
-		return btnVender;
+
+	public JButton getBtnEstoque() {
+		return btnEstoque;
 	}
-	public JButton getBtnGerenciarProdutos() {
-		return btnGerenciarProdutos;
+	public JButton getBtnFuncionarios() {
+		return this.btnFuncionarios;
+	}
+	public void setAcoesBtns(PrincipalView parent, EstoqueView estoqueView, VendasView vendasView, FuncionariosView funcionariosView) {
+		getBtnGerenciarCaixas().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		getBtnEstoque().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (vendasView.estaVendendo()) {
+					Pdv.showMensagem(getBtnEstoque(), "Finalize ou cancele a venda primeiro", "Aviso!",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				int x = (int) (parent.getPanel2().getWidth() / 2) - (800 / 2);
+				int y = (int) (parent.getPanel2().getHeight() / 2) - (600 / 2);
+
+				parent.getPanel2().removeAll();
+				parent.getPanel2().revalidate();
+				parent.getPanel2().repaint();
+
+				parent.getPanel2().add(estoqueView);
+				estoqueView.setBounds(x, y, 790, 590);
+				estoqueView.setVisible(true);
+			}
+		});
+		getBtnFuncionarios().addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (vendasView.estaVendendo()) {
+					Pdv.showMensagem(getBtnEstoque(), "Finalize ou cancele a venda primeiro", "Aviso!",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				int x = (int) (parent.getPanel2().getWidth() / 2) - (800 / 2);
+				int y = (int) (parent.getPanel2().getHeight() / 2) - (600 / 2);
+
+				parent.getPanel2().removeAll();
+				parent.getPanel2().revalidate();
+				parent.getPanel2().repaint();
+
+				parent.getPanel2().add(funcionariosView);
+				funcionariosView.setBounds(x, y, 790, 590);
+				funcionariosView.setVisible(true);
+			}
+		});
 	}
 }

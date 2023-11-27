@@ -3,6 +3,8 @@ package pdv.view;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -68,12 +70,7 @@ public class Login extends JFrame {
 		this.btnEntrar.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!(hasLogin(getTextUsuario().getText(), getTextSenha().getText()))) {
-					Pdv.showMensagem(btnEntrar, "Usuario ou senha invalida!\nTente Novamente", "Erro",JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				setVisible(false);
-				if(telaRequisitada != null) { telaRequisitada.setVisible(true); }				
+				entrar();			
 			}
 		});
 		
@@ -92,7 +89,24 @@ public class Login extends JFrame {
 				}				
 			}
 		});
-		
+		textUsuario.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    textSenha.requestFocusInWindow();  // Certifica-se de que o campo de texto tem o foco
+                }
+            }
+        });
+		textSenha.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    btnEntrar.requestFocusInWindow();  // Certifica-se de que o campo de texto tem o foco
+                    entrar();
+                }
+            }
+        });
+		//setFocusable(true); 
 		setSize(300, 300);
 		setResizable(false);
 		setUndecorated(true);
@@ -108,6 +122,14 @@ public class Login extends JFrame {
 	}
 	public JTextField getTextSenha() {
 		return this.textSenha;
+	}
+	public void entrar() {
+		if(!(hasLogin(getTextUsuario().getText(), getTextSenha().getText()))) {
+			Pdv.showMensagem(btnEntrar, "Usuario ou senha invalida!\nTente Novamente", "Erro",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		setVisible(false);
+		if(telaRequisitada != null) { telaRequisitada.setVisible(true); }	
 	}
 	
 	public boolean hasLogin(String usuario, String senha) {

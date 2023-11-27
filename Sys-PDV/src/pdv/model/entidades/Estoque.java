@@ -1,35 +1,33 @@
 package pdv.model.entidades;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Estoque {
 	
-	private Map<Integer, Produto> produtos;
+	private ArrayList<Produto> produtos;
 
 	public Estoque(){
-			this.produtos = new HashMap<Integer,Produto>();
+			this.produtos = new ArrayList<Produto>();
+	}
+	public ArrayList<Produto> getListProdutos() {
+		return this.produtos;
 	}
 	public Produto getProduto(int cod){
-		if(!this.produtos.containsKey(cod)){
-			return null;
+		for(Produto p : produtos) {
+			if(p.getId() == cod) {
+				return p;
+			}
 		}
-		return this.produtos.get(cod);
+		return null;
 	}
 	public void addProduto(Produto produto){
-		this.produtos.put(produto.getId(), produto);
+		this.produtos.add(produto);
 	}
-	public String getEstoqueTotal(){
-		String pro = "";
-		for(Produto produto : this.produtos.values()){
-			pro += produto + "\n";
-		}
-		return pro.substring(0,pro.length());
-	}
+	
 	@Override
 	public String toString(){
 		String pro = "";
-		for(Produto produto : this.produtos.values()){
+		for(Produto produto : this.produtos){
 			pro += produto + "\n";
 		}
 		return pro.substring(0,pro.length());
