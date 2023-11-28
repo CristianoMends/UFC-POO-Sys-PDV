@@ -97,9 +97,6 @@ public class PrincipalView extends JFrame {
 		return new ImageIcon(imagemRedimensionada);
 	}
 
-	public void showView() {
-		setVisible(true);
-	}
 
 	public JButton getBtnVender() {
 		return this.btnVender;

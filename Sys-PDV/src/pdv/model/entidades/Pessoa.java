@@ -5,13 +5,16 @@ public abstract class Pessoa {
 	private String nome;
 	private String endereco;
 	private String email;
-	private int cpf;
+	private String cpf;
 	
-	public Pessoa() {
-		
+	public Pessoa(String nome, String endereco, String email, String cpf) {
+		setNome(nome);
+		setEndereco(endereco);
+		setEmail(email);
+		setCpf(cpf);
 	}
 	
-	public Pessoa(int id,String nome, String endereco, String email, int cpf) {
+	public Pessoa(int id,String nome, String endereco, String email, String cpf) {
 		setId(id);
 		setNome(nome);
 		setEndereco(endereco);
@@ -36,10 +39,10 @@ public abstract class Pessoa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 	@Override

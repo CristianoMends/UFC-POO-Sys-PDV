@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,6 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import pdv.controller.Pdv;
+import pdv.model.entidades.Funcionario;
+import pdv.model.enums.Cargo;
 
 public class Login extends JFrame {
 	private JTextField textUsuario;
@@ -25,9 +28,9 @@ public class Login extends JFrame {
 	private JButton btnEntrar;
 	private JButton btnSair;
 	private JFrame telaAtual;
-	private JFrame telaRequisitada;
+	private PrincipalView telaRequisitada;
 
-	public Login(JFrame telaAtual, JFrame telaRequistada) {
+	public Login(JFrame telaAtual, PrincipalView telaRequistada) {
 		this.telaAtual = telaAtual;
 		this.telaRequisitada = telaRequistada;
 		if(telaAtual != null) {telaAtual.setVisible(false);}	
@@ -114,9 +117,6 @@ public class Login extends JFrame {
 		getContentPane().setLayout(null);
 		setVisible(true);
 	}
-	public void hidden() {
-		setVisible(false);
-	}
 	public JTextField getTextUsuario() {
 		return this.textUsuario;
 	}
@@ -124,19 +124,27 @@ public class Login extends JFrame {
 		return this.textSenha;
 	}
 	public void entrar() {
-		if(!(hasLogin(getTextUsuario().getText(), getTextSenha().getText()))) {
+		Funcionario fun = funLogin(getTextUsuario().getText(), getTextSenha().getText());
+		if(fun == null) {
 			Pdv.showMensagem(btnEntrar, "Usuario ou senha invalida!\nTente Novamente", "Erro",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		setVisible(false);
-		if(telaRequisitada != null) { telaRequisitada.setVisible(true); }	
+		Pdv.showMensagem(btnEntrar, "Olá "+fun.getNome()+" , Seja bem vindo ao Sistema Pdv!", "Bem Vindo!", JOptionPane.PLAIN_MESSAGE);
+		telaRequisitada.setVisible(true);
+		if(fun.getCargo().equals(Cargo.VENDEDOR.getDescricao())) {
+			telaRequisitada.getBtnAdministrar().setEnabled(false);
+		}
 	}
 	
-	public boolean hasLogin(String usuario, String senha) {
-		if(usuario.equals(Pdv.USUARIO) && senha.equals(Pdv.SENHA)) {		
-			return true;
+	public Funcionario funLogin(String usuario, String senha) {
+		ArrayList<Funcionario> f = Pdv.pessoaDao.getFuncionarios();
+		for(Funcionario fun : f) {
+			if(usuario.equals(fun.getUsuario()) && senha.equals(fun.getSenha())) {
+				return fun;
+			}
 		}
-		
-		return false;
+		return null;
+		//return usuario.equals(Pdv.USUARIO) && senha.equals(Pdv.SENHA);		
 	}
 }

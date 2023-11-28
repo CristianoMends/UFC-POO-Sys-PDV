@@ -13,50 +13,36 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-public class InicialView extends JFrame {
+public class LoadView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JProgressBar progressBar;
 
-	public InicialView(JFrame frame) {
+	public LoadView() {
 		getContentPane().setLayout(null);
-		JLabel labelBoasVindas = new JLabel("Bem-vindo");
-		labelBoasVindas.setFont(new Font("Dialog", Font.BOLD, 14));
-		labelBoasVindas.setBounds(0, 0, 500, 100);
-		labelBoasVindas.setHorizontalAlignment(SwingConstants.CENTER);
-
-		getContentPane().add(labelBoasVindas);
-
 		JLabel lblCarregando = new JLabel("Carregando");
 		lblCarregando.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCarregando.setBounds(10, 100, 351, 100);
+		lblCarregando.setBounds(0, 0, 500, 200);
 		getContentPane().add(lblCarregando);
 
 		progressBar = new JProgressBar(0, 100);
 		progressBar.setForeground(new Color(0, 0, 0));
-		progressBar.setBounds(0, 101, 500, 99);
+		progressBar.setBounds(0, 0, 500, 200);
 		progressBar.setStringPainted(true);
 		getContentPane().add(progressBar);
 
 		setSize(500, 200);
 		setLocationRelativeTo(null);
-		setUndecorated(true);
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				carregar(frame);
-			}
-		});
+		setUndecorated(true);		
 		setVisible(true);
 	}
 
-	private void carregar(JFrame frame) {
+	private void carregar(PrincipalView frame) {
 		Timer timer = new Timer(50, new ActionListener() {
 			int progresso = 0;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				progresso += 3;
+				progresso += 5;
 				progressBar.setValue(progresso);
 
 				if (progresso >= 100) {
@@ -68,5 +54,8 @@ public class InicialView extends JFrame {
 		});
 
 		timer.start();
+	}
+	public void setAcoes(PrincipalView frame) {
+		carregar(frame);
 	}
 }

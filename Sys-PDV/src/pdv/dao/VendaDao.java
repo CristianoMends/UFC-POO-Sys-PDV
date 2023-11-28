@@ -68,12 +68,14 @@ public class VendaDao {
 		                preparedStatement.setInt(1, clienteId);
 		                try (ResultSet resultSet = preparedStatement.executeQuery()) {
 		                    if (resultSet.next()) {
-		                        cliente = new Cliente();
-		                        cliente.setId(resultSet.getInt("id"));
-		                        cliente.setNome(resultSet.getString("nome"));
-		                        cliente.setEndereco(resultSet.getString("endereco"));
-		                        cliente.setEmail(resultSet.getString("email"));
-		                        cliente.setCpf(resultSet.getInt("cpf"));
+		                        int id = resultSet.getInt("id");
+		                        String nome = resultSet.getString("nome");
+		                        String end = resultSet.getString("endereco");
+		                        String email = resultSet.getString("email");
+		                        String cpf = resultSet.getString("cpf");
+		                        
+		                        cliente = new Cliente(id, nome, end, email, cpf);
+
 		                    }
 		                }
 		            }

@@ -16,39 +16,41 @@ public class PessoaDao {
 		
 	}
 	public ArrayList<Funcionario> getFuncionarios() {
-		Connection connection = PostgreSQLJDBC.getConnection();
-		ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
-		if (connection != null) {
-			try {
-				String query = "SELECT * FROM funcionario";
-				PreparedStatement preparedStatement = connection.prepareStatement(query);
-				ResultSet resultSet = preparedStatement.executeQuery();
+	    Connection connection = PostgreSQLJDBC.getConnection();
+	    ArrayList<Funcionario> funcionarios = new ArrayList<>();
 
-				while (resultSet.next()) {
-					int 	id 			= resultSet.getInt("id");
-					String 	nome 		= resultSet.getString("nome");
-					String 	endereco 	= resultSet.getString("endereco");
-					String 	email 		= resultSet.getString("email");
-					int 	cpf 		= resultSet.getInt("cpf");
-					String 	cargo 		= resultSet.getString("cargo");
-					String usuario		= resultSet.getString("usuario");
-					String senha		= resultSet.getString("senha");
-					
-					Funcionario funcionario = new Funcionario(id, nome, endereco, email, cpf, cargo,usuario,senha);
-					funcionarios.add(funcionario);
-				}
+	    if (connection != null) {
+	        try {
+	            String query = "SELECT * FROM pessoa INNER JOIN funcionario ON pessoa.id = funcionario.idPessoa";
+	            PreparedStatement preparedStatement = connection.prepareStatement(query);
+	            ResultSet resultSet = preparedStatement.executeQuery();
 
-				resultSet.close();
-				preparedStatement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				PostgreSQLJDBC.closeConnection(connection);
-			}
-		}
-		return funcionarios;
+	            while (resultSet.next()) {
+	                int id = resultSet.getInt("id");
+	                String nome = resultSet.getString("nome");
+	                String endereco = resultSet.getString("endereco");
+	                String email = resultSet.getString("email");
+	                String cpf = resultSet.getString("cpf");
+	                String cargo = resultSet.getString("cargo");
+	                String usuario = resultSet.getString("usuario");
+	                String senha = resultSet.getString("senha");
+
+	                Funcionario funcionario = new Funcionario(id, nome, endereco, email, cpf, cargo, usuario, senha);
+	                funcionarios.add(funcionario);
+	            }
+
+	            resultSet.close();
+	            preparedStatement.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            PostgreSQLJDBC.closeConnection(connection);
+	        }
+	    }
+	    return funcionarios;
 	}
-	public void inserirFuncionario(Funcionario funcionario, String usuario, String senha) {
+
+	public boolean inserirFuncionario(Funcionario funcionario) {
 	    Connection connection = PostgreSQLJDBC.getConnection();
 
 	    if (connection != null) {
@@ -58,7 +60,7 @@ public class PessoaDao {
 	                preparedStatementPessoa.setString(1, funcionario.getNome());
 	                preparedStatementPessoa.setString(2, funcionario.getEndereco());
 	                preparedStatementPessoa.setString(3, funcionario.getEmail());
-	                preparedStatementPessoa.setInt(4, funcionario.getCpf());
+	                preparedStatementPessoa.setString(4, funcionario.getCpf());
 
 	                preparedStatementPessoa.executeUpdate();
 
@@ -71,19 +73,22 @@ public class PessoaDao {
 	                String queryInserirFuncionario = "INSERT INTO funcionario (cargo, usuario, senha, idPessoa) VALUES (?, ?, ?, ?)";
 	                try (PreparedStatement preparedStatementFuncionario = connection.prepareStatement(queryInserirFuncionario)) {
 	                    preparedStatementFuncionario.setString(1, funcionario.getCargo());
-	                    preparedStatementFuncionario.setString(2, usuario);
-	                    preparedStatementFuncionario.setString(3, senha);
+	                    preparedStatementFuncionario.setString(2, funcionario.getUsuario());
+	                    preparedStatementFuncionario.setString(3, funcionario.getSenha());
 	                    preparedStatementFuncionario.setInt(4, idPessoa);
 
 	                    preparedStatementFuncionario.executeUpdate();
 	                }
 	            }
+	            return true;
 	        } catch (SQLException e) {
-	            e.printStackTrace();
+	            e.printStackTrace();  // ou utilize um logger para registrar a exceção
+	            return false;
 	        } finally {
 	            PostgreSQLJDBC.closeConnection(connection);
 	        }
 	    }
+	    return false;
 	}
 	public ArrayList<Cliente> getClientes() {
 	    Connection connection = PostgreSQLJDBC.getConnection();
@@ -100,7 +105,7 @@ public class PessoaDao {
 	                String nome = resultSet.getString("nome");
 	                String endereco = resultSet.getString("endereco");
 	                String email = resultSet.getString("email");
-	                int cpf = resultSet.getInt("cpf");
+	                String cpf = resultSet.getString("cpf");
 
 	                Cliente cliente = new Cliente(id, nome, endereco, email, cpf);
 	                clientes.add(cliente);

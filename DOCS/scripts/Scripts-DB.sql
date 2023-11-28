@@ -20,7 +20,7 @@ create table pessoa(
 	nome varchar,
 	endereco varchar,
 	email varchar,
-	cpf int
+	cpf varchar
 );
 create table funcionario(
 	id serial primary key,

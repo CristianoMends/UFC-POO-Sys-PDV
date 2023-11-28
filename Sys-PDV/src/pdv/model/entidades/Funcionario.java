@@ -8,8 +8,17 @@ public class Funcionario extends Pessoa{
 	private String usuario;
 	private String senha;
 	
-	public Funcionario(int id, String nome, String endereco, String email, int cpf,String cargo, String usuario, String senha) {
+	public Funcionario(int id, String nome, String endereco, String email, String cpf,String cargo, String usuario, String senha) {
 		super(id,nome, endereco, email, cpf);
+		this.setId(id);
+		this.setUsuario(usuario);
+		this.setSenha(senha);
+		
+			 if(cargo.equalsIgnoreCase("vendedor")) 	 { this.cargo = Cargo.VENDEDOR; 	 }
+		else if(cargo.equalsIgnoreCase("administrador")) { this.cargo = Cargo.ADMINISTRADOR; }
+	}
+	public Funcionario(String nome, String endereco, String email, String cpf,String cargo, String usuario, String senha) {
+		super(nome, endereco, email, cpf);
 		this.setId(id);
 		this.setUsuario(usuario);
 		this.setSenha(senha);
