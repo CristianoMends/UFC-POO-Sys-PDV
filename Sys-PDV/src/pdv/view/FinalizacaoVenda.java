@@ -3,7 +3,9 @@ package pdv.view;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,11 +13,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import pdv.controller.Pdv;
 import pdv.model.entidades.Venda;
-import pdv.model.enums.FormaPagamento;
+import pdv.model.enums.Cargo;
+import pdv.model.enums.FormaPg;
 import java.awt.Font;
 
 public class FinalizacaoVenda extends JFrame{
@@ -25,11 +29,14 @@ public class FinalizacaoVenda extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Venda venda;
 	private VendasView tela;
+	private String fpg = null;
 	
 	public FinalizacaoVenda(Venda venda, VendasView tela) {
 		this.venda = venda;
 		this.tela = tela;
 		Double vTotal = venda.getTotal();
+		
+		ButtonGroup buttonGroup = new ButtonGroup();
 		
 		setTitle("Janela Dinheiro");       
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,18 +56,14 @@ public class FinalizacaoVenda extends JFrame{
         
         JLabel label_1 = new JLabel("Troco: ");
         label_1.setBounds(61, 116, 48, 15);
-        panel_5.add(label_1);        
-        
-        JComboBox<FormaPagamento> comboBoxFormaPagamento = new JComboBox<>(FormaPagamento.values());
-        comboBoxFormaPagamento.setBounds(61, 164, 154, 24);
+        panel_5.add(label_1);
         
         JLabel label_2 = new JLabel("Forma de Pagamento: ");
         label_2.setBounds(61, 142, 160, 15);
         panel_5.add(label_2);
-        panel_5.add(comboBoxFormaPagamento);
 
         JButton btnFinalizarVenda = new JButton("Finalizar");
-        btnFinalizarVenda.setBounds(111, 199, 124, 25);
+        btnFinalizarVenda.setBounds(111, 239, 124, 25);
         
         JLabel lblTotal = new JLabel("Total:");
         lblTotal.setBounds(61, 79, 115, 15);
@@ -86,26 +89,43 @@ public class FinalizacaoVenda extends JFrame{
         getContentPane().add(panel_5);
         
         JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(111, 235, 124, 25);
+        btnCancelar.setBounds(111, 264, 124, 25);
         panel_5.add(btnCancelar);
         
         JLabel lblNewLabel = new JLabel("Finalize a venda");
         lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblNewLabel.setBounds(120, 11, 140, 14);
         panel_5.add(lblNewLabel);
+        JRadioButton rdDinheiro = new JRadioButton(FormaPg.DINHEIRO.getDescricao());
+        panel_5.add(rdDinheiro);
+        rdDinheiro.setBounds(61, 164, 86, 20);
+        buttonGroup.add(rdDinheiro);
+        
+        JRadioButton rdCredito = new JRadioButton(FormaPg.CARTAO_CREDITO.getDescricao());
+        panel_5.add(rdCredito);
+        rdCredito.setBounds(149, 164, 86, 20);
+        buttonGroup.add(rdCredito);	
+        
+        JRadioButton rdDebito = new JRadioButton(FormaPg.CARTAO_DEBITO.getDescricao());
+        panel_5.add(rdDebito);
+        rdDebito.setBounds(237, 164, 62, 20);
+        buttonGroup.add(rdDebito);	
         setUndecorated(true);
         setVisible(true);
         
         btnFinalizarVenda.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(!rdDinheiro.isSelected() && !rdCredito.isSelected() && !rdDebito.isSelected()) {
+            		Pdv.showMensagem(btnFinalizarVenda, "Selecione uma forma de pagamento!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
+            		return;
+            	}
             	Double vEntregue = Double.parseDouble(entregue.getText());
             	if(vEntregue < vTotal) {
-            		JOptionPane.showMessageDialog(troco, "O valor pago é menor que o total da compra");
+                	Pdv.showMensagem(btnFinalizarVenda, "O valor pago é menor que o total da compra", "Aviso!", JOptionPane.WARNING_MESSAGE);
             		return;
-            		//throw new MsgException("O valor pago é menor que o total da compra");
             	}
-            	JOptionPane.showMessageDialog(troco, "Venda finalizada!");
+            	Pdv.showMensagem(btnFinalizarVenda, "Venda finalizada com sucesso!", "Aviso!", JOptionPane.WARNING_MESSAGE);
             	lancarVenda();            	
             	dispose();
             }
@@ -127,10 +147,31 @@ public class FinalizacaoVenda extends JFrame{
                     troco.setText(String.format("R$ %.2f", (vEntregue - vTotal)));
             	}
             }
-        });      
+        });
+        rdDinheiro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	fpg = rdDinheiro.getText();	            	
+            }
+        });
+        rdCredito.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	fpg = rdCredito.getText();	            	
+            }
+        });
+        rdDebito.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	fpg = rdDebito.getText();	            	
+            }
+        });
 	}
 
 	public void lancarVenda() {
+		Pdv.venda.setMetodo(fpg);
+		Pdv.venda.setData(LocalDate.now());
+		Pdv.vendaDao.adicionarVenda(venda);
 		venda = new Venda();
 		tela.atualizarVenda(venda);
 		dispose();

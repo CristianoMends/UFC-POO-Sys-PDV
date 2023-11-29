@@ -96,7 +96,7 @@ public class PessoaDao {
 
 	    if (connection != null) {
 	        try {
-	            String query = "SELECT * FROM pessoa";
+	            String query = "SELECT * FROM pessoa WHERE id NOT IN(SELECT idPessoa FROM funcionario)";
 	            PreparedStatement preparedStatement = connection.prepareStatement(query);
 	            ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -122,6 +122,31 @@ public class PessoaDao {
 
 	    return clientes;
 	}
+	public boolean inserirCliente(Cliente cliente) {
+        Connection connection = null;
+
+        try {
+            connection = PostgreSQLJDBC.getConnection();
+            if (connection != null) {
+                String inserirClienteQuery = "INSERT INTO pessoa (nome, endereco, email, cpf) VALUES (?, ?, ?, ?)";
+                try (PreparedStatement inserirClienteStatement = connection.prepareStatement(inserirClienteQuery)) {
+                    inserirClienteStatement.setString(1, cliente.getNome());
+                    inserirClienteStatement.setString(2, cliente.getEndereco());
+                    inserirClienteStatement.setString(3, cliente.getEmail());
+                    inserirClienteStatement.setString(4, cliente.getCpf());
+
+                    int linhasAfetadas = inserirClienteStatement.executeUpdate();
+                    return linhasAfetadas > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            PostgreSQLJDBC.closeConnection(connection);
+        }
+
+        return false;
+    }
 
 
 }

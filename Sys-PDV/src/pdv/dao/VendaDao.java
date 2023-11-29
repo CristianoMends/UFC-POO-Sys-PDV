@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import pdv.model.entidades.Cliente;
-import pdv.model.entidades.Pessoa;
 import pdv.model.entidades.Venda;
 
 public class VendaDao {
@@ -63,7 +62,7 @@ public class VendaDao {
 		    try {
 		        connection = PostgreSQLJDBC.getConnection();
 		        if (connection != null) {
-		            String query = "SELECT id, nome, endereco, email, cpf FROM cliente WHERE id = ?";
+		            String query = "SELECT id, nome, endereco, email, cpf FROM pessoa WHERE id = ?";
 		            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 		                preparedStatement.setInt(1, clienteId);
 		                try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -90,49 +89,49 @@ public class VendaDao {
 		}
 	 
 	 public void adicionarVenda(Venda venda) {
-	        Connection connection = null;
+		    Connection connection = null;
 
-	        try {
-	            connection = PostgreSQLJDBC.getConnection();
-	            if (connection != null) {
-	                // Insira a venda na tabela "venda"
-	                String inserirVendaQuery = "INSERT INTO venda (data, idCliente, idVendedor) VALUES (?, ?, ?) RETURNING id";
-	                try (PreparedStatement inserirVendaStatement = connection.prepareStatement(inserirVendaQuery)) {
-	                    inserirVendaStatement.setObject(1, venda.getData());
+		    try {
+		        connection = PostgreSQLJDBC.getConnection();
+		        if (connection != null) {
+		            // Insira a venda na tabela "venda"
+		            String inserirVendaQuery = "INSERT INTO venda (data, total, idCliente, idVendedor, metodo) VALUES (?, ?, ?, ?, ?) RETURNING id";
+		            try (PreparedStatement inserirVendaStatement = connection.prepareStatement(inserirVendaQuery)) {
+		                inserirVendaStatement.setObject(1, venda.getData());
+		                inserirVendaStatement.setFloat(2, (float) venda.getTotal());
 
-	                    if (venda.getCliente() != null) {
-	                        inserirVendaStatement.setInt(2, venda.getCliente().getId());
-	                    } else {
-	                        inserirVendaStatement.setNull(2, Types.INTEGER);
-	                    }
+		                if (venda.getCliente() != null) {
+		                    inserirVendaStatement.setInt(3, venda.getCliente().getId());
+		                } else {
+		                    inserirVendaStatement.setNull(3, Types.INTEGER);
+		                }
 
-	                    if (venda.getFuncionario() != null) {
-	                        inserirVendaStatement.setInt(3, venda.getFuncionario().getId());
-	                    } else {
-	                        inserirVendaStatement.setNull(3, Types.INTEGER);
-	                    }
+		                if (venda.getFuncionario() != null) {
+		                    inserirVendaStatement.setInt(4, venda.getFuncionario().getId());
+		                } else {
+		                    inserirVendaStatement.setNull(4, Types.INTEGER);
+		                }
+		                
+		                if(venda.getMetodo() != null) {
+		                	inserirVendaStatement.setString(5, venda.getMetodo());
+		                }else {
+		                	inserirVendaStatement.setNull(5, Types.VARCHAR);
+		                }
 
-	                    try (ResultSet resultado = inserirVendaStatement.executeQuery()) {
-	                        if (resultado.next()) {
-	                            int idVenda = resultado.getInt("id");
-	                            venda.setId(idVenda);
-
-	                            // Insira os itens da venda (produtos vendidos) em outra tabela, se necessário
-	                            adicionarItensVenda(connection, venda);
-	                        }
-	                    }
-	                }
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace(); // Lide com as exceções de maneira apropriada para sua aplicação
-	        } finally {
-	            PostgreSQLJDBC.closeConnection(connection);
-	        }
-	    }
-
-	    private void adicionarItensVenda(Connection connection, Venda venda) throws SQLException {
-	        
-	    }
+		                try (ResultSet resultado = inserirVendaStatement.executeQuery()) {
+		                    if (resultado.next()) {
+		                        int idVenda = resultado.getInt("id");
+		                        venda.setId(idVenda);
+		                    }
+		                }
+		            }
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        PostgreSQLJDBC.closeConnection(connection);
+		    }
+		}
 
 
 }

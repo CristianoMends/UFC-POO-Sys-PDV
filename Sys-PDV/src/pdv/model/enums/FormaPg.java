@@ -1,13 +1,13 @@
 package pdv.model.enums;
 
-public enum FormaPagamento {
+public enum FormaPg {
 	        DINHEIRO("Dinheiro"),
-	        CARTAO_CREDITO("Cartão de Crédito"),
-	        CARTAO_DEBITO("Cartão de Débito");
+	        CARTAO_CREDITO("Crédito"),
+	        CARTAO_DEBITO("Débito");
 
 	        private final String descricao;
 
-	        FormaPagamento(String descricao) {
+	        FormaPg(String descricao) {
 	            this.descricao = descricao;
 	        }
 

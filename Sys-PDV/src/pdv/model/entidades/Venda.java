@@ -8,26 +8,21 @@ public class Venda {
 	private ArrayList<ProdutoVenda> itens;
 	private LocalDate data;
 	private Cliente cliente;
+	private String metodo;
 	private Funcionario funcionario;
 	
 	public Venda() {
 		this.itens = new ArrayList<ProdutoVenda>();
 		this.data = null;
 		this.cliente = null;
+		this.metodo = null;
+		this.funcionario = null;
 	}
 	
 	public int getId(){ return id; }
-	/*public Produto getProdutoById(int id) {
-		for(ProdutoVenda item : getItens()) {
-			if(item.getProduto().getId() == id) {
-				return item.getProduto();
-			}
-		}
-		return null;
-	}*/
+	
 	public void ordenarIdProdutos() {
-	    int n = itens.size();
-	    
+	    int n = itens.size();	    
 	    for (int i = 0; i < n - 1; i++) {
 	        for (int j = 0; j < n - i - 1; j++) {
 	            if (itens.get(j).getId() > itens.get(j + 1).getId()) {
@@ -37,8 +32,7 @@ public class Venda {
 	                itens.get(j + 1).setId(tempId);
 	            }
 	        }
-	    }
-	    
+	    }	    
 	    for (int i = 0; i < n; i++) {
 	        itens.get(i).setId(i + 1);
 	    }
@@ -51,7 +45,10 @@ public class Venda {
 	public Pessoa 					getCliente() 							{ return this.cliente; 		}
 	public void 					setCliente(Cliente cliente) 			{ this.cliente = cliente; 	}
 	public void 					adicionarItem(ProdutoVenda item)		{ this.itens.add(item); 	}
+	public void						setFuncionario(Funcionario f)			{ this.funcionario = f;		}
 	public Funcionario 				getFuncionario() 						{ return this.funcionario;	}
+	public String					getMetodo()								{ return this.metodo;		}
+	public void						setMetodo(String m)						{ this.metodo = m;			} 
 	
 	public Produto getUltimoProduto() 			{
 	    if (!this.itens.isEmpty()) {

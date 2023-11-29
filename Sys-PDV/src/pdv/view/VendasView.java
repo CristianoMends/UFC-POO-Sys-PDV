@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +30,7 @@ import pdv.controller.Pdv;
 import pdv.model.entidades.Cliente;
 import pdv.model.entidades.Estoque;
 import pdv.model.entidades.Funcionario;
+import pdv.model.entidades.Pessoa;
 import pdv.model.entidades.Produto;
 import pdv.model.entidades.ProdutoVenda;
 import pdv.model.entidades.Venda;
@@ -210,6 +210,7 @@ public class VendasView extends JPanel {
 	}
 
 	public void addVendedores(ArrayList<Funcionario> funcionarios) {
+		this.getModelVendedores().removeAllElements();
 		this.getModelVendedores().addElement("Nenhum");
 		for (Funcionario f : funcionarios) {
 			if (f.getCargo().equals(Cargo.VENDEDOR.getDescricao())) {
@@ -220,6 +221,7 @@ public class VendasView extends JPanel {
 	}
 
 	public void addClientes(ArrayList<Cliente> clientes) {
+		this.getModelClientes().removeAllElements();
 		this.getModelClientes().addElement("Nenhum");
 		for (Cliente c : clientes) {
 			this.getModelClientes().addElement(c.getNome());
@@ -252,9 +254,11 @@ public class VendasView extends JPanel {
 		Pdv.venda = venda;
 		this.textCod.setText("");
 		this.textQtd.setText("1");
-		this.textValorTotal.setText(String.format("R$ %.2f", venda.getTotal()));
+		this.textValorTotal.setText(String.format("R$ %.2f", venda.getTotal()));		
 		if (venda.getItens().size() < 1) {
 			this.imagemProduto.setIcon(this.imagemFundo);
+			getSelectCliente().setSelectedIndex(0);
+			getSelectVendedor().setSelectedIndex(0);
 			return;
 		}
 		try {
@@ -370,7 +374,6 @@ public class VendasView extends JPanel {
 		ProdutoVenda itemVenda = new ProdutoVenda(Pdv.venda.getItens().size() + 1, produto, quantidade, total);
 
 		Pdv.venda.adicionarItem(itemVenda);
-		Pdv.venda.setData(LocalDate.now());
 		
 		Object[] rowData = {
                 produto.getNome(),
@@ -434,9 +437,35 @@ public class VendasView extends JPanel {
                 }
             }
         });
+		getSelectCliente().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String nomeCli = (String) getSelectCliente().getSelectedItem();
+            	
+            	for (Cliente c : clientes) {
+        				if(c.getNome().equals(nomeCli)) {
+        		               Pdv.venda.setCliente(c);
+        				}        			
+        		}
+            }
+        });
+		getSelectVendedor().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String nomeFun = (String) getSelectVendedor().getSelectedItem();
+            	
+            	for (Funcionario f : funcionarios) {
+        			if (f.getCargo().equals(Cargo.VENDEDOR.getDescricao())) {
+        				if(f.getNome().equals(nomeFun)) {
+        		               Pdv.venda.setFuncionario(f);
+        				}
+        			}
+        		}
+            }
+        });
+		addVendedores(funcionarios);
+		addClientes(clientes);						
 		setFocusable(true); 
-		this.addVendedores(funcionarios);
-		this.addClientes(clientes);		
 	}
 	
 	// metodos get

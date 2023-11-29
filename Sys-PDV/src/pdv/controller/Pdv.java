@@ -19,6 +19,8 @@ import pdv.model.entidades.Estoque;
 import pdv.model.entidades.Funcionario;
 import pdv.model.entidades.Venda;
 import pdv.view.AdminView;
+import pdv.view.CaixasView;
+import pdv.view.ClientesView;
 import pdv.view.EstoqueView;
 import pdv.view.FuncionariosView;
 import pdv.view.LoadView;
@@ -42,6 +44,8 @@ public class Pdv {
 	private EstoqueView estoqueView;
 	private PrincipalView principalView;
 	private FuncionariosView funcionariosView;
+	private CaixasView caixasView;
+	private ClientesView clientesView;
 	
 	public static ProdutoDao produtoDao;
 	public static EstoqueDao estoqueDao;
@@ -63,6 +67,8 @@ public class Pdv {
 		this.estoqueView = new EstoqueView();
 		this.adminView = new AdminView();
 		this.funcionariosView = new FuncionariosView();
+		this.caixasView = new CaixasView();
+		this.clientesView = new ClientesView();
 		
 		atualizarEstado();
 		setAcoes();
@@ -73,8 +79,9 @@ public class Pdv {
 		this.principalView.setAcoesBtns(vendasView, adminView);
 		this.funcionariosView.setAcoesBtns();
 		this.vendasView.setAcoesBtns(principalView,venda, estoque, funcionarios, clientes, adminView);
-		this.adminView.setAcoesBtns(principalView, estoqueView, vendasView, funcionariosView);
+		this.adminView.setAcoesBtns(principalView, estoqueView, vendasView, funcionariosView, caixasView, clientesView);
 		this.estoqueView.setAcoesBtns();
+		this.clientesView.setAcoesBtns();
 	}
 	public void atualizarEstado() {
 		this.estoque = this.estoqueDao.getEstoqueDB();

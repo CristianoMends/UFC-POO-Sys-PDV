@@ -133,25 +133,28 @@ public class PrincipalView extends JFrame {
 				vendasView.setVisible(true);
 			}
 		});
-		this.getBtnAdministrar().addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(vendasView.estaVendendo()) {
-					Pdv.showMensagem(getBtnAdministrar(), "Finalize ou cancele a venda primeiro", "Aviso!", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				int x = (int) (getPanel2().getWidth() / 2) - (800 / 2);
-	            int y = (int) (getPanel2().getHeight() / 2) - (600 / 2);			
-				
-	            getPanel2().removeAll();
-	            getPanel2().revalidate();
-	            getPanel2().repaint();
-	            
-				getPanel2().add(adminView);
-				adminView.setBounds(x,y,790,590);
-				adminView.setVisible(true);
-				
-			}
-		});
+		btnAdministrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (vendasView.estaVendendo()) {
+                    Pdv.showMensagem(btnAdministrar, "Finalize ou cancele a venda primeiro", "Aviso!",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                int width = (int) (size.getWidth() - (size.getWidth() * 0.5));
+                int height = (int) (size.getHeight() - (size.getHeight() * 0.3));
+                int x = (int) (panel2.getWidth() / 2) - (width / 2);
+                int y = (int) (panel2.getHeight() / 2) - (height / 2);
+
+                panel2.removeAll();
+                panel2.revalidate();
+                panel2.repaint();
+
+                panel2.add(adminView);
+                adminView.setBounds(x, y, width, height);
+                adminView.setVisible(true);
+            }
+        });
 	}
 }
