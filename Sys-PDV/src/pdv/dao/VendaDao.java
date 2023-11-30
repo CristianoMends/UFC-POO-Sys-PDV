@@ -132,6 +132,26 @@ public class VendaDao {
 		        PostgreSQLJDBC.closeConnection(connection);
 		    }
 		}
+	 
+	 public void atualizarQuantidadeProduto(int produtoId, int quantidade) {
+		    Connection connection = null;
+
+		    try {
+		        connection = PostgreSQLJDBC.getConnection();
+		        if (connection != null) {
+		            String atualizarEstoqueQuery = "UPDATE produto SET qtdEstoque = qtdEstoque - ? WHERE id = ?";
+		            try (PreparedStatement atualizarEstoqueStatement = connection.prepareStatement(atualizarEstoqueQuery)) {
+		                atualizarEstoqueStatement.setInt(1, quantidade);
+		                atualizarEstoqueStatement.setInt(2, produtoId);
+		                atualizarEstoqueStatement.executeUpdate();
+		            }
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        PostgreSQLJDBC.closeConnection(connection);
+		    }
+		}
 
 
 }

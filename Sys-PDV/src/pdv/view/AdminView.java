@@ -18,7 +18,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class AdminView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton btnEstoque;
-	private JButton btnCaixas;
+	private JButton btnEstatisticas;
 	private JButton btnClientes;
 	private JButton btnFuncionarios;
 
@@ -27,8 +27,8 @@ public class AdminView extends JPanel {
 		btnEstoque = new JButton("Estoque");
 		btnEstoque.setToolTipText("Gerencie o estoque de produtos");
 		
-		btnCaixas = new JButton("Caixas");
-		btnCaixas.setToolTipText("Gerencie os caixas e transacoes");
+		btnEstatisticas = new JButton("Estatisticas");
+		btnEstatisticas.setToolTipText("Gerencie os caixas e transacoes");
 		
 		btnFuncionarios = new JButton("Funcionarios");
 		btnFuncionarios.setToolTipText("Gerencie os funcionarios");
@@ -42,7 +42,7 @@ public class AdminView extends JPanel {
 					.addGap(126)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnEstoque, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-						.addComponent(btnCaixas, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+						.addComponent(btnEstatisticas, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
 						.addComponent(btnClientes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
 						.addComponent(btnFuncionarios, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
 					.addGap(124))
@@ -55,7 +55,7 @@ public class AdminView extends JPanel {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnFuncionarios, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnCaixas, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnEstatisticas, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnEstoque, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(101, Short.MAX_VALUE))
@@ -65,7 +65,7 @@ public class AdminView extends JPanel {
 	}
 
 	public JButton getBtnGerenciarCaixas() {
-		return btnCaixas;
+		return btnEstatisticas;
 	}
 
 	public JButton getBtnEstoque() {
@@ -77,7 +77,7 @@ public class AdminView extends JPanel {
 	public JButton getBtnClientes() {
 		return this.btnClientes;
 	}
-	public void setAcoesBtns(PrincipalView parent, EstoqueView estoqueView, VendasView vendasView, FuncionariosView funcionariosView, CaixasView caixasView, ClientesView clientesView) {
+	public void setAcoesBtns(PrincipalView parent, EstoqueView estoqueView, VendasView vendasView, FuncionariosView funcionariosView, EstatisticasView estatisticasView, ClientesView clientesView) {
 		getBtnGerenciarCaixas().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -93,9 +93,9 @@ public class AdminView extends JPanel {
 				parent.getPanel2().revalidate();
 				parent.getPanel2().repaint();
 
-				parent.getPanel2().add(caixasView);
-				caixasView.setBounds(x, y, 790, 590);
-				caixasView.setVisible(true);
+				parent.getPanel2().add(estatisticasView);
+				estatisticasView.setBounds(x, y, 790, 590);
+				estatisticasView.setVisible(true);
 			}
 		});
 		getBtnEstoque().addActionListener(new ActionListener() {

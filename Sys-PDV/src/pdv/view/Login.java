@@ -116,6 +116,8 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		setVisible(true);
+		ImageIcon icone = new ImageIcon(PrincipalView.class.getResource("/pdv/view/imagens/ponto-de-venda.png"));
+        this.setIconImage(icone.getImage());
 	}
 	public JTextField getTextUsuario() {
 		return this.textUsuario;
@@ -145,6 +147,5 @@ public class Login extends JFrame {
 			}
 		}
 		return null;
-		//return usuario.equals(Pdv.USUARIO) && senha.equals(Pdv.SENHA);		
 	}
 }

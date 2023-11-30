@@ -79,6 +79,8 @@ public class PrincipalView extends JFrame {
 		getPanel2().setLayout(null);
 		getContentPane().add(getPanel2());
 		getContentPane().add(backgroundLabel);
+		ImageIcon icone = new ImageIcon(PrincipalView.class.getResource("/pdv/view/imagens/ponto-de-venda.png"));
+        this.setIconImage(icone.getImage());
 
 		addComponentListener(new ComponentAdapter() {
 			@Override

@@ -7,13 +7,6 @@ CREATE TABLE produto (
     imagem VARCHAR
 );
 
-CREATE TABLE produtoVenda (
-    id SERIAL PRIMARY KEY,
-    qtd INT,
-    total FLOAT,
-    idProduto INT REFERENCES produto(id)
-);
-
 CREATE TABLE pessoa (
     id SERIAL PRIMARY KEY,
     nome VARCHAR,

@@ -17,6 +17,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import pdv.controller.Pdv;
+import pdv.model.entidades.ProdutoVenda;
 import pdv.model.entidades.Venda;
 import pdv.model.enums.Cargo;
 import pdv.model.enums.FormaPg;
@@ -30,6 +31,8 @@ public class FinalizacaoVenda extends JFrame{
 	private Venda venda;
 	private VendasView tela;
 	private String fpg = null;
+	private String troco = "";
+	private JTextField textTroco;
 	
 	public FinalizacaoVenda(Venda venda, VendasView tela) {
 		this.venda = venda;
@@ -75,11 +78,11 @@ public class FinalizacaoVenda extends JFrame{
         total.setBounds(181, 77, 114, 19);
         panel_5.add(total);
         
-        JTextField troco = new JTextField(10);
-        troco.setEditable(false);
-        troco.setText("0.00");
-        troco.setBounds(181, 114, 114, 19);
-        panel_5.add(troco);        
+        textTroco = new JTextField(10);
+        textTroco.setEditable(false);
+        textTroco.setText("0.00");
+        textTroco.setBounds(181, 114, 114, 19);
+        panel_5.add(textTroco);        
         
         Pdv.filtrarNumeros(entregue);
         panel_5.add(btnFinalizarVenda);        
@@ -142,33 +145,45 @@ public class FinalizacaoVenda extends JFrame{
         entregue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Double vEntregue = Double.parseDouble(entregue.getText());
-            	if(vEntregue > vTotal) {
-                    troco.setText(String.format("R$ %.2f", (vEntregue - vTotal)));
-            	}
+            	
             }
         });
         rdDinheiro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	fpg = rdDinheiro.getText();	            	
+            	Double vEntregue = Double.parseDouble(entregue.getText());
+            	if(vEntregue > vTotal) {
+                    troco = String.format("R$ %.2f", (vEntregue - vTotal));
+            	}
+            	fpg = rdDinheiro.getText();
+            	textTroco.setText(troco);
+            	textTroco.setEnabled(true);
             }
         });
         rdCredito.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	fpg = rdCredito.getText();	            	
+            	fpg = rdCredito.getText();
+            	textTroco.setText("");
+            	textTroco.setEnabled(false);
             }
         });
         rdDebito.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	fpg = rdDebito.getText();	            	
+            	fpg = rdDebito.getText();
+            	textTroco.setText("");
+            	textTroco.setEnabled(false);
             }
         });
 	}
 
 	public void lancarVenda() {
+		for(ProdutoVenda item : Pdv.venda.getItens()) {
+			int id = item.getProduto().getId();
+			int qtdVendida = item.getQuantidade();
+			Pdv.vendaDao.atualizarQuantidadeProduto(id, qtdVendida);
+		}
 		Pdv.venda.setMetodo(fpg);
 		Pdv.venda.setData(LocalDate.now());
 		Pdv.vendaDao.adicionarVenda(venda);

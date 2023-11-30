@@ -10,6 +10,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+import pdv.dao.EstatisticasDao;
 import pdv.dao.EstoqueDao;
 import pdv.dao.PessoaDao;
 import pdv.dao.ProdutoDao;
@@ -19,7 +20,7 @@ import pdv.model.entidades.Estoque;
 import pdv.model.entidades.Funcionario;
 import pdv.model.entidades.Venda;
 import pdv.view.AdminView;
-import pdv.view.CaixasView;
+import pdv.view.EstatisticasView;
 import pdv.view.ClientesView;
 import pdv.view.EstoqueView;
 import pdv.view.FuncionariosView;
@@ -44,13 +45,14 @@ public class Pdv {
 	private EstoqueView estoqueView;
 	private PrincipalView principalView;
 	private FuncionariosView funcionariosView;
-	private CaixasView caixasView;
+	private EstatisticasView estatisticasView;
 	private ClientesView clientesView;
 	
 	public static ProdutoDao produtoDao;
 	public static EstoqueDao estoqueDao;
 	public static PessoaDao pessoaDao;
 	public static VendaDao vendaDao;
+	public static EstatisticasDao estDao;
 	
 	
 
@@ -60,6 +62,7 @@ public class Pdv {
 		pessoaDao = new PessoaDao();
 		vendaDao = new VendaDao();
 		venda = new Venda();
+		estDao = new EstatisticasDao();
 		
 		this.loadView = new LoadView();
 		this.principalView = new PrincipalView();
@@ -67,10 +70,14 @@ public class Pdv {
 		this.estoqueView = new EstoqueView();
 		this.adminView = new AdminView();
 		this.funcionariosView = new FuncionariosView();
-		this.caixasView = new CaixasView();
+		this.estatisticasView = new EstatisticasView();
 		this.clientesView = new ClientesView();
 		
-		atualizarEstado();
+		this.estoque = estoqueDao.getEstoqueDB();
+		this.funcionarios = pessoaDao.getFuncionarios();
+		this.vendas = vendaDao.getVendas();
+		this.clientes = pessoaDao.getClientes();
+		
 		setAcoes();
 	}
 
@@ -79,17 +86,9 @@ public class Pdv {
 		this.principalView.setAcoesBtns(vendasView, adminView);
 		this.funcionariosView.setAcoesBtns();
 		this.vendasView.setAcoesBtns(principalView,venda, estoque, funcionarios, clientes, adminView);
-		this.adminView.setAcoesBtns(principalView, estoqueView, vendasView, funcionariosView, caixasView, clientesView);
+		this.adminView.setAcoesBtns(principalView, estoqueView, vendasView, funcionariosView, estatisticasView, clientesView);
 		this.estoqueView.setAcoesBtns();
 		this.clientesView.setAcoesBtns();
-	}
-	public void atualizarEstado() {
-		this.estoque = this.estoqueDao.getEstoqueDB();
-		this.funcionarios = this.pessoaDao.getFuncionarios();
-		this.vendas = this.vendaDao.getVendas();
-		this.clientes = this.pessoaDao.getClientes();
-	}
-	public static void at() {
 	}
 
 	public static void showMensagem(Component componet, String mensagem, String titulo, int tipoMensagem) {
