@@ -14,12 +14,12 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-public class LoadView extends JFrame {
+public class TelaLoad extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JProgressBar progressBar;
 
-	public LoadView() {
+	public TelaLoad() {
 		getContentPane().setLayout(null);
 		ImageIcon icone = new ImageIcon(PrincipalView.class.getResource("/pdv/view/imagens/ponto-de-venda.png"));
         this.setIconImage(icone.getImage());

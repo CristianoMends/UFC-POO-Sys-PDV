@@ -1,6 +1,7 @@
 package pdv.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -23,10 +25,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import pdv.controller.Pdv;
-import pdv.model.entidades.Cliente;
+import pdv.model.entidades.Funcionario;
+import pdv.model.enums.Cargo;
 import pdv.model.enums.Cor;
 
-public class ClientesView extends JPanel{
+public class AdmFuncionario extends JPanel{
 	/**
 	 * 
 	 */
@@ -38,11 +41,12 @@ public class ClientesView extends JPanel{
 	private JTextField textNome;
 	private JButton btnCadastrar;
 	private JButton btnRemover;
+	private JTextField textUsuario;
+	private JTextField textSenha;
     private JTable table;
 	private String cargo = null;
 	
-	public ClientesView() {
-		setSize(800,600);
+	public AdmFuncionario() {
 		setBackground(Cor.AzulDodger.getColor());
 		setLayout(null);
 		
@@ -52,13 +56,21 @@ public class ClientesView extends JPanel{
 		panelTop.setOpaque(true);
 		panelTop.setLayout(null);
 		add(panelTop);
+		
+		JLabel lblGeFun = new JLabel("Gerenciador de Funcionarios");
+		lblGeFun.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGeFun.setForeground(Cor.BrancoPuro.getColor());
+		lblGeFun.setBackground(Cor.CinzaMedio.getColor());
+		lblGeFun.setFont(new Font("Dialog", Font.BOLD, 15));
+		lblGeFun.setBounds(0, 0, 800, 15);
+		panelTop.add(lblGeFun);
 
-		JLabel lblEstoque = new JLabel("Clientes");
+		JLabel lblEstoque = new JLabel("Funcionarios");
 		lblEstoque.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEstoque.setFont(new Font("Dialog", Font.BOLD, 15));
 		lblEstoque.setForeground(Cor.CinzaMedio.getColor());
 		lblEstoque.setBackground(Cor.BrancoPuro.getColor());
-		lblEstoque.setBounds(0, -11, 800, 41);
+		lblEstoque.setBounds(0, 15, 800, 15);
 		lblEstoque.setOpaque(true);
 		panelTop.add(lblEstoque);		
 		
@@ -85,6 +97,9 @@ public class ClientesView extends JPanel{
         model.addColumn("Endereco");
         model.addColumn("Email");
         model.addColumn("Cpf");
+        model.addColumn("Cargo");
+        model.addColumn("Usuario");
+        model.addColumn("Senha");
         table.setModel(model);	        
         
         JPanel panelBtn = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -129,6 +144,11 @@ public class ClientesView extends JPanel{
 		lblCpf.setForeground(Cor.BrancoPuro.getColor());
 		lblCpf.setBounds(25, 136, 104, 15);
 		panelBottom.add(lblCpf);
+
+		JLabel lblCargo = new JLabel("Cargo:");
+		lblCargo.setForeground(Cor.BrancoPuro.getColor());
+		lblCargo.setBounds(25, 163, 104, 15);
+		panelBottom.add(lblCargo);
 		
 		 try {
 	            MaskFormatter cpfMask = new MaskFormatter("###.###.###-##");
@@ -160,22 +180,70 @@ public class ClientesView extends JPanel{
 		this.btnCadastrar = new JButton("Cadastrar");
 		this.btnCadastrar.setBounds(313, 203, 117, 25);
 		panelBottom.add(btnCadastrar);
+		
+		textUsuario = new JTextField();
+		textUsuario.setEditable(false);
+		textUsuario.setColumns(10);
+		textUsuario.setBounds(448, 49, 116, 19);
+		panelBottom.add(textUsuario);
+		
+		textSenha = new JTextField();
+		textSenha.setEditable(false);
+		textSenha.setColumns(10);
+		textSenha.setBounds(448, 79, 116, 19);
+		panelBottom.add(textSenha);
+		
+		JRadioButton radioAdm = new JRadioButton(Cargo.ADMINISTRADOR.getDescricao());
+		radioAdm.setBounds(82, 158, 124, 20);
+		panelBottom.add(radioAdm);
+		buttonGroup.add(radioAdm);
+		JRadioButton radioVend = new JRadioButton(Cargo.VENDEDOR.getDescricao());
+		radioVend.setBounds(207, 158, 124, 20);
+		panelBottom.add(radioVend);
+		buttonGroup.add(radioVend);		
+		
+		JLabel lblNewLabel = new JLabel("Usuario:");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(392, 52, 100, 14);
+		panelBottom.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Senha:");
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setBounds(392, 79, 100, 14);
+		panelBottom.add(lblNewLabel_1);
+
+		radioAdm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargo = radioAdm.getText();
+                textUsuario.setEditable(true);
+                textSenha.setEditable(true);
+            }
+        });
+
+	radioVend.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	cargo = radioVend.getText();
+            	textUsuario.setText("");
+            	textSenha.setText("");
+                textUsuario.setEditable(false);
+                textSenha.setEditable(false);	            	
+            }
+        });
 	}
 	
-	 private void addCliTabela() {		 
-			ArrayList<Cliente> clientes = Pdv.pessoaDao.getClientes();
-			if(clientes.size() == 0) {
-				Pdv.showMensagem(btnAtualizar, "Não possuem clientes cadastrados", "Aviso!", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+	 private void addFunTabela() {
+		 
+			ArrayList<Funcionario> funcionarios = Pdv.pessoaDao.getFuncionarios();
 	        DefaultTableModel model = (DefaultTableModel) table.getModel();
 	        model.setRowCount(0);
-	        for (Cliente f : clientes) {
-	            Object[] rowData = {f.getId(), f.getNome(), f.getEndereco(), f.getEmail(), f.getCpf()};
+	        for (Funcionario f : funcionarios) {
+	            Object[] rowData = {f.getId(), f.getNome(), f.getEndereco(), f.getEmail(), f.getCpf(), f.getCargo(), f.getUsuario(), f.getSenha()};
 	            model.addRow(rowData);
 	        }
 	        if(model.getRowCount() == 0) {
-	        	Pdv.showMensagem(btnAtualizar, "Não possui clientes cadastrados!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
+	        	Pdv.showMensagem(btnAtualizar, "Não possui funcionario cadastrados!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
 	        }
 	 }
 	 private void cadFun() {
@@ -204,16 +272,33 @@ public class ClientesView extends JPanel{
 			 Pdv.showMensagem(this.textCpf, "O CPF digitado é inválido!", "Erro!", JOptionPane.ERROR_MESSAGE);
 			 return;
 		 }
-		 
-		 if(!Pdv.pessoaDao.inserirCliente(new Cliente(nome, end, email, cpf))) {
-			 Pdv.showMensagem(btnCadastrar, "Erro ao cadastrar cliente", "Erro!", JOptionPane.ERROR_MESSAGE);
+		 String cargo = this.cargo;
+		 if(cargo == null) {
+			 Pdv.showMensagem(this.textCpf, "Selecione um cargo!", "Erro!", JOptionPane.ERROR_MESSAGE);
+			 return;
+		 }
+		 String usuario = null;
+		 String senha = null;
+		 if(Cargo.ADMINISTRADOR.getDescricao().equals(cargo)){
+			 usuario = this.textUsuario.getText();
+			 senha = this.textSenha.getText();
+			 boolean contemNumero = false;
+			 for (char caractere : senha.toCharArray()) {
+			     if (Character.isDigit(caractere)) {
+			         contemNumero = true;
+			         break;
+			     }
+			 }
+			 if (!contemNumero) {
+				 Pdv.showMensagem(this.textSenha, "A senha precisar conter pelo menos 1 número!", "Erro!", JOptionPane.ERROR_MESSAGE);
+				 return;
+			 }
+		 }
+		 if(!Pdv.pessoaDao.inserirFuncionario(new Funcionario(nome, end, email, cpf, cargo, usuario, senha))) {
+			 Pdv.showMensagem(btnCadastrar, "Erro ao cadastrar funcionario", "Erro!", JOptionPane.ERROR_MESSAGE);
 			 return;
 		 }else {
-			 Pdv.showMensagem(btnCadastrar, "Cliente cadastrado com sucesso!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
-			 this.textCpf.setText("");
-			 this.textEmail.setText("");
-			 this.textEndereco.setText("");
-			 this.textNome.setText("");
+			 Pdv.showMensagem(btnCadastrar, "Funcionario cadastrado com sucesso!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
 			 return;
 		 }
 	 }
@@ -222,7 +307,7 @@ public class ClientesView extends JPanel{
 		this.btnAtualizar.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addCliTabela();
+				addFunTabela();
 			}
 		});
 		this.btnCadastrar.addActionListener(new ActionListener() {			

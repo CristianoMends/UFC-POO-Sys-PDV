@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,9 +28,8 @@ import pdv.controller.Pdv;
 import pdv.model.entidades.Estoque;
 import pdv.model.entidades.Produto;
 import pdv.model.enums.Cor;
-import pdv.model.exceptions.MsgException;
 
-public class EstoqueView extends JPanel {
+public class AdmEstoque extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JButton btnAtualizar;
@@ -47,7 +45,7 @@ public class EstoqueView extends JPanel {
     private JTable table;
 
 
-	public EstoqueView() {
+	public AdmEstoque() {
 		setLayout(null);
 		setBackground(Cor.AzulDodger.getColor());
 
@@ -212,7 +210,7 @@ public class EstoqueView extends JPanel {
 			categoria = categoria.substring(0, 18);
 		}
 		return new Produto(nome, preco, qtdEstoque, categoria, imagem);
-		}catch(MsgException e) {
+		}catch(Exception e) {
 			Pdv.showMensagem(btnCadastrar, "Valor invalido", "Aviso!", JOptionPane.WARNING_MESSAGE);
 			return null;
 		}
@@ -245,7 +243,7 @@ public class EstoqueView extends JPanel {
 	        }
 	    }
 	
-	public void setAcoesBtns() {
+	public void setEvents() {
 		getBtnAtualizar().addActionListener(new ActionListener() {
 			 @Override
 	            public void actionPerformed(ActionEvent e) {
@@ -273,7 +271,7 @@ public class EstoqueView extends JPanel {
 						cod = Integer.parseInt(input);
 						Pdv.produtoDao.removerProdutoDB(cod);
 						break;
-					}catch(MsgException me) {
+					}catch(Exception me) {
 						Pdv.showMensagem(getBtnRemover(), "Codigo invalido", "Aviso!", JOptionPane.WARNING_MESSAGE);
 					}
 				}

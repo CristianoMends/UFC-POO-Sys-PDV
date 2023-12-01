@@ -9,20 +9,20 @@ public class Produto {
 	private String imagem;
 	
 	public Produto(int id,String nome, double preco, int qtdEstoque, String categoria, String imagem) {
-		this.setId(id);
-		this.setNome(nome);
-		this.setPreco(preco);
-		this.setQtdEstoque(qtdEstoque);
-		this.setCategoria(categoria);
-		this.setImagem(imagem);
+		setId(id);
+		setNome(nome);
+		setPreco(preco);
+		setQtdEstoque(qtdEstoque);
+		setCategoria(categoria);
+		setImagem(imagem);
 	}
 	//construtor sem id para inserir ao banco
 	public Produto(String nome, double preco, int qtdEstoque, String categoria, String imagem) {
-		this.setNome(nome);
-		this.setPreco(preco);
-		this.setQtdEstoque(qtdEstoque);
-		this.setCategoria(categoria);
-		this.setImagem(imagem);
+		setNome(nome);
+		setPreco(preco);
+		setQtdEstoque(qtdEstoque);
+		setCategoria(categoria);
+		setImagem(imagem);
 	}
 	public int 		getId() 						{ return id; 					}
 	public void 	setId(int id) 					{ this.id = id; 				}
@@ -39,7 +39,7 @@ public class Produto {
 	
 	@Override
 	public String toString() {						     
-	    return String.format("%04d | %22s | %18.2f | %05d | %-10s", getId(), getNome(), getPreco(), getQtdEstoque(), getCategoria());
+	    return "";
 	}
 
 	

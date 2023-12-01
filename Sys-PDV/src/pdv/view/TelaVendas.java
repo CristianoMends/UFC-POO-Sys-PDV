@@ -7,8 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -30,18 +31,13 @@ import pdv.controller.Pdv;
 import pdv.model.entidades.Cliente;
 import pdv.model.entidades.Estoque;
 import pdv.model.entidades.Funcionario;
-import pdv.model.entidades.Pessoa;
 import pdv.model.entidades.Produto;
 import pdv.model.entidades.ProdutoVenda;
 import pdv.model.entidades.Venda;
 import pdv.model.enums.Cargo;
 import pdv.model.enums.Cor;
-import pdv.model.exceptions.MsgException;
 
-public class VendasView extends JPanel {
-	/**
-	 * 
-	 */
+public class TelaVendas extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField textValorTotal;
 	private JTextField textCod;
@@ -62,11 +58,11 @@ public class VendasView extends JPanel {
 	private DefaultComboBoxModel<String> modelVendedores = new DefaultComboBoxModel<>();
 	
 	MaskFormatter maskFormatter;
-	ImageIcon imagemIcon = new ImageIcon(VendasView.class.getResource("/pdv/view/imagens/listaVazia.png"));
+	ImageIcon imagemIcon = new ImageIcon(TelaVendas.class.getResource("/pdv/view/imagens/listaVazia.png"));
 	Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(258, 266, Image.SCALE_SMOOTH);
 	ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
 
-	public VendasView() {
+	public TelaVendas() {
 		JPanel panel = new JPanel();
 		panel.setBackground(Cor.AzulDodger.getColor());
 		panel.setBounds(0, 59, 800, 550);
@@ -205,11 +201,10 @@ public class VendasView extends JPanel {
 		setLayout(null);
 		}
 
-	public void hide() {
-		setVisible(false);
-	}
-
 	public void addVendedores(ArrayList<Funcionario> funcionarios) {
+		if(getModelVendedores().getSize() == funcionarios.size()) {
+			return;
+		}
 		this.getModelVendedores().removeAllElements();
 		this.getModelVendedores().addElement("Nenhum");
 		for (Funcionario f : funcionarios) {
@@ -221,6 +216,9 @@ public class VendasView extends JPanel {
 	}
 
 	public void addClientes(ArrayList<Cliente> clientes) {
+		if(getModelClientes().getSize() == clientes.size() + 1) {
+			return;
+		}
 		this.getModelClientes().removeAllElements();
 		this.getModelClientes().addElement("Nenhum");
 		for (Cliente c : clientes) {
@@ -234,7 +232,7 @@ public class VendasView extends JPanel {
 			JOptionPane.showMessageDialog(btnFinalizar, "Nenhum produto foi adicionado!");
 			return;
 		}
-		new FinalizacaoVenda(Pdv.venda, this);
+		new TelaFinalizacao(Pdv.venda, this);
 	}
 
 	public void atualizarVenda(Venda venda) {
@@ -268,11 +266,15 @@ public class VendasView extends JPanel {
 			ImageIcon imagemFundo = new ImageIcon(imagemRedimensionada);
 			this.imagemProduto.setIcon(imagemFundo);
 		} catch (Exception e) {
-			throw new MsgException("Erro ao carregar imagem do produto!");
+			Pdv.showMensagem(null, "Erro ao carregar imagem do produto!", "Erro", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 	}
 
-	public void cancelar() {			
+	public void cancelar() {
+		if(!Pdv.chequeLogin(btnCancelar)) {
+    		return;
+    	}
 		if (Pdv.venda.getItens().size() < 1) {
 			JOptionPane.showMessageDialog(btnCancelar, "Não possui produtos para cancelar!");
 			return;
@@ -286,7 +288,7 @@ public class VendasView extends JPanel {
 				if (item.getId() == cod) {
 					Pdv.venda.getItens().remove(item);
 					Pdv.showMensagem(btnCancelar, "Produto cancelado com sucesso!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
-					Pdv.venda.ordenarIdProdutos();
+					Pdv.venda.sortIdProdutos();
 					atualizarVenda(Pdv.venda);
 					encontrado = true;
 					break;
@@ -298,7 +300,7 @@ public class VendasView extends JPanel {
 			}
 		} catch (NumberFormatException e) {
 			Pdv.showMensagem(btnCancelar, "Valor invalido!", "Erro", JOptionPane.ERROR_MESSAGE);
-			// throw new MsgException("Valor invalido!");
+			return;
 		}
 	}
 
@@ -385,8 +387,8 @@ public class VendasView extends JPanel {
 		atualizarVenda(Pdv.venda);
 	}
 
-	public void setAcoesBtns(PrincipalView parent, Venda venda, Estoque estoque, ArrayList<Funcionario> funcionarios,
-			ArrayList<Cliente> clientes, AdminView adminView) {
+	public void setEvents(PrincipalView parent, Venda venda, Estoque estoque, ArrayList<Funcionario> funcionarios,
+			ArrayList<Cliente> clientes, AdmView admView) {
 		this.getTextCod().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -450,8 +452,9 @@ public class VendasView extends JPanel {
             }
         });
 		getSelectVendedor().addActionListener(new ActionListener() {
+			
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {            	
             	String nomeFun = (String) getSelectVendedor().getSelectedItem();
             	
             	for (Funcionario f : funcionarios) {
@@ -463,8 +466,13 @@ public class VendasView extends JPanel {
         		}
             }
         });
-		addVendedores(funcionarios);
-		addClientes(clientes);						
+		getSelectVendedor().addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	        		addVendedores(funcionarios);
+	            }
+	        });
+		addClientes(clientes);
 		setFocusable(true); 
 	}
 	

@@ -1,14 +1,12 @@
 package pdv.view;
 
-import java.awt.Image;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,22 +17,20 @@ import javax.swing.JTextField;
 import pdv.controller.Pdv;
 import pdv.model.entidades.ProdutoVenda;
 import pdv.model.entidades.Venda;
-import pdv.model.enums.Cargo;
 import pdv.model.enums.FormaPg;
-import java.awt.Font;
 
-public class FinalizacaoVenda extends JFrame{
+public class TelaFinalizacao extends JFrame{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private Venda venda;
-	private VendasView tela;
+	private TelaVendas tela;
 	private String fpg = null;
 	private String troco = "";
 	private JTextField textTroco;
 	
-	public FinalizacaoVenda(Venda venda, VendasView tela) {
+	public TelaFinalizacao(Venda venda, TelaVendas tela) {
 		this.venda = venda;
 		this.tela = tela;
 		Double vTotal = venda.getTotal();
@@ -51,7 +47,7 @@ public class FinalizacaoVenda extends JFrame{
         entregue.setBounds(181, 95, 114, 19);
         entregue.setText("0");
         panel_5.setLayout(null);
-        JLabel lblPago = new JLabel("Pago: ");
+        JLabel lblPago = new JLabel("Valor Pago: ");
         lblPago.setBounds(61, 97, 115, 15);
         panel_5.add(lblPago);
         panel_5.add(entregue);

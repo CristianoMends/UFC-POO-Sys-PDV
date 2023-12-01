@@ -61,7 +61,7 @@ public class Login extends JFrame {
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-		Image icon = new ImageIcon(VendasView.class.getResource("/pdv/view/imagens/login.png")).getImage()
+		Image icon = new ImageIcon(TelaVendas.class.getResource("/pdv/view/imagens/login.png")).getImage()
 				.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
 		lblNewLabel.setIcon(new ImageIcon(icon));
 		lblNewLabel.setBounds(0, 51, 300, 80);
@@ -133,10 +133,8 @@ public class Login extends JFrame {
 		}
 		setVisible(false);
 		Pdv.showMensagem(btnEntrar, "Olá "+fun.getNome()+" , Seja bem vindo ao Sistema Pdv!", "Bem Vindo!", JOptionPane.PLAIN_MESSAGE);
+		Pdv.setAdmAtual(fun);
 		telaRequisitada.setVisible(true);
-		if(fun.getCargo().equals(Cargo.VENDEDOR.getDescricao())) {
-			telaRequisitada.getBtnAdministrar().setEnabled(false);
-		}
 	}
 	
 	public Funcionario funLogin(String usuario, String senha) {

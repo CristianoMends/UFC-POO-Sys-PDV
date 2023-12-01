@@ -21,12 +21,12 @@ import pdv.controller.Pdv;
 import pdv.model.entidades.Produto;
 import pdv.model.enums.Cor;
 
-public class EstatisticasView extends JPanel{
+public class AdmEstatisticas extends JPanel{
     private JTable table1;
     private JTable table2;
     private JTable table4;
 
-	public EstatisticasView() {
+	public AdmEstatisticas() {
 		setSize(790, 454);
 		setBackground(Cor.AzulDodger.getColor());
 		

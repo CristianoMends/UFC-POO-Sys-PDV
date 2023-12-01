@@ -20,9 +20,6 @@ import pdv.controller.Pdv;
 import pdv.model.enums.Cor;
 
 public class PrincipalView extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel backgroundLabel;
 	private Dimension size;
@@ -52,7 +49,6 @@ public class PrincipalView extends JFrame {
 		btnVender.setToolTipText("Clique aqui para vender");
 		btnVender.setBounds(10, 20, 100, 100);
 		btnVender.setForeground(new Color(0, 0, 0));
-		// btnVender.setContentAreaFilled(false);
 		ImageIcon venderIcon = new ImageIcon(PrincipalView.class.getResource("/pdv/view/imagens/venda.png"));
 		JLabel icon = new JLabel(imageResized(venderIcon, btnVender));
 		icon.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,7 +61,6 @@ public class PrincipalView extends JFrame {
 		btnAdministrar.setToolTipText("Clique aqui para vender");
 		btnAdministrar.setBounds(120, 20, 120, 100);
 		btnAdministrar.setForeground(new Color(0, 0, 0));
-		// btnAdministrar.setContentAreaFilled(false);
 		ImageIcon AdminstrarIcon = new ImageIcon(PrincipalView.class.getResource("/pdv/view/imagens/adm.png"));
 		JLabel icon2 = new JLabel(imageResized(AdminstrarIcon, btnAdministrar));
 		icon2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -115,11 +110,11 @@ public class PrincipalView extends JFrame {
 	public JPanel getPanel2() {
 		return panel2;
 	}
-	public void setAcoesBtns(VendasView vendasView,AdminView adminView) {		
+	public void setAcoesBtns(TelaVendas telaVendas,AdmView admView) {		
 		this.getBtnVender().addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(vendasView.estaVendendo()) {
+				if(telaVendas.estaVendendo()) {
 					Pdv.showMensagem(getBtnVender(), "Finalize ou cancele a venda primeiro", "Aviso!", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
@@ -130,15 +125,18 @@ public class PrincipalView extends JFrame {
 	            getPanel2().revalidate();
 	            getPanel2().repaint();
 	            
-				getPanel2().add(vendasView);
-				vendasView.setBounds(x,y,790,590);
-				vendasView.setVisible(true);
+				getPanel2().add(telaVendas);
+				telaVendas.setBounds(x,y,790,590);
+				telaVendas.setVisible(true);
 			}
 		});
 		btnAdministrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (vendasView.estaVendendo()) {
+            	if(!Pdv.chequeLogin(btnAdministrar)) {
+            		return;
+            	}
+                if (telaVendas.estaVendendo()) {
                     Pdv.showMensagem(btnAdministrar, "Finalize ou cancele a venda primeiro", "Aviso!",
                             JOptionPane.WARNING_MESSAGE);
                     return;
@@ -153,9 +151,9 @@ public class PrincipalView extends JFrame {
                 panel2.revalidate();
                 panel2.repaint();
 
-                panel2.add(adminView);
-                adminView.setBounds(x, y, width, height);
-                adminView.setVisible(true);
+                panel2.add(admView);
+                admView.setBounds(x, y, width, height);
+                admView.setVisible(true);
             }
         });
 	}

@@ -1,8 +1,6 @@
 package pdv.model.entidades;
 
 public class Cliente extends Pessoa {
-	
-	
     public Cliente(int id, String nome, String endereco, String email, String cpf) {
         super(id, nome, endereco, email, cpf);
     }
