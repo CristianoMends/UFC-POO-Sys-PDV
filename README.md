@@ -39,7 +39,7 @@ de varejo. Com ele, é possível registrar vendas, controlar estoques, administr
 |--------------------------|-------------------------------|
 | ![Gerenciamento de produtos](Documentation/capturas/cap4.png) | ![Tela de estatísticas de venda](Documentation/capturas/cap5.png) |
 
-## Vídeos
+## Videos
 Abaixo encontra-se os videos com demostração do sistema.
 
 ### Interface
@@ -52,5 +52,5 @@ Abaixo encontra-se os videos com demostração do sistema.
 [![Apresentação do sistema](https://img.youtube.com/vi/a2Ff4TJ8erU/0.jpg)](https://youtu.be/a2Ff4TJ8erU)
 
 
-## Licença
+## Licenca
 Este projeto é licenciado sob os termos da [Licença MIT](LICENSE).
