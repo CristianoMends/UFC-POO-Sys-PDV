@@ -1,25 +1,28 @@
+
 # Sistema de ponto de venda (PDV)
 
 ## Estado do Projeto
-
 - Status: em andamento
 
-Este é o projeto final desenvolvido como parte da disciplina de Programação Orientada a Objetos (POO) na Universidade Federal do Ceará (UFC).
+## Descrição do Projeto
+O sistema permite a gestão de produtos, clientes, funcionários e vendas em um ambiente
+de varejo. Com ele, é possível registrar vendas, controlar estoques, administrar usuários e vender produtos.
 
 ## Tecnologias Utilizadas
 
 - Linguagem de Programação: Java
 - Banco de Dados: PostgreSQL
-- 
-## Diagrama UML
+- Bibliotecas: Java Swing, PostgreSQLJDBC
+- Ferramentas: WindowBuilder, StarUML
 
-![Diagrama UML](DOCS/uml.png)
+## Videos
+  [Apresentação do sistema](https://youtu.be/kQl4ykRkocg)
 
-## Descrição do Projeto
 
-O sistema permite a gestão de produtos, clientes, funcionários e vendas em um ambiente
-de varejo. Com ele, é possível registrar vendas, controlar estoques e administrar usuários
-de forma eficiente.
+## Diagramas
+![Diagrama do banco de dados](Documentation/diagrams/schema%20relacional.png)
+![Diagrama do banco de dados](Documentation/diagrams/uml.jpg)
+
 
 ## Licença
 
