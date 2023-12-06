@@ -147,6 +147,60 @@ public class PessoaDao {
 
         return false;
     }
+	public boolean removerCliente(int clienteId) {
+	    Connection connection = null;
+
+	    try {
+	        connection = PostgreSQLJDBC.getConnection();
+	        if (connection != null) {
+	            String removerClienteQuery = "DELETE FROM pessoa WHERE id = ?";
+	            try (PreparedStatement removerClienteStatement = connection.prepareStatement(removerClienteQuery)) {
+	                removerClienteStatement.setInt(1, clienteId);
+
+	                int linhasAfetadas = removerClienteStatement.executeUpdate();
+	                return linhasAfetadas > 0;
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        PostgreSQLJDBC.closeConnection(connection);
+	    }
+
+	    return false;
+	}
+
+	public boolean removerFuncionario(int Id) {
+	    Connection connection = null;
+
+	    try {
+	        connection = PostgreSQLJDBC.getConnection();
+	        if (connection != null) {
+	            String removerFuncionarioQuery = "DELETE FROM funcionario WHERE id = ?";
+	            try (PreparedStatement removerFuncionarioStatement = connection.prepareStatement(removerFuncionarioQuery)) {
+	                removerFuncionarioStatement.setInt(1, Id);
+
+	                int linhasAfetadasFuncionario = removerFuncionarioStatement.executeUpdate();
+
+	                if (linhasAfetadasFuncionario > 0) {
+	                    String removerPessoaQuery = "DELETE FROM pessoa WHERE id IN (SELECT idPessoa FROM funcionario WHERE id = ?)";
+	                    try (PreparedStatement removerPessoaStatement = connection.prepareStatement(removerPessoaQuery)) {
+	                        removerPessoaStatement.setInt(1, Id);
+	                        int linhasAfetadasPessoa = removerPessoaStatement.executeUpdate();
+
+	                        return linhasAfetadasPessoa > 0;
+	                    }
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        PostgreSQLJDBC.closeConnection(connection);
+	    }
+
+	    return false;
+	}
 
 
 }

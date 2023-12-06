@@ -58,7 +58,7 @@ public class PrincipalView extends JFrame {
 
 		btnAdministrar = new JButton("Gerenciar");
 		btnAdministrar.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnAdministrar.setToolTipText("Clique aqui para vender");
+		btnAdministrar.setToolTipText("Clique aqui para gerenciar");
 		btnAdministrar.setBounds(120, 20, 120, 100);
 		btnAdministrar.setForeground(new Color(0, 0, 0));
 		ImageIcon AdminstrarIcon = new ImageIcon(PrincipalView.class.getResource("/pdv/view/imagens/adm.png"));
@@ -110,7 +110,7 @@ public class PrincipalView extends JFrame {
 	public JPanel getPanel2() {
 		return panel2;
 	}
-	public void setAcoesBtns(TelaVendas telaVendas,AdmView admView) {		
+	public void setEvents(TelaVendas telaVendas,AdmView admView) {		
 		this.getBtnVender().addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -133,7 +133,7 @@ public class PrincipalView extends JFrame {
 		btnAdministrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if(!Pdv.chequeLogin(btnAdministrar)) {
+            	if(!Pdv.verificarLogin(btnAdministrar)) {
             		return;
             	}
                 if (telaVendas.estaVendendo()) {

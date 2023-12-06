@@ -22,7 +22,11 @@ import pdv.model.entidades.Produto;
 import pdv.model.enums.Cor;
 
 public class AdmEstatisticas extends JPanel{
-    private JTable table1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTable table1;
     private JTable table2;
     private JTable table4;
 
@@ -166,7 +170,7 @@ public class AdmEstatisticas extends JPanel{
         model2.addColumn("ID");
         model2.addColumn("Nome");
         model2.addColumn("Total Vendido");
-        model2.addColumn(model2);
+        model2.addColumn("Comissão");
         table2.setModel(model2);
         
         DefaultTableModel model3 = new DefaultTableModel();

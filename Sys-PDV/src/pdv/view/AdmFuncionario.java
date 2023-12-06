@@ -111,6 +111,7 @@ public class AdmFuncionario extends JPanel{
 		this.btnRemover = new JButton("remover");
 		panelBtn.add(this.btnRemover);
 		panelTop.add(panelBtn);
+		this.btnRemover.setVisible(false);
 		
 		JPanel panelBottom = new JPanel();
 		panelBottom.setBounds(0, 305, 800, 300);
@@ -303,7 +304,7 @@ public class AdmFuncionario extends JPanel{
 		 }
 	 }
 	
-	public void setAcoesBtns() {
+	public void setEvents() {
 		this.btnAtualizar.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {

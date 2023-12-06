@@ -24,6 +24,7 @@ import javax.swing.text.MaskFormatter;
 
 import pdv.controller.Pdv;
 import pdv.model.entidades.Cliente;
+import pdv.model.entidades.Pessoa;
 import pdv.model.enums.Cor;
 
 public class AdmCliente extends JPanel{
@@ -216,8 +217,32 @@ public class AdmCliente extends JPanel{
 			 return;
 		 }
 	 }
+	 
+	 public void removerCliente() {
+		String input = Pdv.showInput(btnRemover, "Digite o id do cliente", "", JOptionPane.QUESTION_MESSAGE);
+		try {
+			int cod = Integer.parseInt(input);
+
+			boolean encontrado = false;
+			for (Pessoa p : Pdv.pessoaDao.getClientes()) {
+				if (p.getId() == cod) {
+					Pdv.pessoaDao.removerCliente(cod);
+					Pdv.showMensagem(btnRemover, "Cliente removido com sucesso!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
+					encontrado = true;
+					break;
+				}
+			}
+
+			if (!encontrado) {
+				Pdv.showMensagem(btnRemover, "Cliente com o ID informado não foi encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (NumberFormatException e) {
+			Pdv.showMensagem(btnRemover, "Valor invalido!", "Erro", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+	 }
 	
-	public void setAcoesBtns() {
+	public void setEvents() {
 		this.btnAtualizar.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -230,5 +255,19 @@ public class AdmCliente extends JPanel{
 				cadCli();
 			}
 		});
+		this.btnRemover.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				removerCliente();				
+			}
+		});
+	}
+
+	public String getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
 	}
 }

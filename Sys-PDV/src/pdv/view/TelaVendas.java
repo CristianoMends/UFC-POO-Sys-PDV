@@ -272,7 +272,7 @@ public class TelaVendas extends JPanel {
 	}
 
 	public void cancelar() {
-		if(!Pdv.chequeLogin(btnCancelar)) {
+		if(!Pdv.verificarLogin(btnCancelar)) {
     		return;
     	}
 		if (Pdv.venda.getItens().size() < 1) {

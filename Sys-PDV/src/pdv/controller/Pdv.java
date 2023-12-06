@@ -36,22 +36,25 @@ import pdv.view.TelaLoad;
 import pdv.view.TelaVendas;
 
 public class Pdv {
+	//entidade estoque
 	private Estoque estoque;
+	
+	//listas
+	private ArrayList<Funcionario> 	funcionarios;
+	private ArrayList<Cliente> 		clientes;
+	
+	//telas
+	private TelaLoad 			telaLoad;
+	private TelaVendas 			telaVendas;
+	private AdmView 			admView;
+	private AdmEstoque 			admEstoque;
+	private PrincipalView 		principalView;
+	private AdmFuncionario 		AdmFuncionario;
+	private AdmEstatisticas 	admEstatisticas;
+	private AdmCliente 			admCliente;
+	
+	//objetos de acesso ao banco de dados
 	public static Venda venda;
-
-	private ArrayList<Funcionario> funcionarios;
-	private ArrayList<Venda> vendas;
-	private ArrayList<Cliente> clientes;
-	
-	private TelaLoad telaLoad;
-	private TelaVendas telaVendas;
-	private AdmView admView;
-	private AdmEstoque admEstoque;
-	private PrincipalView principalView;
-	private AdmFuncionario AdmFuncionario;
-	private AdmEstatisticas admEstatisticas;
-	private AdmCliente admCliente;
-	
 	public static ProdutoDao produtoDao;
 	public static EstoqueDao estoqueDao;
 	public static PessoaDao pessoaDao;
@@ -61,34 +64,33 @@ public class Pdv {
 	private static Funcionario admAtual = null;
 	
 	public Pdv() {
-			produtoDao = new ProdutoDao();
-			estoqueDao = new EstoqueDao();
-			pessoaDao = new PessoaDao();
-			vendaDao = new VendaDao();
-			venda = new Venda();
-			estDao = new EstatisticasDao();
+			produtoDao 	= new ProdutoDao();
+			estoqueDao 	= new EstoqueDao();
+			pessoaDao 	= new PessoaDao();
+			vendaDao 	= new VendaDao();
+			venda 		= new Venda();
+			estDao 		= new EstatisticasDao();
 			
-			this.telaLoad = new TelaLoad();
-			this.principalView = new PrincipalView();
-			this.telaVendas = new TelaVendas();
-			this.admEstoque = new AdmEstoque();
-			this.admView = new AdmView();
-			this.AdmFuncionario = new AdmFuncionario();
-			this.admEstatisticas = new AdmEstatisticas();
-			this.admCliente = new AdmCliente();
+			this.telaLoad 			= new TelaLoad();
+			this.principalView 		= new PrincipalView();
+			this.telaVendas 		= new TelaVendas();
+			this.admEstoque 		= new AdmEstoque();
+			this.admView 			= new AdmView();
+			this.AdmFuncionario 	= new AdmFuncionario();
+			this.admEstatisticas 	= new AdmEstatisticas();
+			this.admCliente 		= new AdmCliente();
 			
-			this.estoque = estoqueDao.getEstoqueDB();
-			this.funcionarios = pessoaDao.getFuncionarios();
-			this.setVendas(vendaDao.getVendas());
-			this.clientes = pessoaDao.getClientes();
+			this.estoque 		= estoqueDao.getEstoqueDB();
+			this.funcionarios 	= pessoaDao.getFuncionarios();
+			this.clientes 		= pessoaDao.getClientes();
 			
-			this.telaLoad.setAcoes(principalView);
-			this.principalView.setAcoesBtns(telaVendas, admView);
-			this.AdmFuncionario.setAcoesBtns();
-			this.telaVendas.setEvents(principalView,venda, estoque, funcionarios, clientes, admView);
-			this.admView.setEvents(principalView, admEstoque, telaVendas, AdmFuncionario, admEstatisticas, admCliente);
-			this.admEstoque.setEvents();
-			this.admCliente.setAcoesBtns();
+			this.telaLoad		.setEvents(principalView);
+			this.principalView	.setEvents(telaVendas, admView);
+			this.telaVendas		.setEvents(principalView, venda, estoque, funcionarios, clientes, admView);
+			this.admView		.setEvents(principalView, admEstoque, telaVendas, AdmFuncionario, admEstatisticas, admCliente);
+			this.AdmFuncionario	.setEvents();
+			this.admEstoque		.setEvents();
+			this.admCliente		.setEvents();
 	}
 
 	public static void showMensagem(Component componet, String mensagem, String titulo, int tipoMensagem) {
@@ -118,7 +120,7 @@ public class Pdv {
             }
         });
     }
-	 public static boolean chequeLogin(Component parent) {
+	 public static boolean verificarLogin(Component parent) {
 	        JPanel panel = new JPanel();
 	        JPasswordField passwordField = new JPasswordField(20);
 	        panel.add(new JLabel("Senha:"));
@@ -139,24 +141,10 @@ public class Pdv {
 	            return false;
 	        }
 	    }
-	public ArrayList<Venda> getVendas() {
-		return vendas;
-	}
+	 
+	public static Funcionario 		getAdmAtual() 						{ return admAtual; 			}
+	public static void 				setAdmAtual(Funcionario admAtual) 	{ Pdv.admAtual = admAtual; 	}
 
-	public void setVendas(ArrayList<Venda> vendas) {
-		this.vendas = vendas;
-	}
-	
-   public static void main(String[] arg) {
-    	new Pdv();        
-   }
-
-public static Funcionario getAdmAtual() {
-	return admAtual;
-}
-
-public static void setAdmAtual(Funcionario admAtual) {
-	Pdv.admAtual = admAtual;
-}
+   public static void main(String[] arg) { new Pdv(); }
 
 }

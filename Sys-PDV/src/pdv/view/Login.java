@@ -21,6 +21,7 @@ import pdv.model.entidades.Funcionario;
 import pdv.model.enums.Cargo;
 
 public class Login extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private JTextField textUsuario;
 	private JPasswordField textSenha;
 	private JLabel lblDigitaSeuLogin;
@@ -31,7 +32,7 @@ public class Login extends JFrame {
 	private PrincipalView telaRequisitada;
 
 	public Login(JFrame telaAtual, PrincipalView telaRequistada) {
-		this.telaAtual = telaAtual;
+		setTelaAtual(telaAtual);
 		this.telaRequisitada = telaRequistada;
 		if(telaAtual != null) {telaAtual.setVisible(false);}	
 
@@ -146,4 +147,6 @@ public class Login extends JFrame {
 		}
 		return null;
 	}
+	public JFrame getTelaAtual() { return telaAtual; }
+	public void setTelaAtual(JFrame telaAtual) { this.telaAtual = telaAtual; }
 }

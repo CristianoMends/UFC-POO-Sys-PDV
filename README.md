@@ -15,15 +15,23 @@ de varejo. Com ele, é possível registrar vendas, controlar estoques, administr
 - Bibliotecas: Java Swing, PostgreSQLJDBC
 - Ferramentas: WindowBuilder, StarUML
 
+## Diagramas
+![Diagrama do banco de dados](Documentation/diagrams/schema%20relacional.png)
+![Diagrama do banco de dados](Documentation/diagrams/uml.jpg)
+
+## Capturas de tela
+![Tela de vendas](Documentation/capturas/cap6.png)
+![Seleção de gerenciamento](Documentation/capturas/cap1.png)
+![Gerenciamento de clientes](Documentation/capturas/cap2.png)
+![Gerenciamento de funcionarios](Documentation/capturas/cap3.png)
+![Gerenciamento de produtos](Documentation/capturas/cap4.png)
+![Tela de estatisticas de venda](Documentation/capturas/cap5.png)
+
+
 ## Videos
   [Apresentação do sistema](https://youtu.be/kQl4ykRkocg)
   [Apresentação do sistema](https://youtu.be/Sgw-0qD2AxM)
   [Apresentação do sistema](https://youtu.be/a2Ff4TJ8erU)
-
-
-## Diagramas
-![Diagrama do banco de dados](Documentation/diagrams/schema%20relacional.png)
-![Diagrama do banco de dados](Documentation/diagrams/uml.jpg)
 
 
 ## Licença

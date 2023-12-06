@@ -58,7 +58,7 @@ public class TelaLoad extends JFrame {
 
 		timer.start();
 	}
-	public void setAcoes(PrincipalView frame) {
+	public void setEvents(PrincipalView frame) {
 		carregar(frame);
 	}
 }
