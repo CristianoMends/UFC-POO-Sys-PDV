@@ -4,8 +4,8 @@
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Diagramas](#diagramas)
 - [Capturas de Tela](#capturas-de-tela)
-- [Vídeos](#vídeos)
-- [Licença](#licença)
+- [Vídeos](#videos)
+- [Licença](#licenca)
 
 
 ## Descrição do Projeto
