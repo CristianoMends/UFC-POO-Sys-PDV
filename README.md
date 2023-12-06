@@ -17,6 +17,8 @@ de varejo. Com ele, é possível registrar vendas, controlar estoques, administr
 
 ## Videos
   [Apresentação do sistema](https://youtu.be/kQl4ykRkocg)
+  [Apresentação do sistema](https://youtu.be/Sgw-0qD2AxM)
+  [Apresentação do sistema](https://youtu.be/a2Ff4TJ8erU)
 
 
 ## Diagramas
